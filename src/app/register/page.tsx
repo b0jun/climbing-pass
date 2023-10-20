@@ -5,6 +5,9 @@ import { useSearchParams } from 'next/navigation';
 import * as yup from 'yup';
 import Header from '../components/Header';
 import { FormProvider, useForm } from 'react-hook-form';
+import SignatureCanvas from 'react-signature-canvas';
+import { useRef } from 'react';
+import Image from 'next/image';
 
 type FormData = {
 	name: string;
@@ -28,6 +31,7 @@ const Register = () => {
 	const searchParams = useSearchParams();
 	const lang = searchParams.get('lang');
 	const pass = searchParams.get('pass');
+	const signCanvas = useRef() as React.MutableRefObject<any>;
 
 	const methods = useForm<FormData>(formInit());
 	const { register } = methods;
@@ -35,7 +39,12 @@ const Register = () => {
 		<FormProvider {...methods}>
 			<main className="flex flex-col items-center justify-center py-10">
 				<Header type="register" />
-				<h1 className="text-2xl mt-4 mb-8">브로스 클라이밍 일일이용 신청서</h1>
+				<div className="mt-4 mb-8 flex items-center gap-4">
+					<div className="relative w-10 h-10">
+						<Image src="/images/logo.png" alt="logo" fill />
+					</div>
+					<h1 className="text-2xl">브로스 클라이밍 일일이용 신청서</h1>
+				</div>
 
 				<div className="flex flex-col gap-5 px-10 w-full">
 					<div className="flex flex-col w-full">
@@ -69,6 +78,22 @@ const Register = () => {
 						이용함에 있어 부주의....브로스 클라이밍 시설을 이용함에 있어 부주의....
 						브로스 클라이밍 시설을 이용함에 있어 부주의....
 					</div>
+					<div className="w-10 rounded-sm">
+						<h4 className="text-base mb-1 font-medium">서명</h4>
+						<div className="flex justify-center items-center w-[304px] h-[204px] border-2 border-black rounded-sm">
+							<SignatureCanvas // canvas element
+								ref={signCanvas}
+								canvasProps={{ width: 300, height: 200, className: 'sigCanvas' }}
+								backgroundColor="rgb(235, 235, 235)"
+							/>
+						</div>
+					</div>
+					<button
+						type="button"
+						className="bg-blue-500 text-white font-medium h-12 rounded-md my-6"
+					>
+						작성 완료
+					</button>
 				</div>
 			</main>
 		</FormProvider>
