@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { LANGUAGE } from '../constants/lang';
-import LanguageSelector from '../components/LanguageSelector';
+import Header from '../components/Header';
 
 const Pass = () => {
 	const searchParams = useSearchParams();
@@ -14,8 +14,8 @@ const Pass = () => {
 
 	return (
 		<main className="flex flex-col items-center justify-center py-10">
-			<LanguageSelector />
-			<div className="relative w-36 h-36 mb-14">
+			<Header />
+			<div className="relative w-36 h-36 my-14">
 				<Image src="/images/logo.png" alt="logo" fill />
 			</div>
 			<Link
