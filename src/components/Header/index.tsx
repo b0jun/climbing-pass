@@ -1,41 +1,29 @@
-import Image from 'next/image';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { usePathname } from 'next/navigation';
+'use client';
 
-const Header = ({ type }: { type?: string }) => {
-	const router = useRouter();
-	const searchParams = useSearchParams();
-	const lang = searchParams.get('lang');
-	const pass = searchParams.get('pass');
-	const isEng = lang === 'en';
+import cn from 'classnames';
+import { useLocale } from 'next-intl';
+import { usePathname } from 'next-intl/client';
+import Link from 'next-intl/link';
+
+import BackButton from '../BackButton';
+
+const Header = ({ hasBack = false }: { hasBack?: boolean }) => {
+	const locale = useLocale();
+	const isKo = locale === 'ko';
 	const pathname = usePathname();
 
-	const isRegister = type === 'register';
-
-	const changeLanguage = (lang: 'ko' | 'en') => {
-		router.replace(`${pathname}?${type === 'register' ? `pass=${pass}&` : ''}lang=${lang}`);
-	};
-
-	const goBack = () => {
-		router.back();
-	};
-
 	return (
-		<div className="flex justify-between w-full px-10">
-			{isRegister ? (
-				<button type="button" onClick={goBack} className={`w-6 h-6 relative`}>
-					<Image src="/icons/ic_arrow_back.svg" alt="back" fill />
-				</button>
-			) : (
-				<div />
-			)}
+		<div className="flex items-center justify-between w-full h-12 px-5">
+			<BackButton hasBack={hasBack} />
 			<div className="flex gap-5">
-				<button type="button" onClick={() => changeLanguage('ko')}>
-					<p className={`text-base text-black ${!isEng ? 'underline' : ''}`}>한국어</p>
-				</button>
-				<button type="button" onClick={() => changeLanguage('en')}>
-					<p className={`text-base text-black ${isEng ? 'underline' : ''}`}>English</p>
-				</button>
+				<Link href={`${pathname}`} locale="ko" replace>
+					<p className={cn('text-gray-600 text-base', { ['underline']: isKo })}>한국어</p>
+				</Link>
+				<Link href={`${pathname}`} locale="en" replace>
+					<p className={cn('text-gray-600 text-base', { ['underline']: !isKo })}>
+						English
+					</p>
+				</Link>
 			</div>
 		</div>
 	);

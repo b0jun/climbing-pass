@@ -1,12 +1,10 @@
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 
 const Home = () => {
-	const t = useTranslations('Index');
 	return (
-		<main>
-			<h1>{t('title')}</h1>
-			<Link href="/pass" locale="ko">
+		<main className="text-center">
+			<div className="text-6xl">🚧 관리자 전용 페이지</div>
+			<Link href="/pass" locale="en">
 				PASS
 			</Link>
 		</main>
