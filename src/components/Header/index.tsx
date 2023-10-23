@@ -13,14 +13,24 @@ const Header = ({ hasBack = false }: { hasBack?: boolean }) => {
 	const pathname = usePathname();
 
 	return (
-		<div className="flex items-center justify-between w-full h-12 px-5">
+		<div className="flex items-center justify-between w-full h-12 pl-3 pr-5">
 			<BackButton hasBack={hasBack} />
 			<div className="flex gap-5">
 				<Link href={`${pathname}`} locale="ko" replace>
-					<p className={cn('text-gray-600 text-base', { ['underline']: isKo })}>한국어</p>
+					<p
+						className={cn('text-gray-600 text-base h-12 flex items-center', {
+							['underline']: isKo,
+						})}
+					>
+						한국어
+					</p>
 				</Link>
 				<Link href={`${pathname}`} locale="en" replace>
-					<p className={cn('text-gray-600 text-base', { ['underline']: !isKo })}>
+					<p
+						className={cn('text-gray-600 text-base h-12 flex items-center', {
+							['underline']: !isKo,
+						})}
+					>
 						English
 					</p>
 				</Link>
