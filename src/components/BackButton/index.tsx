@@ -9,7 +9,11 @@ const BackButton = ({ hasBack }: { hasBack: boolean }) => {
 	return (
 		<div>
 			{hasBack ? (
-				<button type="button" onClick={back}>
+				<button
+					type="button"
+					onClick={back}
+					className="flex items-center justify-center w-10 h-12"
+				>
 					<Image src="/icons/ic_arrow_back.svg" alt="back" width={24} height={24} />
 				</button>
 			) : null}
