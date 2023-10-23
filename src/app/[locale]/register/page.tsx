@@ -1,13 +1,14 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import * as yup from 'yup';
-import Header from '../components/Header';
+import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import SignatureCanvas from 'react-signature-canvas';
-import { useRef } from 'react';
-import Image from 'next/image';
+import * as yup from 'yup';
+
+import Header from '@/components/Header';
 
 type FormData = {
 	name: string;
