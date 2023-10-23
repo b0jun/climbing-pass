@@ -1,5 +1,8 @@
 {
-	"Index": {
-		"title": "Hello world!"
-	}
+	"Pass": {
+		"dayPass": "Day Pass",
+		"dayExperience": "Day Experience",
+		"firstVisit": "First Visit"
+	},
+	"Consent": {}
 }

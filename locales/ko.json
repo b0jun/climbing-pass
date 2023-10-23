@@ -1,5 +1,8 @@
 {
-	"Index": {
-		"title": "헬로우 월드"
-	}
+	"Pass": {
+		"dayPass": "일일 이용",
+		"dayExperience": "일일 체험",
+		"firstVisit": "첫 이용자"
+	},
+	"Consent": {}
 }
