@@ -1,31 +1,25 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import Header from '@/components/Header';
+import PassButtonList from '@/components/PassButtonList';
 
 const Pass = () => {
 	const t = useTranslations('Pass');
 
 	return (
-		<main className="flex flex-col items-center justify-center">
-			<Header />
-			<div className="relative w-36 h-36 my-14">
-				<Image src="/images/logo.png" alt="logo" fill />
+		<main className="flex flex-col">
+			<div className="flex flex-col px-5 mx-auto">
+				<div className="flex justify-center my-8">
+					<Image src="/images/logo.png" alt="logo" width={120} height={120} />
+				</div>
+				<div className="px-3 mb-8">
+					<h2 className="mb-2 text-3xl font-black text-extraDarkBlue">
+						{t('selectPass')}
+					</h2>
+					<h2 className="text-lg font-bold opacity-80">{t('selectPassDesc')}</h2>
+				</div>
+				<PassButtonList />
 			</div>
-			<Link
-				href="/consent/day-pass"
-				className="flex flex-col items-center justify-center w-56 h-32 mb-20 bg-blue-200 rounded-md shadow-lg"
-			>
-				<h3 className="text-2xl">{t('dayPass')}</h3>
-			</Link>
-			<Link
-				href="/consent/day-experience"
-				className="flex flex-col items-center justify-center w-56 h-32 bg-blue-200 rounded-md shadow-lg"
-			>
-				<h3 className="text-2xl">{t('dayExperience')}</h3>
-				<p>({t('firstVisit')})</p>
-			</Link>
 		</main>
 	);
 };

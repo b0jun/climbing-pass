@@ -1,5 +1,10 @@
+import Header from '@/components/Header';
+
 export default async function Layout(props: { children: React.ReactNode }) {
 	return (
-		<main className="max-w-xl min-h-full m-auto bg-white shadow-mobile">{props.children}</main>
+		<main className="max-w-xl flex flex-col min-h-full mx-auto shadow-mobile">
+			<Header />
+			<div className="flex-1 flex justify-center items-center">{props.children}</div>
+		</main>
 	);
 }

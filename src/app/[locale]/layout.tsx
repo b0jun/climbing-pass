@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import type { Metadata } from 'next';
 
-const inter = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700'] });
+const inter = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] });
 
 export const metadata: Metadata = {
 	title: 'Pass',
