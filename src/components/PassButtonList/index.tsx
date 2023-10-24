@@ -11,18 +11,18 @@ const PassButtonList = () => {
 		<div className="flex gap-6">
 			<Link
 				href="/consent/day-pass"
-				className="flex items-center justify-center mb-20 text-white rounded-md shadow-lg h-52 bg-indigo-950 w-44"
+				className="flex items-center justify-center w-32 h-48 mb-20 rounded-md shadow-lg text-darkBlue bg-lightBlue"
 			>
-				<h3 className={cn('font-bold', isKo ? 'text-2xl' : 'text-xl')}>{t('dayPass')}</h3>
+				<h3 className={cn('font-bold', isKo ? 'text-xl' : 'text-lg')}>{t('dayPass')}</h3>
 			</Link>
 			<Link
 				href="/consent/day-experience"
-				className="flex flex-col items-center justify-center text-white bg-indigo-900 rounded-md shadow-lg h-52 w-44"
+				className="flex flex-col items-center justify-center w-32 h-48 rounded-md shadow-lg text-extraDarkBlue bg-extraLightBlue"
 			>
-				<h3 className={cn('font-bold mt-6', isKo ? 'text-2xl' : 'text-xl')}>
+				<h3 className={cn('font-bold mt-6 text-center', isKo ? 'text-xl' : 'text-lg')}>
 					{t('dayExperience')}
 				</h3>
-				<p>({t('firstVisit')})</p>
+				<p className="text-base">({t('firstVisit')})</p>
 			</Link>
 		</div>
 	);

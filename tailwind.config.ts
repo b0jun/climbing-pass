@@ -12,6 +12,14 @@ const config: Config = {
 			boxShadow: {
 				mobile: '0 0 20px rgba(130,130,130,0.15)',
 			},
+			backgroundColor: {
+				lightBlue: '#afc5db',
+				extraLightBlue: '#dbe1f0',
+			},
+			textColor: {
+				darkBlue: '#2F4861',
+				extraDarkBlue: '#2B4075',
+			},
 		},
 	},
 	plugins: [require('@tailwindcss/forms')],
