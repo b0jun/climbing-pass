@@ -12,13 +12,15 @@ const config: Config = {
 			boxShadow: {
 				mobile: '0 0 20px rgba(130,130,130,0.15)',
 			},
-			backgroundColor: {
-				lightBlue: '#afc5db',
-				extraLightBlue: '#dbe1f0',
+			height: {
+				withoutHeader: 'calc(100% - 48px)',
 			},
-			textColor: {
+			colors: {
 				darkBlue: '#2F4861',
+				lightBlue: '#afc5db',
 				extraDarkBlue: '#2B4075',
+				extraLightBlue: '#dbe1f0',
+				main: '#3f72af',
 			},
 		},
 	},

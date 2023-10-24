@@ -18,3 +18,8 @@ body {
 	background-color: #fafafa;
 	-webkit-tap-highlight-color: rgb(209, 213, 219, 0.4);
 }
+input,
+textarea,
+select {
+	font-size: 16px;
+}
