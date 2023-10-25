@@ -17,6 +17,7 @@ button {
 body {
 	background-color: #fafafa;
 	-webkit-tap-highlight-color: rgb(209, 213, 219, 0.4);
+	user-select: none;
 }
 input,
 textarea,
