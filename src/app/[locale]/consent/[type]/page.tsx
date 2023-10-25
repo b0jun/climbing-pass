@@ -22,6 +22,7 @@ const Consent = ({ params: { type } }: Props) => {
 				dateOfBirth={t('dateOfBirth')}
 				consent={t('consent')}
 				consentDesc={t('consentDesc')}
+				consentCheckbox={t('consentCheckbox')}
 				signature={t('signature')}
 				submitButton={t('submitButton')}
 			/>
