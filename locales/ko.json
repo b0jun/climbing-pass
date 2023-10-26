@@ -18,5 +18,10 @@
 		"consentCheckbox": "모두 동의합니다.",
 		"signature": "서명",
 		"submitButton": "작성 완료"
+	},
+	"Complete": {
+		"titlePass": "일일 이용 신청 완료",
+		"titleExperience": "일일 체험 신청 완료",
+		"description": "카운터 직원에게 이 화면을 보여주세요."
 	}
 }
