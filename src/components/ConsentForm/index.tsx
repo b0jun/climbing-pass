@@ -2,6 +2,7 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import SignatureCanvas from 'react-signature-canvas';
@@ -57,16 +58,15 @@ const ConsentForm = ({
 }: Props) => {
 	const methods = useForm<FormData>(formInit());
 	const { handleSubmit } = methods;
+	const router = useRouter();
 	const signCanvas = useRef() as React.MutableRefObject<any>;
 	const [isSignEdit, setIsSignEdit] = useState(false);
 
 	const onSubmit = (data: FormData) => {
-		// console.log(data);
-		// const temp = signCanvas.current.getTrimmedCanvas().toDataURL('image/png');
-		// console.log(temp);
 		alert(
 			`name: ${data.name}\nphoneNumber:${data.phoneNumber}\ndateOfBirth:${data.dateOfBirth}`
 		);
+		router.push(`/complete`);
 	};
 
 	const startSignature = () => {

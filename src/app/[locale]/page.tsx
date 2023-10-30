@@ -4,9 +4,9 @@ const Home = () => {
 	return (
 		<main className="text-center">
 			<div className="text-6xl">🚧 관리자 전용 페이지</div>
-			<Link href="/pass" locale="en">
+			{/* <Link href="/pass" locale="en">
 				PASS
-			</Link>
+			</Link> */}
 		</main>
 	);
 };

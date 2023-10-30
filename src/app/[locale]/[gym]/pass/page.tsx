@@ -18,7 +18,11 @@ const Pass = () => {
 					</h2>
 					<h2 className="text-lg font-bold opacity-80">{t('selectPassDesc')}</h2>
 				</div>
-				<PassButtonList />
+				<PassButtonList
+					dayPass={t('dayPass')}
+					dayExperience={t('dayExperience')}
+					firstVisit={t('firstVisit')}
+				/>
 			</div>
 		</main>
 	);
