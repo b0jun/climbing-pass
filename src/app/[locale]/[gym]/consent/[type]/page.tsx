@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 
 import ConsentForm from '@/components/ConsentForm';
-import Header from '@/components/Header';
 
 type Props = {
 	params: {
@@ -13,8 +12,7 @@ const Consent = ({ params: { type } }: Props) => {
 	const t = useTranslations('Consent');
 
 	return (
-		<main className="flex flex-col justify-center h-full">
-			<Header hasBack />
+		<main className="flex flex-col justify-center">
 			<ConsentForm
 				title={t('title')}
 				name={t('name')}

@@ -2,6 +2,8 @@ import './globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import { notFound } from 'next/navigation';
 
+import { locales } from '@/constants/locales';
+
 import type { Metadata } from 'next';
 
 const inter = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] });
@@ -9,7 +11,6 @@ const inter = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] }
 export const metadata: Metadata = {
 	title: 'Pass',
 };
-const locales = ['ko', 'en'];
 
 export default function RootLayout({
 	children,
