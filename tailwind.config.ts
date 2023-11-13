@@ -22,6 +22,20 @@ const config: Config = {
 				extraLightBlue: '#dbe1f0',
 				main: '#3f72af',
 			},
+			keyframes: {
+				['bottom-sheet-up']: {
+					'0%': { transform: 'translateY(320px)' },
+					'100%': { transform: 'translateY(0)' },
+				},
+				['bottom-sheet-down']: {
+					'0%': { transform: 'translateY(0)' },
+					'100%': { transform: 'translateY(320px)' },
+				},
+			},
+			animation: {
+				sheetUp: 'bottom-sheet-up 200ms ease-in-out',
+				sheetDown: 'bottom-sheet-down 200ms ease-in-out',
+			},
 		},
 	},
 	plugins: [require('@tailwindcss/forms')],
