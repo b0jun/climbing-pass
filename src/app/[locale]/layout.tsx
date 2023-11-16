@@ -2,6 +2,7 @@ import './globals.css';
 import { Noto_Sans_KR } from 'next/font/google';
 import { notFound } from 'next/navigation';
 
+import Providers from '@/components/Providers';
 import { locales } from '@/constants/locales';
 
 import type { Metadata } from 'next';
@@ -27,7 +28,9 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 			</head>
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	);
 }
