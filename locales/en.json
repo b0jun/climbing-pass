@@ -16,7 +16,8 @@
 		"consent": "Acknowledgement of Risk And Release of Liability",
 		"consentDesc": "1) I hereby acknowledge, accept, and agree that the sport of rock climbing, as well as the usage of 'BrosClimbing' facilities and equipment, is dangerous and involves risks, both known and unknown, that may result in physical or emotional injuries and even death to not only myself but to third parties and property.\n\n2) I certify that I am mentally and physically healthy to voluntarily partake in use of 'BrosClimbing' facilities.\n\n3) I voluntarily agree and promise to assume all responsibility for situations which are in any way connected to my participation in these activities, including but not limited to injuries, damage to property or self, negligence, and death, and accept holding 'BrosClimbing' harmless for such occurrences. And that I will not hold the center responsible for any physical injury or material damage, including death.\n\n4) I have had sufficient opportunity to read the agreements listed above.\n\n5) I acknowledge and understand the above information and promise to follow the instructions provided by 'BrosClimbing' while using the facilities. And I agree to the collection and use of personal information.\n\n6) If you understand and agree to everything listed above.",
 		"consentCheckbox": "I have read and accept.",
-		"signature": "Signature",
+		"signature": "signature",
+		"signatureTitle": "Accept and Sign",
 		"submitButton": "Submit"
 	},
 	"Complete": {
