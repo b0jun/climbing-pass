@@ -18,7 +18,8 @@
 		"consentCheckbox": "I have read and accept.",
 		"signature": "signature",
 		"signatureTitle": "Accept and Sign",
-		"submitButton": "Submit"
+		"nextButton": "Next",
+		"submitButton": "Complete"
 	},
 	"Complete": {
 		"titlePass": "Day Pass application completed",
