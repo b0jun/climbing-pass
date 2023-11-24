@@ -22,6 +22,8 @@ const Consent = ({ params: { type } }: Props) => {
 				consentDesc={t('consentDesc')}
 				consentCheckbox={t('consentCheckbox')}
 				signature={t('signature')}
+				signatureTitle={t('signatureTitle')}
+				nextButton={t('nextButton')}
 				submitButton={t('submitButton')}
 			/>
 		</main>
