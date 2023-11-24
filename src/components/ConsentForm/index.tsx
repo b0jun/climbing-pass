@@ -1,14 +1,17 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useOverlay } from '@toss/use-overlay';
+import { useParams } from 'next/navigation';
+import { useLocalizedRouter } from 'next-intl';
 import { FormProvider, useForm } from 'react-hook-form';
-import SignatureCanvas from 'react-signature-canvas';
 import * as yup from 'yup';
 
+import BottomSheet from '../BottomSheet';
+import Button from '../Button';
+import Signature from '../Signature';
 import TextInput from '../TextInput';
+
 type Props = {
 	title: string;
 	name: string;
@@ -18,7 +21,9 @@ type Props = {
 	consentDesc: string;
 	consentCheckbox: string;
 	signature: string;
+	signatureTitle: string;
 	submitButton: string;
+	nextButton: string;
 };
 
 type FormData = {
@@ -54,28 +59,58 @@ const ConsentForm = ({
 	consentDesc,
 	consentCheckbox,
 	signature,
+	signatureTitle,
 	submitButton,
+	nextButton,
 }: Props) => {
 	const methods = useForm<FormData>(formInit());
-	const { handleSubmit } = methods;
-	const router = useRouter();
-	const signCanvas = useRef() as React.MutableRefObject<any>;
-	const [isSignEdit, setIsSignEdit] = useState(false);
+	const {
+		formState: { isValid },
+		handleSubmit,
+	} = methods;
 
-	const onSubmit = (data: FormData) => {
-		alert(
-			`name: ${data.name}\nphoneNumber:${data.phoneNumber}\ndateOfBirth:${data.dateOfBirth}`
-		);
-		router.push(`/complete`);
+	// const router = useRouter();
+	const { gym } = useParams();
+	const { replace } = useLocalizedRouter();
+
+	const overlay = useOverlay();
+	const openSignBottomSheet = () => {
+		return new Promise<boolean>((resolve) => {
+			overlay.open(({ isOpen, close, exit }) => (
+				<BottomSheet
+					title={signatureTitle}
+					open={isOpen}
+					onClose={() => {
+						close();
+						setTimeout(() => {
+							resolve(false);
+							exit();
+						}, 200);
+					}}
+				>
+					<Signature
+						label={signature}
+						buttonLabel={submitButton}
+						onConfirm={(value: any) => {
+							close();
+							setTimeout(() => {
+								resolve(value);
+								exit();
+							}, 200);
+						}}
+					/>
+				</BottomSheet>
+			));
+		});
 	};
 
-	const startSignature = () => {
-		setIsSignEdit(true);
-	};
-
-	const clearSign = () => {
-		setIsSignEdit(false);
-		signCanvas.current.clear();
+	const onSubmit = async (data: FormData) => {
+		const isSign = await openSignBottomSheet();
+		if (!isSign) {
+			return;
+		}
+		// TODO: Submit
+		replace(`/${gym}/complete`);
 	};
 
 	return (
@@ -108,47 +143,11 @@ const ConsentForm = ({
 							</div>
 						</div>
 					</div>
-					<div className="w-10">
-						<h4 className="mb-2 text-sm font-bold text-gray-500">{signature}</h4>
-						<div className="relative w-[254px] h-[154px]">
-							<div className="absolute z-20 flex items-center justify-center w-full h-full overflow-hidden border-2 border-gray-300 rounded-md bg-slate-100 opacity-90">
-								<SignatureCanvas
-									ref={signCanvas}
-									canvasProps={{
-										width: 250,
-										height: 150,
-										className: 'sigCanvas',
-									}}
-									onEnd={startSignature}
-									backgroundColor="rgb(241, 245, 249)"
-								/>
-							</div>
-							{isSignEdit && (
-								<button
-									type="button"
-									onClick={clearSign}
-									className="absolute z-50 flex items-center justify-center w-6 h-6 transition rounded-sm top-1 right-1 duration-2000"
-								>
-									<Image
-										src="/icons/ic_delete.svg"
-										width={24}
-										height={24}
-										alt="eraser"
-									/>
-								</button>
-							)}
-							<p className="absolute z-10 text-2xl font-bold text-black -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-								{signature}
-							</p>
-						</div>
-					</div>
-					<button
-						type="button"
-						className="h-12 my-6 font-bold text-white rounded-md bg-main"
+					<Button
+						label={nextButton}
 						onClick={handleSubmit(onSubmit)}
-					>
-						{submitButton}
-					</button>
+						disabled={!isValid}
+					/>
 				</div>
 			</div>
 		</FormProvider>
