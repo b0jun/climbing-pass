@@ -2,8 +2,7 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useOverlay } from '@toss/use-overlay';
-import { useParams } from 'next/navigation';
-import { useLocalizedRouter } from 'next-intl';
+import { useParams, useRouter } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -69,9 +68,9 @@ const ConsentForm = ({
 		handleSubmit,
 	} = methods;
 
-	// const router = useRouter();
+	const { replace } = useRouter();
 	const { gym } = useParams();
-	const { replace } = useLocalizedRouter();
+	// const { replace } = useLocalizedRouter();
 
 	const overlay = useOverlay();
 	const openSignBottomSheet = () => {
