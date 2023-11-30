@@ -16,6 +16,7 @@ const config: Config = {
 				extraDarkBlue: '#2B4075',
 				extraLightBlue: '#dbe1f0',
 				main: '#3f72af',
+				error: '#BE3144',
 			},
 			animation: {
 				sheetUp: 'bottom-sheet-up 200ms ease-in-out',
