@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 
 type Props = {
 	label: string;
-	onClick: () => void;
-	disabled?: boolean;
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button = ({ label, onClick, disabled = false }: Props) => {
+const Button = (props: Props) => {
+	const { label, type = 'button', ...rest } = props;
+
 	return (
 		<button
-			type="button"
+			type={type}
 			className="w-full h-12 my-6 font-bold text-white rounded-md bg-main disabled:bg-gray-200 disabled:text-gray-400/50"
-			onClick={onClick}
-			disabled={disabled}
+			{...rest}
 		>
 			{label}
 		</button>
