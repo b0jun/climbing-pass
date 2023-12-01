@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
@@ -10,6 +11,7 @@ type Props = {
 	children: React.ReactNode;
 };
 const BottomSheet = ({ open, onClose, title, children }: Props) => {
+	const t = useTranslations('Consent');
 	useLockBodyScroll();
 	return (
 		<>

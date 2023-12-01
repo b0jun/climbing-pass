@@ -3,27 +3,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useOverlay } from '@toss/use-overlay';
 import { useParams, useRouter } from 'next/navigation';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { PatternFormat } from 'react-number-format';
 import * as yup from 'yup';
 
 import BottomSheet from '../BottomSheet';
 import Button from '../Button';
 import Signature from '../Signature';
 import TextInput from '../TextInput';
-
-type Props = {
-	title: string;
-	name: string;
-	phoneNumber: string;
-	dateOfBirth: string;
-	consent: string;
-	consentDesc: string;
-	consentCheckbox: string;
-	signature: string;
-	signatureTitle: string;
-	submitButton: string;
-	nextButton: string;
-};
+import TextInputBirth from '../TextInputBirth';
 
 type FormData = {
 	name: string;
@@ -40,44 +29,40 @@ const formInit = () => {
 		consent: false,
 	});
 	const validations = {
-		name: yup.string().required(),
-		phoneNumber: yup.string().required(),
-		dateOfBirth: yup.string().required(),
+		name: yup.string().required('이름을 입력해주세요.'),
+		phoneNumber: yup
+			.string()
+			.required('휴대폰 번호를 입력해주세요.')
+			.min(10, '휴대폰 번호를 정확히 입력해주세요.'),
+		dateOfBirth: yup
+			.string()
+			.required('생년월일을 입력해주세요.')
+			.matches(/^[0-9/]{10}$/, '생년월일을 정확히 입력해주세요.'),
 		consent: yup.boolean().oneOf([true]).required(),
 	};
 	const resolver = yupResolver(yup.object().shape(validations));
 	return { defaultValues, resolver };
 };
 
-const ConsentForm = ({
-	title,
-	name,
-	phoneNumber,
-	dateOfBirth,
-	consent,
-	consentDesc,
-	consentCheckbox,
-	signature,
-	signatureTitle,
-	submitButton,
-	nextButton,
-}: Props) => {
-	const methods = useForm<FormData>(formInit());
-	const {
-		formState: { isValid },
-		handleSubmit,
-	} = methods;
+const ConsentForm = () => {
+	const t = useTranslations('Consent');
 
+	const methods = useForm<FormData>({ ...formInit(), mode: 'onBlur' });
+	const {
+		control,
+		setValue,
+		handleSubmit,
+		formState: { isValid },
+	} = methods;
 	const { replace } = useRouter();
 	const { gym } = useParams();
-	// const { replace } = useLocalizedRouter();
 
 	const overlay = useOverlay();
 	const openSignBottomSheet = () => {
 		return new Promise<boolean>((resolve) => {
 			overlay.open(({ isOpen, close, exit }) => (
 				<BottomSheet
-					title={signatureTitle}
+					title={t('signatureTitle')}
 					open={isOpen}
 					onClose={() => {
 						close();
@@ -88,8 +73,6 @@ const ConsentForm = ({
 					}}
 				>
 					<Signature
-						label={signature}
-						buttonLabel={submitButton}
 						onConfirm={(value: any) => {
 							close();
 							setTimeout(() => {
@@ -115,15 +98,35 @@ const ConsentForm = ({
 	return (
 		<FormProvider {...methods}>
 			<div className="px-5 mt-5">
-				<h1 className="mt-4 mb-6 text-xl font-bold text-center">{title}</h1>
-				<div className="flex flex-col w-full gap-6">
-					<TextInput id="name" label={name} />
-					<TextInput id="phoneNumber" label={phoneNumber} />
-					<TextInput id="dateOfBirth" label={dateOfBirth} />
+				<h1 className="mt-4 mb-6 text-xl font-bold text-center">{t('title')}</h1>
+				<form className="flex flex-col w-full gap-6" onSubmit={handleSubmit(onSubmit)}>
+					<TextInput name="name" label={t('name')} />
+					<TextInput
+						name="phoneNumber"
+						label={t('phoneNumber')}
+						placeholder="- 없이 숫자만 입력"
+						onChange={(e) =>
+							setValue('phoneNumber', e.target.value.replace(/[^0-9]/g, ''))
+						}
+						maxLength={11}
+						inputMode="numeric"
+					/>
+					<Controller
+						control={control}
+						name="dateOfBirth"
+						render={({ field }) => (
+							<PatternFormat
+								{...field}
+								customInput={TextInputBirth}
+								format="####/##/##"
+								mask={'_'}
+							/>
+						)}
+					/>
 					<div>
-						<h4 className="mb-2 text-sm font-bold text-gray-500">{consent}</h4>
+						<h4 className="mb-2 text-sm font-bold text-gray-500">{t('consent')}</h4>
 						<div className="p-4 text-gray-500 whitespace-pre-wrap border-t-2 border-gray-300 rounded-t-md border-x-2 bg-slate-100">
-							{consentDesc}
+							{t('consentDesc')}
 						</div>
 						<div className="flex items-center px-4 border-2 border-gray-300 h-11 rounded-b-md bg-slate-100">
 							<div className="flex items-center">
@@ -137,17 +140,13 @@ const ConsentForm = ({
 									htmlFor="consent"
 									className="ml-2 text-base font-medium text-gray-500"
 								>
-									{consentCheckbox}
+									{t('consentCheckbox')}
 								</label>
 							</div>
 						</div>
 					</div>
-					<Button
-						label={nextButton}
-						onClick={handleSubmit(onSubmit)}
-						disabled={!isValid}
-					/>
-				</div>
+					<Button type="submit" label={t('nextButton')} disabled={!isValid} />
+				</form>
 			</div>
 		</FormProvider>
 	);
