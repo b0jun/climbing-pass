@@ -1,13 +1,15 @@
 import './globals.css';
-import { Noto_Sans_KR } from 'next/font/google';
+import { Inter, Nanum_Gothic, Noto_Sans, Noto_Sans_KR, Noto_Serif } from 'next/font/google';
 import { notFound } from 'next/navigation';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 import Providers from '@/components/Providers';
 import { locales } from '@/constants/locales';
 
 import type { Metadata } from 'next';
 
-const inter = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] });
+const notoSansKr = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] });
+const notoSans = Noto_Sans({ subsets: ['latin'], weight: ['400', '700', '900'] });
 
 export const metadata: Metadata = {
 	title: 'Pass',
@@ -20,6 +22,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 	params: { locale: 'ko' | 'en' };
 }) {
+	const messages = useMessages();
 	const isValidLocale = locales.some((cur) => cur === locale);
 	if (!isValidLocale) notFound();
 
@@ -28,8 +31,10 @@ export default function RootLayout({
 			<head>
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 			</head>
-			<body className={inter.className}>
-				<Providers>{children}</Providers>
+			<body className={`${notoSansKr.className} ${notoSans.className}`}>
+				<NextIntlClientProvider locale={locale} messages={messages}>
+					<Providers>{children}</Providers>
+				</NextIntlClientProvider>
 			</body>
 		</html>
 	);
