@@ -1,5 +1,5 @@
 import './globals.css';
-import { Inter, Nanum_Gothic, Noto_Sans, Noto_Sans_KR, Noto_Serif } from 'next/font/google';
+import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
