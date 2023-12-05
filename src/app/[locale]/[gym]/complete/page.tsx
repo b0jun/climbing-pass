@@ -13,8 +13,8 @@ const Complete = () => {
 				alt="complete"
 				className="animate-bounce"
 			/>
-			<h3 className="text-base my-3">{t('titlePass')}</h3>
-			<h4 className="text-lg font-bold">{t('description')}</h4>
+			<h3 className="text-xl my-3 font-bold">{t('titlePass')}</h3>
+			<h4 className="text-base">{t('description')}</h4>
 		</div>
 	);
 };
