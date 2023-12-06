@@ -24,6 +24,7 @@
 	"Complete": {
 		"titlePass": "Day Pass application completed",
 		"titleExperience": "Day Experience application completed",
-		"description": "Please show this screen to the counter staff."
+		"description": "Please show this screen to the counter staff.",
+		"goToMain": "Go to Main"
 	}
 }

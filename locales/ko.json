@@ -24,6 +24,7 @@
 	"Complete": {
 		"titlePass": "일일이용 신청 완료",
 		"titleExperience": "일일체험 신청 완료",
-		"description": "카운터 직원에게 이 화면을 보여주세요."
+		"description": "카운터 직원에게 이 화면을 보여주세요.",
+		"goToMain": "처음으로"
 	}
 }
