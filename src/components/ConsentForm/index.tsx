@@ -100,7 +100,7 @@ const ConsentForm = () => {
 			<div className="px-5 mt-5">
 				<h1 className="mt-4 mb-6 text-xl font-bold text-center">{t('title')}</h1>
 				<form className="flex flex-col w-full gap-6" onSubmit={handleSubmit(onSubmit)}>
-					<TextInput name="name" label={t('name')} />
+					<TextInput name="name" label={t('name')} maxLength={20} />
 					<TextInput
 						name="phoneNumber"
 						label={t('phoneNumber')}
@@ -114,14 +114,17 @@ const ConsentForm = () => {
 					<Controller
 						control={control}
 						name="dateOfBirth"
-						render={({ field }) => (
-							<PatternFormat
-								{...field}
-								customInput={TextInputBirth}
-								format="####/##/##"
-								mask={'_'}
-							/>
-						)}
+						render={({ field }) => {
+							const { ref, ...rest } = field;
+							return (
+								<PatternFormat
+									{...rest}
+									customInput={TextInputBirth}
+									format="####/##/##"
+									mask={'_'}
+								/>
+							);
+						}}
 					/>
 					<div>
 						<h4 className="mb-2 text-sm font-bold text-gray-500">{t('consent')}</h4>
