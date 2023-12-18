@@ -7,7 +7,7 @@ const Pass = () => {
 	const t = useTranslations('Pass');
 
 	return (
-		<main className="flex flex-col">
+		<section className="flex flex-col">
 			<div className="flex flex-col px-5 mx-auto">
 				<div className="flex justify-center my-8">
 					<Image src="/images/logo.png" alt="logo" width={120} height={120} />
@@ -24,7 +24,7 @@ const Pass = () => {
 					firstVisit={t('firstVisit')}
 				/>
 			</div>
-		</main>
+		</section>
 	);
 };
 
