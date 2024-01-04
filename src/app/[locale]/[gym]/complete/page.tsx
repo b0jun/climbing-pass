@@ -1,11 +1,25 @@
+'use client';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-const Complete = () => {
+import Button from '@/components/Button';
+
+type Props = {
+	params: {
+		gym: string;
+	};
+};
+
+const Complete = ({ params: { gym } }: Props) => {
 	const t = useTranslations('Complete');
+	const router = useRouter();
+	const goToMain = () => {
+		router.replace(`/${gym}/pass`);
+	};
 
 	return (
-		<div className="flex flex-col items-center px-4 text-center">
+		<section className="flex flex-col items-center px-4 text-center w-full">
 			<Image
 				src="/images/complete.png"
 				width={128}
@@ -13,9 +27,12 @@ const Complete = () => {
 				alt="complete"
 				className="animate-bounce"
 			/>
-			<h3 className="text-base my-3">{t('titlePass')}</h3>
-			<h4 className="text-lg font-bold">{t('description')}</h4>
-		</div>
+			<h3 className="text-xl my-3 font-bold">{t('titlePass')}</h3>
+			<h4 className="text-base">{t('description')}</h4>
+			<div className="mt-5 w-[250px]">
+				<Button label={t('goToMain')} onClick={goToMain} />
+			</div>
+		</section>
 	);
 };
 

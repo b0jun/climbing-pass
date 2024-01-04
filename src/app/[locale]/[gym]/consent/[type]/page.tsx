@@ -8,9 +8,9 @@ type Props = {
 
 const Consent = ({ params: { type } }: Props) => {
 	return (
-		<main className="flex flex-col justify-center">
+		<section className="flex flex-col justify-center">
 			<ConsentForm />
-		</main>
+		</section>
 	);
 };
 
