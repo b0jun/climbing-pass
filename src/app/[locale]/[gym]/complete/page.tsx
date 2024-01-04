@@ -19,7 +19,7 @@ const Complete = ({ params: { gym } }: Props) => {
 	};
 
 	return (
-		<div className="flex flex-col items-center px-4 text-center w-full">
+		<section className="flex flex-col items-center px-4 text-center w-full">
 			<Image
 				src="/images/complete.png"
 				width={128}
@@ -32,7 +32,7 @@ const Complete = ({ params: { gym } }: Props) => {
 			<div className="mt-5 w-[250px]">
 				<Button label={t('goToMain')} onClick={goToMain} />
 			</div>
-		</div>
+		</section>
 	);
 };
 
