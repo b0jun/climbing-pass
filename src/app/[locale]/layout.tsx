@@ -13,6 +13,11 @@ const notoSans = Noto_Sans({ subsets: ['latin'], weight: ['400', '700', '900'] }
 
 export const metadata: Metadata = {
 	title: 'Pass',
+	viewport: {
+		width: 'device-width',
+		initialScale: 1,
+		maximumScale: 1,
+	},
 };
 
 export default function RootLayout({
