@@ -16,12 +16,6 @@ const BackButton = ({ hasBack }: { hasBack: boolean }) => {
 						className="flex items-center justify-center"
 					>
 						<Image src="/icons/ic_arrow_back.svg" alt="back" width={24} height={24} />
-						<Image
-							src="/images/text_logo.png"
-							width={120}
-							height={32}
-							alt="text_logo"
-						/>
 					</button>
 				</div>
 			) : null}
