@@ -12,12 +12,17 @@ const GYM_DUMMY = [
 		name: '아주 아주 긴이름을 가진 지점',
 		domain: 'two',
 	},
+	{
+		id: 3,
+		name: '돌멩이 클라이밍 전포점',
+		domain: 'three',
+	},
 ];
 
 const Home = () => {
 	const isLogin = true;
 	return (
-		<section>
+		<section className="px-2">
 			<h3 className="text-[20px] mb-4 font-bold ml-2">나의 지점 리스트</h3>
 			<div className="border border-black p-5 rounded-md">
 				{isLogin ? (
@@ -27,16 +32,16 @@ const Home = () => {
 								key={id}
 								className="flex items-center border-b pb-2 last:border-0 last:pb-0"
 							>
-								<h3 className="font-bold w-[250px]">{name}</h3>
+								<h3 className="font-bold w-[160px] mr-2">{name}</h3>
 								<Link
 									href={`/${domain}/pass`}
-									className="bg-[#7F8487] text-white rounded-md py-2 px-4 mr-2"
+									className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]"
 								>
 									패스
 								</Link>
 								<Link
 									href={`/${domain}/manager`}
-									className="bg-[#413F42] text-white rounded-md py-2 px-4"
+									className="bg-[#413F42] text-white rounded-md py-2 px-3 text-[14px]"
 								>
 									관리
 								</Link>
@@ -47,20 +52,20 @@ const Home = () => {
 					<div className="relative">
 						<ul className="flex flex-col gap-2 blur">
 							<li className="flex items-center border-b pb-2">
-								<h3 className="font-bold w-[250px]">1호점</h3>
-								<div className="bg-[#7F8487] text-white rounded-md py-2 px-4 mr-2">
+								<h3 className="font-bold w-[160px] mr-2">1호점</h3>
+								<div className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]">
 									패스
 								</div>
-								<div className="bg-[#413F42] text-white rounded-md py-2 px-4">
+								<div className="bg-[#413F42] text-white rounded-md py-2 px-3 text-[14px]">
 									관리
 								</div>
 							</li>
 							<li className="flex items-center">
-								<h3 className="font-bold w-[250px]">2호점</h3>
-								<div className="bg-[#7F8487] text-white rounded-md py-2 px-4 mr-2">
+								<h3 className="font-bold w-[160px]">2호점</h3>
+								<div className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]">
 									패스
 								</div>
-								<div className="bg-[#413F42] text-white rounded-md py-2 px-4">
+								<div className="bg-[#413F42] text-white rounded-md py-2 px-3 text-[14px]">
 									관리
 								</div>
 							</li>
