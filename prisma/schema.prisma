@@ -20,7 +20,7 @@ model Pass {
   id          Int      @id @default(autoincrement())
   name        String
   phoneNumber String
-  birthdate   String
+  dateOfBirth String
   signature   String
   type        PassType
   createdAt   DateTime @default(now())
@@ -34,6 +34,7 @@ model Pass {
 model Gym {
   id        String   @id @default(cuid())
   name      String
+  enName    String
   domain    String   @unique
   disabled  Boolean  @default(false)
   logo      String?

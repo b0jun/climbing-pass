@@ -3,6 +3,7 @@ import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
+import ReactQuery from '@/components/Provider/ReactQuery';
 import Providers from '@/components/Providers';
 import { locales } from '@/constants/locales';
 
@@ -37,9 +38,11 @@ export default function RootLayout({
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 			</head>
 			<body className={`${notoSansKr.className} ${notoSans.className}`}>
-				<NextIntlClientProvider locale={locale} messages={messages}>
-					<Providers>{children}</Providers>
-				</NextIntlClientProvider>
+				<ReactQuery>
+					<NextIntlClientProvider locale={locale} messages={messages}>
+						<Providers>{children}</Providers>
+					</NextIntlClientProvider>
+				</ReactQuery>
 			</body>
 		</html>
 	);

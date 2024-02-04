@@ -8,6 +8,8 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 import * as yup from 'yup';
 
+import useCreatePass from '@/services/useCreatePass';
+
 import BottomSheet from '../BottomSheet';
 import Button from '../Button';
 import Signature from '../Signature';
@@ -56,7 +58,7 @@ const ConsentForm = () => {
 	} = methods;
 	const { replace } = useRouter();
 	const { gym } = useParams();
-
+	const { mutate } = useCreatePass();
 	const overlay = useOverlay();
 	const openSignBottomSheet = () => {
 		return new Promise<boolean>((resolve) => {
@@ -87,12 +89,15 @@ const ConsentForm = () => {
 	};
 
 	const onSubmit = async (data: FormData) => {
-		const isSign = await openSignBottomSheet();
-		if (!isSign) {
+		console.log('data', data);
+		const signData = await openSignBottomSheet();
+		if (!signData) {
 			return;
 		}
+		// mutate({
+		// })
 		// TODO: Submit
-		replace(`/${gym}/complete`);
+		// replace(`/${gym}/complete`);
 	};
 
 	return (
