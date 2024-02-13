@@ -1,12 +1,9 @@
 import './globals.css';
 import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
-import { notFound } from 'next/navigation';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 import NextAuth from '@/components/Provider/NextAuth';
 import ReactQuery from '@/components/Provider/ReactQuery';
 import Providers from '@/components/Providers';
-import { locales } from '@/constants/locales';
 
 import type { Metadata } from 'next';
 
@@ -22,28 +19,16 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({
-	children,
-	params: { locale },
-}: {
-	children: React.ReactNode;
-	params: { locale: 'ko' | 'en' };
-}) {
-	const messages = useMessages();
-	const isValidLocale = locales.some((cur) => cur === locale);
-	if (!isValidLocale) notFound();
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang={locale}>
+		<html lang="ko">
 			<head>
 				<link rel="icon" href="/favicon.ico" sizes="any" />
 			</head>
 			<body className={`${notoSansKr.className} ${notoSans.className}`}>
 				<ReactQuery>
 					<NextAuth>
-						<NextIntlClientProvider locale={locale} messages={messages}>
-							<Providers>{children}</Providers>
-						</NextIntlClientProvider>
+						<Providers>{children}</Providers>
 					</NextAuth>
 				</ReactQuery>
 			</body>
