@@ -28,7 +28,7 @@ model Pass {
   gym         Gym?     @relation(fields: [gymId], references: [id])
   gymId       String?
   User        User?    @relation(fields: [userId], references: [id])
-  userId      Int?
+  userId      String?
 }
 
 model Gym {
@@ -41,12 +41,12 @@ model Gym {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+  userId    String?
   Pass      Pass[]
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   identifier String   @unique
   password   String
   email      String?  @unique
