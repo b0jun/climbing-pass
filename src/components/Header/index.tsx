@@ -1,7 +1,6 @@
 'use client';
 
 import cn from 'classnames';
-import { usePathname } from 'next-intl/client';
 
 import BackButton from '../BackButton';
 

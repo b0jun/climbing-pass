@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { InputHTMLAttributes } from 'react';
 
 import TextInput from '../TextInput';
