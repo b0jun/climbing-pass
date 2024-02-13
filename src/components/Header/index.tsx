@@ -1,22 +1,18 @@
 'use client';
 
 import cn from 'classnames';
-import { useLocale } from 'next-intl';
-import { usePathname } from 'next-intl/client';
-import Link from 'next-intl/link';
 
 import BackButton from '../BackButton';
 
 const Header = ({ hasBack = false, bg }: { hasBack?: boolean; bg: string }) => {
-	const locale = useLocale();
-	const isKo = locale === 'ko';
-	const pathname = usePathname();
+	// const isKo = locale === 'ko';
+	// const pathname = usePathname();
 
 	return (
 		<div className={cn('flex items-center justify-between w-full h-12 pl-3 pr-5', bg)}>
 			<BackButton hasBack={hasBack} />
 			<div className="flex gap-5">
-				<Link href={`${pathname}`} locale="ko" replace>
+				{/* <Link href={`${pathname}`} locale="ko" replace>
 					<p
 						className={cn('text-gray-600 text-base h-12 flex items-center', {
 							['underline']: isKo,
@@ -33,7 +29,7 @@ const Header = ({ hasBack = false, bg }: { hasBack?: boolean; bg: string }) => {
 					>
 						English
 					</p>
-				</Link>
+				</Link> */}
 			</div>
 		</div>
 	);

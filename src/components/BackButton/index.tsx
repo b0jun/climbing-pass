@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from 'next/navigation';
 
 const BackButton = ({ hasBack }: { hasBack: boolean }) => {
 	const { back } = useRouter();

@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
@@ -11,8 +10,6 @@ type Props = {
 };
 
 const Signature = ({ onConfirm }: Props) => {
-	const t = useTranslations('Consent');
-
 	const signCanvas = useRef() as React.MutableRefObject<any>;
 	const [isSignEdit, setIsSignEdit] = useState(false);
 
@@ -53,10 +50,10 @@ const Signature = ({ onConfirm }: Props) => {
 					</button>
 				)}
 				<p className="absolute z-10 text-2xl font-bold text-black -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-					{t('signature')}
+					서명
 				</p>
 			</div>
-			<Button label={t('submitButton')} onClick={submitSign} />
+			<Button label="이용 동의 및 서명" onClick={submitSign} />
 		</div>
 	);
 };

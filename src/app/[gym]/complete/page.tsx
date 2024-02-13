@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
 
 import Button from '@/components/Button';
 
@@ -12,7 +11,6 @@ type Props = {
 };
 
 const Complete = ({ params: { gym } }: Props) => {
-	const t = useTranslations('Complete');
 	const router = useRouter();
 	const goToMain = () => {
 		router.replace(`/${gym}/pass`);
@@ -27,10 +25,10 @@ const Complete = ({ params: { gym } }: Props) => {
 				alt="complete"
 				className="animate-bounce"
 			/>
-			<h3 className="text-xl my-3 font-bold">{t('titlePass')}</h3>
-			<h4 className="text-base">{t('description')}</h4>
+			<h3 className="text-xl my-3 font-bold">일일이용 신청 완료</h3>
+			<h4 className="text-base">카운터 직원에게 이 화면을 보여주세요.</h4>
 			<div className="mt-5 w-[250px]">
-				<Button label={t('goToMain')} onClick={goToMain} />
+				<Button label="처음으로" onClick={goToMain} />
 			</div>
 		</section>
 	);

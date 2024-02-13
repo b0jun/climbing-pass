@@ -20,7 +20,7 @@ model Pass {
   id          Int      @id @default(autoincrement())
   name        String
   phoneNumber String
-  birthdate   String
+  dateOfBirth String
   signature   String
   type        PassType
   createdAt   DateTime @default(now())
@@ -28,24 +28,25 @@ model Pass {
   gym         Gym?     @relation(fields: [gymId], references: [id])
   gymId       String?
   User        User?    @relation(fields: [userId], references: [id])
-  userId      Int?
+  userId      String?
 }
 
 model Gym {
   id        String   @id @default(cuid())
   name      String
+  enName    String
   domain    String   @unique
   disabled  Boolean  @default(false)
   logo      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User?    @relation(fields: [userId], references: [id])
-  userId    Int?
+  userId    String?
   Pass      Pass[]
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id         String   @id @default(cuid())
   identifier String   @unique
   password   String
   email      String?  @unique
