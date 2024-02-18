@@ -25,7 +25,7 @@ model Pass {
   type        PassType
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  gym         Gym?     @relation(fields: [gymId], references: [id])
+  gym         Gym?     @relation(fields: [gymId], references: [domain])
   gymId       String?
   User        User?    @relation(fields: [userId], references: [id])
   userId      String?
