@@ -13,14 +13,17 @@ export function signJwtAccessToken(payload: JwtPayload, options: SignOption = DE
 	const token = jwt.sign(payload, secret_key!, options);
 	return token;
 }
-
+class CustomError extends Error {
+	code: number | undefined;
+}
 export function verifyJwt(token: string) {
 	try {
 		const secret_key = process.env.SECRET_KEY;
 		const decoded = jwt.verify(token, secret_key!);
 		return decoded as JwtPayload;
-	} catch (error) {
-		console.log(error);
-		return null;
+	} catch (e: any) {
+		const error = new CustomError(e.name);
+		error.code = 401;
+		throw error;
 	}
 }

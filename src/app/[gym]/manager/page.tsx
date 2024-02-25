@@ -1,5 +1,7 @@
+import Manager from './Manager';
+
 const ManagerPage = () => {
-	return <div>ManagerPage</div>;
+	return <Manager />;
 };
 
 export default ManagerPage;

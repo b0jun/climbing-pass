@@ -2,7 +2,9 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useOverlay } from '@toss/use-overlay';
-import { useParams, useRouter } from 'next/navigation';
+import { upload } from '@vercel/blob/client';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 import * as yup from 'yup';
@@ -12,6 +14,7 @@ import useCreatePass from '@/services/useCreatePass';
 import BottomSheet from '../BottomSheet';
 import Button from '../Button';
 import Signature from '../Signature';
+import Spinner from '../Spinner';
 import TextInput from '../TextInput';
 import TextInputBirth from '../TextInputBirth';
 
@@ -30,7 +33,11 @@ const formInit = () => {
 		consent: false,
 	});
 	const validations = {
-		name: yup.string().required('이름을 입력해주세요.'),
+		name: yup
+			.string()
+			.required('이름을 입력해주세요.')
+			.matches(/^[가-힣a-zA-Z]/, '유효하지 않은 이름 형식 입니다.')
+			.max(30, '이름이 너무 길어요.'),
 		phoneNumber: yup
 			.string()
 			.required('휴대폰 번호를 입력해주세요.')
@@ -38,7 +45,10 @@ const formInit = () => {
 		dateOfBirth: yup
 			.string()
 			.required('생년월일을 입력해주세요.')
-			.matches(/^[0-9/]{10}$/, '생년월일을 정확히 입력해주세요.'),
+			.matches(
+				/^(19\d{2}|20\d{2}|2100)\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/,
+				'유효하지 않은 생년월일 형식 입니다.'
+			),
 		consent: yup.boolean().oneOf([true]).required(),
 	};
 	const resolver = yupResolver(yup.object().shape(validations));
@@ -53,12 +63,14 @@ const ConsentForm = () => {
 		handleSubmit,
 		formState: { isValid },
 	} = methods;
-	const { replace } = useRouter();
-	const { gym } = useParams();
-	const { mutate } = useCreatePass();
+	const { gym, type } = useParams();
+	const [isImageUploading, setIsImageUploading] = useState(false);
+	const { mutate, isPending } = useCreatePass();
+
+	const isSubmitting = isPending || isImageUploading;
 	const overlay = useOverlay();
 	const openSignBottomSheet = () => {
-		return new Promise<boolean>((resolve) => {
+		return new Promise<string | boolean>((resolve) => {
 			overlay.open(({ isOpen, close, exit }) => (
 				<BottomSheet
 					title="돌멩이 클라이밍 일일이용 동의서"
@@ -86,22 +98,37 @@ const ConsentForm = () => {
 	};
 
 	const onSubmit = async (data: FormData) => {
-		console.log('data', data);
 		const signData = await openSignBottomSheet();
 		if (!signData) {
 			return;
 		}
-		// mutate({
-		// })
-		// TODO: Submit
-		// replace(`/${gym}/complete`);
+		setIsImageUploading(true);
+		const fileName = `${data.name}.png`;
+		const decodedURL = (signData as string).replace(/^data:image\/\w+;base64,/, '');
+		const buf = Buffer.from(decodedURL, 'base64');
+		const blob = new Blob([buf], { type: 'image/png' });
+
+		const { url } = await upload(
+			`signature/${fileName}`,
+			new File([blob], fileName, { type: 'image/png' }),
+			{
+				access: 'public',
+				handleUploadUrl: '/api/pass/upload',
+			}
+		);
+
+		const { consent, ...withoutConsent } = data;
+		const body = { ...withoutConsent, type, gym, signature: url };
+
+		mutate(body);
+		setIsImageUploading(false);
 	};
 
 	return (
 		<FormProvider {...methods}>
 			<div className="px-5 mt-5">
 				<h1 className="mt-4 mb-6 text-xl font-bold text-center">
-					돌멩이 클라이밍 일일이용 동의서
+					{`돌멩이 클라이밍 일일${type === 'day-pass' ? '이용' : '체험'} 동의서`}
 				</h1>
 				<form className="flex flex-col w-full gap-6" onSubmit={handleSubmit(onSubmit)}>
 					<TextInput name="name" label="이름" maxLength={20} />
@@ -154,9 +181,14 @@ const ConsentForm = () => {
 							</div>
 						</div>
 					</div>
-					<Button type="submit" label="다음" disabled={!isValid} />
+					<Button type="submit" label="다음" disabled={!isValid || isSubmitting} />
 				</form>
 			</div>
+			{isSubmitting && (
+				<div className="fixed inset-0 flex items-center bg-black/50 justify-center">
+					<Spinner />
+				</div>
+			)}
 		</FormProvider>
 	);
 };

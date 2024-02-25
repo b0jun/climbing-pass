@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
 import Spinner from '@/components/Spinner';
+import useIsLogin from '@/hooks/useIsLogin';
 import useMyGymList from '@/services/useMyGymList';
 
 const Skeleton = () => (
@@ -29,7 +30,7 @@ const Skeleton = () => (
 const Home = () => {
 	const { status } = useSession();
 	const isAuthLoading = status === 'loading';
-	const isLogin = status === 'authenticated';
+	const isLogin = useIsLogin();
 
 	const { isLoading: isGymListLoading, data } = useMyGymList();
 

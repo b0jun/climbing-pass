@@ -36,7 +36,7 @@ const Login = () => {
 			identifier,
 			password,
 			redirect: true,
-			callbackUrl: '/',
+			callbackUrl: '/home',
 		});
 	};
 
