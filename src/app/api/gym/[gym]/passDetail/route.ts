@@ -10,9 +10,10 @@ const secret = process.env.NEXTAUTH_SECRET;
 const GET = async (request: NextRequest, context: any) => {
 	try {
 		const searchParams = request.nextUrl.searchParams;
-		const passDate = searchParams.get('passDate');
-		if (!passDate) {
-			throw new Error('No Pass Date');
+		const passId = searchParams.get('passId');
+		console.log('passId', passId);
+		if (!passId) {
+			throw new Error('No Pass Id');
 		}
 
 		const token = await getToken({ req: request, secret });
@@ -28,7 +29,6 @@ const GET = async (request: NextRequest, context: any) => {
 			);
 		}
 
-		const { id } = userData;
 		const gymData = await prisma.gym.findFirst({
 			where: {
 				domain: gym,
@@ -37,17 +37,10 @@ const GET = async (request: NextRequest, context: any) => {
 				name: true,
 			},
 		});
-		const nextDate = new Date(passDate);
-		nextDate.setDate(nextDate.getDate() + 1);
 
-		const passData = await prisma.pass.findMany({
+		const passDetailData = await prisma.pass.findFirst({
 			where: {
-				userId: id,
-				gymId: gym,
-				createdAt: {
-					gte: new Date(passDate),
-					lt: new Date(nextDate),
-				},
+				id: passId,
 			},
 			select: {
 				id: true,
@@ -56,20 +49,14 @@ const GET = async (request: NextRequest, context: any) => {
 				dateOfBirth: true,
 				createdAt: true,
 				type: true,
-			},
-			orderBy: {
-				createdAt: 'asc',
+				signature: true,
 			},
 		});
 
-		const processedPassData = passData.map((pass) => ({
-			...pass,
-			type: pass.type === 'DayPass' ? '일일이용' : '일일체험',
-		}));
 		return NextResponse.json(
 			{
 				gymName: gymData ? gymData.name : '',
-				passList: processedPassData ? processedPassData : [],
+				passDetail: passDetailData,
 			},
 			{
 				status: 200,

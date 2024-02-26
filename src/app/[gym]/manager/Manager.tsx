@@ -1,22 +1,45 @@
 'use client';
 
 import dayjs from 'dayjs';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import DatePicker from 'react-datepicker';
 
 import usePassList from '@/services/usePassList';
 
+import 'react-datepicker/dist/react-datepicker.css';
+
 const Manager = () => {
-	const { data } = usePassList();
+	const { gym } = useParams();
+	const [selectedDate, setSelectedDate] = useState(new Date());
+	const { data } = usePassList(dayjs(selectedDate).format('YYYY/MM/DD'));
 	return (
 		<div>
-			<div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-				<div className="h-[60px] flex items-center">
-					<h3 className="text-[20px]">
-						<span className="font-bold text-[22px]">{data?.gymName}</span> 일일이용자
-						현황
-					</h3>
+			<div className="inline-block min-w-full align-middle sm:px-6 lg:px-8">
+				<div className="h-[100px] flex justify-between items-center px-2 bg-stone-200">
+					<div className="flex flex-col gap-1">
+						<h2 className="font-bold text-[22px] h-[35px] flex items-center">
+							{data?.gymName}
+						</h2>
+						<h3 className="text-[20px]">일일 이용/체험 현황</h3>
+					</div>
+					<div className="flex gap-[6px] items-center">
+						<label htmlFor="passDate" className="">
+							날짜
+						</label>
+						<DatePicker
+							selected={selectedDate}
+							onChange={(date) => setSelectedDate(date as Date)}
+							dateFormat="yyyy/MM/dd"
+							customInput={
+								<input id="passDate" className="text-[14px] w-[120px] rounded-lg" />
+							}
+						/>
+					</div>
 				</div>
-				<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-					<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+				<table className="w-full text-sm text-left rtl:text-right text-gray-500">
+					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
 							<th scope="col" className="px-6 py-3">
 								이름
@@ -41,13 +64,10 @@ const Manager = () => {
 					<tbody>
 						{data?.passList.map(
 							({ id, name, phoneNumber, dateOfBirth, type, createdAt }: any) => (
-								<tr
-									key={id}
-									className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-								>
+								<tr key={id} className="bg-white border-b hover:bg-gray-50">
 									<th
 										scope="row"
-										className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+										className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
 									>
 										{name}
 									</th>
@@ -58,12 +78,12 @@ const Manager = () => {
 									</td>
 									<td className="px-6 py-4">{type}</td>
 									<td className="px-6 py-4 text-right">
-										<a
-											href="#"
-											className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+										<Link
+											href={`/${gym}/manager/passDetail?id=${id}`}
+											className="font-medium text-blue-600 hover:underline"
 										>
 											자세히
-										</a>
+										</Link>
 									</td>
 								</tr>
 							)

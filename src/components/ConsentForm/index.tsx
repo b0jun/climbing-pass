@@ -69,11 +69,12 @@ const ConsentForm = () => {
 
 	const isSubmitting = isPending || isImageUploading;
 	const overlay = useOverlay();
+	const passType = type === 'day-pass' ? '이용' : '체험';
 	const openSignBottomSheet = () => {
 		return new Promise<string | boolean>((resolve) => {
 			overlay.open(({ isOpen, close, exit }) => (
 				<BottomSheet
-					title="돌멩이 클라이밍 일일이용 동의서"
+					title={`돌멩이 클라이밍 일일${passType} 동의서`}
 					open={isOpen}
 					onClose={() => {
 						close();
@@ -128,7 +129,7 @@ const ConsentForm = () => {
 		<FormProvider {...methods}>
 			<div className="px-5 mt-5">
 				<h1 className="mt-4 mb-6 text-xl font-bold text-center">
-					{`돌멩이 클라이밍 일일${type === 'day-pass' ? '이용' : '체험'} 동의서`}
+					{`돌멩이 클라이밍 일일${passType} 동의서`}
 				</h1>
 				<form className="flex flex-col w-full gap-6" onSubmit={handleSubmit(onSubmit)}>
 					<TextInput name="name" label="이름" maxLength={20} />
