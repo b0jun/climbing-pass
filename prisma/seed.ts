@@ -9,14 +9,14 @@ async function main() {
 	const response = await Promise.all([
 		prisma.user.upsert({
 			where: {
-				identifier: 'hmhs13',
+				identifier: 'hmhs15',
 			},
 			update: {},
 			create: {
-				identifier: 'hmhs13',
-				password: await bcrypt.hash('ckd2013', salt),
+				identifier: 'hmhs15',
+				password: await bcrypt.hash('dol20132635', salt),
 				name: 'Dolmenge',
-				email: 'bjkim0228@naver.com',
+				email: 'hmhs15@naver.com',
 			},
 		}),
 		prisma.gym.upsert({

@@ -1,15 +1,21 @@
 import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { useParams, useRouter } from 'next/navigation';
 
 const mutationFn = async (body: any) => {
-	await fetch('/api/pass/create', {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(body),
-	});
+	return await axios.post('/api/pass/create', { body });
 };
 
 const useCreatePass = () => {
-	return useMutation({ mutationFn });
+	const { replace } = useRouter();
+	const { gym } = useParams();
+
+	return useMutation({
+		mutationFn,
+		onSuccess: () => {
+			replace(`/${gym}/complete`);
+		},
+	});
 };
 
 export default useCreatePass;

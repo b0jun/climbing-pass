@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -10,11 +9,11 @@ const secret = process.env.NEXTAUTH_SECRET;
 const GET = async (request: NextRequest) => {
 	try {
 		const token = await getToken({ req: request, secret });
-
 		const userData = verifyJwt(token?.accessToken as string);
+
 		if (!userData) {
 			return NextResponse.json(
-				{ errorMessage: 'No Authorization' },
+				{ errorMessage: userData },
 				{
 					status: 401,
 				}
@@ -38,7 +37,7 @@ const GET = async (request: NextRequest) => {
 			status: 200,
 		});
 	} catch (e: any) {
-		return NextResponse.json({ message: e.message }, { status: 500 });
+		return NextResponse.json({ message: e.message }, { status: e.code });
 	}
 };
 
