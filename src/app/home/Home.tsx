@@ -86,7 +86,7 @@ const Home = () => {
 					<div className="relative">
 						<Skeleton />
 						<div className="absolute text-center w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-							<p>소유한 암장 리스트가 없습니다.</p>
+							<p>소유한 지점 리스트가 없습니다.</p>
 						</div>
 					</div>
 				)}
