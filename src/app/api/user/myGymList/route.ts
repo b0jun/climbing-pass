@@ -6,6 +6,8 @@ import prisma from '@/lib/prisma';
 
 const secret = process.env.NEXTAUTH_SECRET;
 
+export const dynamic = 'force-dynamic';
+
 const GET = async (request: NextRequest) => {
 	try {
 		const token = await getToken({ req: request, secret });
