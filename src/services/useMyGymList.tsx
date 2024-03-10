@@ -10,7 +10,7 @@ const queryFn = async () => {
 const useMyGymList = () => {
 	const isLogin = useIsLogin();
 	return useQuery({
-		queryKey: ['useMyGymList'],
+		queryKey: [{ scope: 'useMyGymList' }],
 		queryFn,
 		enabled: !!isLogin,
 	});
