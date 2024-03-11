@@ -12,7 +12,10 @@ type Props = {
 const queryClient = new QueryClient({
 	queryCache: new QueryCache({
 		onError: (error: any, query) => {
-			if (error.response.data.message === 'TokenExpiredError') {
+			if (
+				error.response.data.message === 'TokenExpiredError' ||
+				error.response.data.message === 'JsonWebTokenError'
+			) {
 				signOut();
 			}
 		},
