@@ -10,6 +10,8 @@ const GET = async (request: NextRequest, context: any) => {
 	try {
 		const searchParams = request.nextUrl.searchParams;
 		const passDate = searchParams.get('passDate');
+		const passType = searchParams.get('passType');
+
 		if (!passDate) {
 			throw new Error('No Pass Date');
 		}
@@ -47,6 +49,7 @@ const GET = async (request: NextRequest, context: any) => {
 					gte: new Date(passDate),
 					lt: new Date(nextDate),
 				},
+				...(passType !== 'all' && { type: passType as 'DayPass' | 'DayExperience' }),
 			},
 			select: {
 				id: true,
