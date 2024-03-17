@@ -8,37 +8,44 @@ const secret = process.env.NEXTAUTH_SECRET;
 
 const GET = async (request: NextRequest, context: any) => {
 	try {
-		const searchParams = request.nextUrl.searchParams;
-		const passDate = searchParams.get('passDate');
-		const passType = searchParams.get('passType');
-
-		if (!passDate) {
-			throw new Error('No Pass Date');
-		}
-
 		const token = await getToken({ req: request, secret });
 		const userData = verifyJwt(token?.accessToken as string);
 		const { gym } = context.params;
 
 		if (!userData) {
 			return NextResponse.json(
-				{ errorMessage: userData },
+				{ errorMessage: 'No Auth' },
 				{
 					status: 401,
 				}
 			);
 		}
-
-		const { id } = userData;
 		const gymData = await prisma.gym.findFirst({
 			where: {
 				domain: gym,
+				userId: userData.id,
 			},
 			select: {
 				name: true,
 			},
 		});
-		const nextDate = new Date(passDate);
+
+		if (!gymData) {
+			return NextResponse.json(
+				{ errorMessage: 'No Permission' },
+				{
+					status: 403,
+				}
+			);
+		}
+
+		const searchParams = request.nextUrl.searchParams;
+		const passDate = searchParams.get('passDate');
+		const passType = searchParams.get('passType');
+
+		const { id } = userData;
+
+		const nextDate = passDate ? new Date(decodeURIComponent(passDate)) : new Date();
 		nextDate.setDate(nextDate.getDate() + 1);
 
 		const passData = await prisma.pass.findMany({
@@ -46,10 +53,10 @@ const GET = async (request: NextRequest, context: any) => {
 				userId: id,
 				gymId: gym,
 				createdAt: {
-					gte: new Date(passDate),
+					gte: passDate ? new Date(decodeURIComponent(passDate)) : new Date(),
 					lt: new Date(nextDate),
 				},
-				...(passType !== 'all' && { type: passType as 'DayPass' | 'DayExperience' }),
+				...(passType && { type: passType as 'DayPass' | 'DayExperience' }),
 			},
 			select: {
 				id: true,

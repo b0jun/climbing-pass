@@ -18,9 +18,12 @@ const PassDetailPage = () => {
 	}
 
 	return (
-		<div className="">
+		<div className="w-full max-w-5xl mx-auto">
+			<header className="h-[60px] flex items-center justify-center text-center text-2xl">
+				<h1>돌멩이클라이밍 이용동의서</h1>
+			</header>
 			<div className="flex gap-4">
-				<p>이름</p>
+				<p>성명</p>
 				<p>{data.passDetail.name}</p>
 			</div>
 			<div className="flex gap-4">
