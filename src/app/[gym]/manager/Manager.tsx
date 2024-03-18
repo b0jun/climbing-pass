@@ -3,7 +3,7 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { SelectHTMLAttributes, useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import DatePicker from 'react-datepicker';
 
 import usePassList from '@/services/usePassList';
