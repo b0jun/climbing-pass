@@ -11,7 +11,6 @@ const GET = async (request: NextRequest, context: any) => {
 	try {
 		const searchParams = request.nextUrl.searchParams;
 		const passId = searchParams.get('passId');
-		console.log('passId', passId);
 		if (!passId) {
 			throw new Error('No Pass Id');
 		}
