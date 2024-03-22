@@ -3,41 +3,31 @@
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useCallback } from 'react';
+import React, { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 
+import useQueryString from '@/hooks/useQueryString';
 import usePassList from '@/services/usePassList';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 const Manager = () => {
+	const datepickerRef = useRef<DatePicker>(null);
 	const router = useRouter();
 	const { gym } = useParams();
 	const pathname = usePathname();
-	const { data, isPending } = usePassList();
+	const { createQueryString, deleteQueryString } = useQueryString();
+	const { data, isPending, isFetched } = usePassList();
+	// useEffect(() => {
+	// 	if (!data && !isFetched) {
+	// 		router.back();
+	// 	}
+	// }, [data, isFetched, router]);
 
+	const today = dayjs().format('YYYY/MM/DD');
 	const searchParams = useSearchParams();
 	const passType = searchParams.get('passType');
-	const passDate = searchParams.get('passDate');
-
-	const createQueryString = useCallback(
-		(name: string, value: string) => {
-			const params = new URLSearchParams(searchParams.toString());
-			params.set(name, value);
-
-			return params.toString();
-		},
-		[searchParams]
-	);
-
-	const deleteQueryString = useCallback(
-		(name: string) => {
-			const params = new URLSearchParams(searchParams.toString());
-			params.delete(name);
-			return params.toString();
-		},
-		[searchParams]
-	);
+	const passDate = searchParams.get('passDate') ?? today;
 
 	const handleChangePassType = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		const passType = event.target.value;
@@ -51,11 +41,14 @@ const Manager = () => {
 	};
 
 	const handleChangeDate = (date: Date) => {
-		const queryString = createQueryString(
-			'passDate',
-			encodeURIComponent(dayjs(date).format('YYYY/MM/DD'))
-		);
+		const queryString = createQueryString('passDate', dayjs(date).format('YYYY/MM/DD'));
 		router.replace(`${pathname}?${queryString}`);
+	};
+
+	const setDateToToday = () => {
+		const queryString = deleteQueryString('passDate');
+		router.replace(`${pathname}?${queryString}`);
+		datepickerRef.current?.setOpen(false);
 	};
 
 	return (
@@ -69,21 +62,7 @@ const Manager = () => {
 						<h3 className="text-[20px]">일일 패스 현황</h3>
 					</div>
 					<div className="flex items-center gap-3">
-						<div className="h-[50px] flex items-center">
-							<DatePicker
-								selected={
-									passDate ? new Date(decodeURIComponent(passDate)) : new Date()
-								}
-								onChange={handleChangeDate}
-								dateFormat="yyyy/MM/dd"
-								customInput={
-									<input
-										id="passDate"
-										className="text-[14px] w-[100px] rounded-lg px-2 py-1 border-gray-500"
-									/>
-								}
-							/>
-						</div>
+						{/* 패스유형 */}
 						<select
 							id="passType"
 							className="bg-gray-50 border border-gray-500 text-gray-900 text-[14px] w-[100px] rounded-lg px-2 py-1"
@@ -94,6 +73,30 @@ const Manager = () => {
 							<option value="DayPass">일일이용</option>
 							<option value="DayExperience">일일체험</option>
 						</select>
+						{/* 날짜 */}
+						<div className="h-[50px] flex items-center">
+							<DatePicker
+								ref={datepickerRef}
+								popperPlacement="bottom-start"
+								selected={new Date(passDate)}
+								onChange={handleChangeDate}
+								dateFormat="yyyy/MM/dd"
+								customInput={
+									<input
+										id="passDate"
+										className="text-[14px] w-[100px] rounded-lg px-2 py-1 border-gray-500"
+									/>
+								}
+							>
+								<button
+									type="button"
+									onClick={setDateToToday}
+									className="bg-emerald-500 text-white py-1 px-2 rounded-sm"
+								>
+									Today
+								</button>
+							</DatePicker>
+						</div>
 					</div>
 				</div>
 				{data?.passList?.length > 0 ? (
@@ -127,7 +130,7 @@ const Manager = () => {
 									<tr key={id} className="bg-white border-b hover:bg-gray-50">
 										<th
 											scope="row"
-											className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+											className="px-6 py-4 font-medium text-gray-900 truncate"
 										>
 											{name}
 										</th>
@@ -144,7 +147,7 @@ const Manager = () => {
 										<td className="px-6 py-4 whitespace-nowrap text-right">
 											<Link
 												href={`/${gym}/manager/passDetail?id=${id}`}
-												className="font-medium text-blue-600 hover:underline"
+												className="font-medium text-main hover:underline"
 											>
 												자세히
 											</Link>

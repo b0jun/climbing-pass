@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
@@ -40,12 +41,12 @@ const GET = async (request: NextRequest, context: any) => {
 		}
 
 		const searchParams = request.nextUrl.searchParams;
-		const passDate = searchParams.get('passDate');
+		const passDate = searchParams.get('passDate') ?? dayjs().format('YYYY/MM/DD');
 		const passType = searchParams.get('passType');
 
 		const { id } = userData;
 
-		const nextDate = passDate ? new Date(decodeURIComponent(passDate)) : new Date();
+		const nextDate = new Date(passDate);
 		nextDate.setDate(nextDate.getDate() + 1);
 
 		const passData = await prisma.pass.findMany({
@@ -53,7 +54,7 @@ const GET = async (request: NextRequest, context: any) => {
 				userId: id,
 				gymId: gym,
 				createdAt: {
-					gte: passDate ? new Date(decodeURIComponent(passDate)) : new Date(),
+					gte: new Date(passDate),
 					lt: new Date(nextDate),
 				},
 				...(passType && { type: passType as 'DayPass' | 'DayExperience' }),
@@ -70,7 +71,6 @@ const GET = async (request: NextRequest, context: any) => {
 				createdAt: 'asc',
 			},
 		});
-
 		const processedPassData = passData.map((pass) => ({
 			...pass,
 			type: pass.type === 'DayPass' ? '일일이용' : '일일체험',
