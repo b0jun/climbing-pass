@@ -37,7 +37,6 @@ const Signature = ({ onConfirm }: Props) => {
 							className: 'sigCanvas',
 						}}
 						onEnd={startSign}
-						backgroundColor="rgb(241, 245, 249)"
 					/>
 				</div>
 				{isSignEdit && (
