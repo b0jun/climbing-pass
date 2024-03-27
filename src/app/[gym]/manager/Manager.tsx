@@ -56,9 +56,7 @@ const Manager = () => {
 			<div className="inline-block min-w-full align-middle">
 				<div className="h-[100px] flex justify-between items-center px-6 bg-stone-200">
 					<div className="flex flex-col gap-1">
-						<h2 className="font-bold text-[22px] h-[35px] flex items-center">
-							{data?.gymName}
-						</h2>
+						<h2 className="font-bold text-[22px] h-[35px] flex items-center">{data?.gymName}</h2>
 						<h3 className="text-[20px]">일일 패스 현황</h3>
 					</div>
 					<div className="flex items-center gap-3">
@@ -125,44 +123,31 @@ const Manager = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{data.passList.map(
-								({ id, name, phoneNumber, dateOfBirth, type, createdAt }: any) => (
-									<tr key={id} className="bg-white border-b hover:bg-gray-50">
-										<th
-											scope="row"
-											className="px-6 py-4 font-medium text-gray-900 truncate"
+							{data.passList.map(({ id, name, phoneNumber, dateOfBirth, type, createdAt }: any) => (
+								<tr key={id} className="bg-white border-b hover:bg-gray-50">
+									<th scope="row" className="px-6 py-4 font-medium text-gray-900 truncate">
+										{name}
+									</th>
+									<td className="px-6 py-4 whitespace-nowrap">{phoneNumber}</td>
+									<td className="px-6 py-4 whitespace-nowrap">{dateOfBirth}</td>
+									<td className="px-6 py-4 whitespace-nowrap">
+										{dayjs(createdAt).format('A h시 mm분')}
+									</td>
+									<td className="px-6 py-4 whitespace-nowrap">{type}</td>
+									<td className="px-6 py-4 whitespace-nowrap text-right">
+										<Link
+											href={`/${gym}/manager/passDetail?id=${id}`}
+											className="font-medium text-main hover:underline"
 										>
-											{name}
-										</th>
-										<td className="px-6 py-4 whitespace-nowrap">
-											{phoneNumber}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap">
-											{dateOfBirth}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap">
-											{dayjs(createdAt).format('HH시 mm분 ss초')}
-										</td>
-										<td className="px-6 py-4 whitespace-nowrap">{type}</td>
-										<td className="px-6 py-4 whitespace-nowrap text-right">
-											<Link
-												href={`/${gym}/manager/passDetail?id=${id}`}
-												className="font-medium text-main hover:underline"
-											>
-												자세히
-											</Link>
-										</td>
-									</tr>
-								)
-							)}
+											자세히
+										</Link>
+									</td>
+								</tr>
+							))}
 						</tbody>
 					</table>
 				) : (
-					!isPending && (
-						<div className="py-[100px] text-center text-stone-700">
-							등록된 패스가 없습니다.
-						</div>
-					)
+					!isPending && <div className="py-[100px] text-center text-stone-700">등록된 패스가 없습니다.</div>
 				)}
 			</div>
 		</div>
