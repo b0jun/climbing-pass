@@ -23,7 +23,7 @@ const Signature = ({ onConfirm }: Props) => {
 	};
 
 	const submitSign = () => {
-		const image = signCanvas.current.getTrimmedCanvas().toDataURL('image/png');
+		const image = signCanvas.current.getSignaturePad().toDataURL('image/png');
 		onConfirm(image);
 	};
 
@@ -37,6 +37,7 @@ const Signature = ({ onConfirm }: Props) => {
 							className: 'sigCanvas',
 						}}
 						onEnd={startSign}
+						clearOnResize={false}
 					/>
 				</div>
 				{isSignEdit && (

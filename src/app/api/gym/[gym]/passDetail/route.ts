@@ -42,7 +42,6 @@ const GET = async (request: NextRequest, context: any) => {
 				id: passId,
 			},
 			select: {
-				id: true,
 				name: true,
 				phoneNumber: true,
 				dateOfBirth: true,
