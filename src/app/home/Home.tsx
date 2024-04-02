@@ -12,16 +12,12 @@ const Skeleton = () => (
 	<ul className="flex flex-col gap-2 blur">
 		<li className="flex items-center border-b pb-2">
 			<h3 className="font-bold w-[160px] mr-2">1호점</h3>
-			<div className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]">
-				패스
-			</div>
+			<div className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]">패스</div>
 			<div className="bg-[#413F42] text-white rounded-md py-2 px-3 text-[14px]">관리</div>
 		</li>
 		<li className="flex items-center">
 			<h3 className="font-bold w-[160px] mr-2">2호점</h3>
-			<div className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]">
-				패스
-			</div>
+			<div className="bg-[#7F8487] text-white rounded-md py-2 px-3 mr-2 text-[14px]">패스</div>
 			<div className="bg-[#413F42] text-white rounded-md py-2 px-3 text-[14px]">관리</div>
 		</li>
 	</ul>
@@ -33,10 +29,9 @@ const Home = () => {
 	const isLogin = useIsLogin();
 
 	const { isLoading: isGymListLoading, data } = useMyGymList();
-
 	const isLoading = isAuthLoading || isGymListLoading;
 	return (
-		<section className="px-2">
+		<section className="px-2 -mt-[40px]">
 			<h3 className="text-[20px] mb-4 font-bold ml-2">나의 지점 리스트</h3>
 			<div className="border border-black p-5 rounded-md min-w-[250px]">
 				{isLoading ? (
@@ -62,10 +57,7 @@ const Home = () => {
 				) : data?.length > 0 ? (
 					<ul className="flex flex-col gap-2">
 						{data?.map(({ id, name, domain }: any) => (
-							<li
-								key={id}
-								className="flex items-center border-b pb-2 last:border-0 last:pb-0"
-							>
+							<li key={id} className="flex items-center border-b pb-2 last:border-0 last:pb-0">
 								<h3 className="font-bold w-[160px] mr-2">{name}</h3>
 								<Link
 									href={`/${domain}/pass`}

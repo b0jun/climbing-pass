@@ -3,6 +3,9 @@ import type { Config } from 'tailwindcss';
 const config: Config = {
 	content: ['./src/components/**/*.{js,ts,jsx,tsx,mdx}', './src/app/**/*.{js,ts,jsx,tsx,mdx}'],
 	theme: {
+		screens: {
+			xs: '290px',
+		},
 		extend: {
 			boxShadow: {
 				mobile: '0 0 20px rgba(130,130,130,0.15)',

@@ -63,7 +63,6 @@ const ConsentForm = () => {
 	const { gym, type } = useParams();
 	const [isImageUploading, setIsImageUploading] = useState(false);
 	const { mutate, isPending } = useCreatePass();
-
 	const isSubmitting = isPending || isImageUploading;
 	const overlay = useOverlay();
 	const passType = type === 'day-pass' ? '이용' : '체험';
@@ -81,7 +80,7 @@ const ConsentForm = () => {
 						}, 200);
 					}}
 				>
-					<p className="text-[14px] mb-2 text-black/70 font-medium">
+					<p className="text-[14px] mb-2 text-black/60 font-medium">
 						본인은 약관에 대해 충분히 읽고 이해하였으며 이에 동의하여 일일 이용권을 신청합니다.
 					</p>
 					<Signature

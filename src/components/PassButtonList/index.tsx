@@ -13,19 +13,19 @@ const PassButtonList = () => {
 	const { gym } = useParams();
 
 	return (
-		<div className="flex gap-6">
+		<div className="flex-col flex gap-4 xs:flex-row xs:gap-6 mb-20">
 			<Link
 				href={`/${gym}/consent/day-pass`}
-				className="flex items-center justify-center w-32 h-44 mb-20 rounded-md shadow-lg text-darkBlue bg-lightBlue"
+				className="w-full h-24 flex items-center justify-center xs:w-32 xs:h-44 rounded-md shadow-lg text-darkBlue bg-lightBlue"
 			>
-				<h3 className="font-bold text-xl">일일이용</h3>
+				<h3 className="font-bold text-base xs:text-xl">일일이용</h3>
 			</Link>
 			<Link
 				href={`/${gym}/consent/day-experience`}
-				className="flex flex-col items-center justify-center w-32 h-44 rounded-md shadow-lg text-extraDarkBlue bg-extraLightBlue"
+				className="w-full h-24 flex flex-col items-center justify-center xs:w-32 xs:h-44 rounded-md shadow-lg text-extraDarkBlue bg-extraLightBlue"
 			>
-				<h3 className="font-bold mt-6 text-center text-xl">일일체험</h3>
-				<p className="text-base">(첫 방문)</p>
+				<h3 className="font-bold xs:mt-6 text-center text-base xs:text-xl">일일체험</h3>
+				<p className="text-sm xs:text-base">(첫 방문)</p>
 			</Link>
 		</div>
 	);
