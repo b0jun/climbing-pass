@@ -6,9 +6,7 @@ import useIsLogin from '@/hooks/useIsLogin';
 
 const queryFn = async ({ queryKey }: any) => {
 	const { gym, passDate, passType } = queryKey[0];
-	return await axios(`/api/gym/${gym}/passList`, { params: { passDate, passType } }).then(
-		(res) => res.data
-	);
+	return await axios(`/api/gym/${gym}/passList`, { params: { passDate, passType } }).then((res) => res.data);
 };
 
 const usePassList = () => {
