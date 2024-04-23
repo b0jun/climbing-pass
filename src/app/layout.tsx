@@ -1,4 +1,5 @@
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
 
 import NextAuth from '@/components/Provider/NextAuth';
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<Providers>{children}</Providers>
 					</NextAuth>
 				</ReactQuery>
+				<Analytics />
 			</body>
 		</html>
 	);
