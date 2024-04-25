@@ -25,7 +25,7 @@ const PassButtonList = () => {
 				className="w-full h-24 flex flex-col items-center justify-center xs:w-32 xs:h-44 rounded-md shadow-lg text-extraDarkBlue bg-extraLightBlue"
 			>
 				<h3 className="font-bold xs:mt-6 text-center text-base xs:text-xl">일일체험</h3>
-				<p className="text-sm xs:text-base">(첫 방문)</p>
+				<p className="text-xs xs:text-sm">(클라이밍 첫 이용)</p>
 			</Link>
 		</div>
 	);

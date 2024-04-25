@@ -3,6 +3,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useOverlay } from '@toss/use-overlay';
 import { upload } from '@vercel/blob/client';
+import cn from 'classnames';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -22,6 +23,7 @@ type FormData = {
 	name: string;
 	phoneNumber: string;
 	dateOfBirth: string;
+	shoesRental: boolean;
 	consent: boolean;
 };
 
@@ -30,6 +32,7 @@ const formInit = () => {
 		name: '',
 		phoneNumber: '',
 		dateOfBirth: '',
+		shoesRental: false,
 		consent: false,
 	});
 	const validations = {
@@ -46,6 +49,7 @@ const formInit = () => {
 				/^(19\d{2}|20\d{2}|2100)\/(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/,
 				'유효하지 않은 생년월일 형식 입니다.'
 			),
+		shoesRental: yup.boolean().required(),
 		consent: yup.boolean().oneOf([true]).required(),
 	};
 	const resolver = yupResolver(yup.object().shape(validations));
@@ -65,7 +69,10 @@ const ConsentForm = () => {
 	const { mutate, isPending } = useCreatePass();
 	const isSubmitting = isPending || isImageUploading;
 	const overlay = useOverlay();
-	const passType = type === 'day-pass' ? '이용' : '체험';
+	const isExperience = type === 'day-experience';
+	const passType = isExperience ? '체험' : '이용';
+
+	console.log('methods.watch()', methods.watch());
 	const openSignBottomSheet = () => {
 		return new Promise<string | boolean>((resolve) => {
 			overlay.open(({ isOpen, close, exit }) => (
@@ -144,6 +151,32 @@ const ConsentForm = () => {
 							);
 						}}
 					/>
+					<div className="p-4 border-2 bg-slate-100 border-gray-300 rounded">
+						<div className="flex gap-2 items-center">
+							<input
+								{...methods.register('shoesRental')}
+								id="shoesRental"
+								type="checkbox"
+								className={cn(
+									'w-4 h-4 bg-gray-100 border-gray-300 rounded cursor-pointer text-main focus:ring-main focus:ring-2',
+									{ '!bg-gray-400 !ring-0 !cursor-default': isExperience }
+								)}
+								readOnly={isExperience}
+								{...(isExperience && { checked: true })}
+							/>
+							<label
+								htmlFor="shoesRental"
+								className={cn('text-sm text-gray-500 font-bold', { '!text-gray-400': isExperience })}
+							>
+								암벽화 대여
+							</label>
+						</div>
+						{isExperience && (
+							<p className="text-xs text-gray-500 ml-2 mt-2">
+								일일체험은 암벽화 대여가 포함되어있습니다.
+							</p>
+						)}
+					</div>
 					<div>
 						<h4 className="mb-2 text-sm font-bold text-gray-500">실내 클라이밍 위험 고지</h4>
 						<div className="p-4 text-gray-500 whitespace-pre-wrap border-t-2 border-gray-300 rounded-t-md border-x-2 bg-slate-100">

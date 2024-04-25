@@ -58,6 +58,9 @@ const GET = async (request: NextRequest, context: any) => {
 					lt: new Date(nextDate),
 				},
 				...(passType && { type: passType as 'DayPass' | 'DayExperience' }),
+				NOT: {
+					status: 'DELETED',
+				},
 			},
 			select: {
 				id: true,
@@ -66,19 +69,18 @@ const GET = async (request: NextRequest, context: any) => {
 				dateOfBirth: true,
 				createdAt: true,
 				type: true,
+				status: true,
+				shoesRental: true,
 			},
 			orderBy: {
-				createdAt: 'asc',
+				createdAt: 'desc',
 			},
 		});
-		const processedPassData = passData.map((pass) => ({
-			...pass,
-			type: pass.type === 'DayPass' ? '일일이용' : '일일체험',
-		}));
+
 		return NextResponse.json(
 			{
 				gymName: gymData ? gymData.name : '',
-				passList: processedPassData ? processedPassData : [],
+				passList: passData ? passData : [],
 			},
 			{
 				status: 200,
