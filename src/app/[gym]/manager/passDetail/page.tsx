@@ -3,13 +3,11 @@
 import { PassType } from '@prisma/client';
 import dayjs from 'dayjs';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { usePDF } from 'react-to-pdf';
 
 import Spinner from '@/components/Spinner';
 import usePassDetail from '@/services/usePassDetail';
-
-import 'dayjs/locale/ko';
-dayjs.locale('ko');
 
 const PassTypes = {
 	DayPass: '일일이용',
@@ -17,6 +15,7 @@ const PassTypes = {
 } as const;
 
 const PassDetailPage = () => {
+	const router = useRouter();
 	const { data, isPending } = usePassDetail();
 	const { toPDF, targetRef } = usePDF({
 		filename: `${data?.passDetail?.name}_${PassTypes[data?.passDetail?.type as PassType]} 동의서.pdf`,
@@ -24,6 +23,10 @@ const PassDetailPage = () => {
 
 	const pdfDownlaod = () => {
 		toPDF();
+	};
+
+	const goBack = () => {
+		router.back();
 	};
 
 	if (isPending) {
@@ -39,10 +42,15 @@ const PassDetailPage = () => {
 	}
 
 	return (
-		<div className="w-full relative py-[64px] px-[32px] h-full">
-			<button type="button" className="top-[12px] right-[64px] absolute" onClick={pdfDownlaod}>
-				<Image src="/icons/ic_pdf.svg" alt="pdf download" width={40} height={40} />
-			</button>
+		<div className="w-full relative py-[32px] px-[32px] h-full">
+			<div className="mx-auto rounded-md w-[896px] flex justify-between items-center mb-2 py-2 px-4 bg-form/40">
+				<button type="button" onClick={pdfDownlaod}>
+					<Image src="/icons/ic_pdf.svg" alt="pdf download" width={40} height={40} />
+				</button>
+				<button type="button" onClick={goBack}>
+					<Image src="/icons/ic_close.svg" alt="close" width={24} height={24} />
+				</button>
+			</div>
 			<div
 				ref={targetRef}
 				className="mx-auto relative bg-form p-[32px] w-[896px] flex-shrink-0 flex flex-col h-[1267px] justify-between"
@@ -99,7 +107,7 @@ const PassDetailPage = () => {
 
 								<td className="px-6 py-3 whitespace-nowrap" colSpan={3}>
 									<div className="text-sm text-gray-900">
-										{dayjs(data.passDetail.createdAt).format('A h시 mm분')}
+										{dayjs(data.passDetail.createdAt).format('h:mm A')}
 									</div>
 								</td>
 							</tr>

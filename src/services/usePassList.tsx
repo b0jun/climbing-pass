@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useSearchParams } from 'next/navigation';
 
 import useIsLogin from '@/hooks/useIsLogin';
+import { gymKeys } from '@/lib/react-query/factory';
 
 const queryFn = async ({ queryKey }: any) => {
 	const { gym, passDate, passType } = queryKey[0];
@@ -17,7 +18,7 @@ const usePassList = () => {
 	const passDate = searchParams.get('passDate');
 
 	return useQuery({
-		queryKey: [{ scope: 'usePassList', gym, passDate, passType }],
+		queryKey: gymKeys.list(gym as string, passDate, passType),
 		queryFn,
 		enabled: !!isLogin && !!gym,
 		placeholderData: keepPreviousData,

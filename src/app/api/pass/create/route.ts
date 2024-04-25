@@ -6,7 +6,7 @@ import prisma from '@/lib/prisma';
 const POST = async (request: NextRequest) => {
 	try {
 		const { body } = await request.json();
-		const { name, phoneNumber, dateOfBirth, signature, type, gym } = body;
+		const { name, phoneNumber, dateOfBirth, shoesRental, signature, type, gym } = body;
 
 		const userData = await prisma.gym.findFirst({
 			select: {
@@ -23,9 +23,11 @@ const POST = async (request: NextRequest) => {
 				phoneNumber,
 				dateOfBirth,
 				type: type === 'day-pass' ? 'DayPass' : 'DayExperience',
+				shoesRental,
 				signature,
 				gymId: gym,
 				userId: userData?.userId,
+				status: 'WAIT',
 			},
 		});
 

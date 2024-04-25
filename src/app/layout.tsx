@@ -5,6 +5,7 @@ import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
 import NextAuth from '@/components/Provider/NextAuth';
 import ReactQuery from '@/components/Provider/ReactQuery';
 import Providers from '@/components/Providers';
+import Toast from '@/components/Toast';
 
 import type { Metadata, Viewport } from 'next';
 
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 					</NextAuth>
 				</ReactQuery>
 				<Analytics />
+				<Toast />
 			</body>
 		</html>
 	);
