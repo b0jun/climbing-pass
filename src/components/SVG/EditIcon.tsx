@@ -2,11 +2,11 @@ const EditIcon = () => (
 	<svg
 		className="w-5 h-5 text-black-800"
 		viewBox="0 0 24 24"
-		stroke-width="2"
+		strokeWidth="2"
 		stroke="currentColor"
 		fill="none"
-		stroke-linecap="round"
-		stroke-linejoin="round"
+		strokeLinecap="round"
+		strokeLinejoin="round"
 	>
 		<path stroke="none" d="M0 0h24v24H0z" />
 		<path d="M9 7 h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
