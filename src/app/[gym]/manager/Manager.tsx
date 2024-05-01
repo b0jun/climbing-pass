@@ -7,18 +7,20 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useRef } from 'react';
+import React, { ChangeEvent, useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 
 import Modal from '@/components/Modal';
 import Spinner from '@/components/Spinner';
-import { PassDeleteIcon, PassViewIcon, Refresh } from '@/components/SVG';
+import { ClimbingShoesIcon, EditIcon, PassDeleteIcon, PassViewIcon, RefreshIcon } from '@/components/SVG';
 import useQueryString from '@/hooks/useQueryString';
 import { gymKeys } from '@/lib/react-query/factory';
 import useChangePassStatus from '@/services/useChangePassStatus';
 import useDeletePass from '@/services/useDeletePass';
 import usePassList from '@/services/usePassList';
+
 import 'react-datepicker/dist/react-datepicker.css';
+import PassUpdateFormModal from './PassUpdateFormModal';
 
 const tableHeaderList = [
 	'순번',
@@ -143,12 +145,14 @@ const Manager = () => {
 					}}
 					confirmLabel="삭제"
 				>
-					<div className="p-2 bg-[#F4F7F9] rounded-md border border-black">
-						<p className="text-[14px] mb-2 text-black/60">
-							이름: <span className="font-bold">{name}</span>
+					<div className="p-2 bg-[#F4F7F9] rounded-md border flex flex-col gap-2">
+						<p className="text-[14px] text-black/60 flex">
+							<span className="text-gray-500 font-bold w-[60px]">이름</span>
+							{name}
 						</p>
-						<p className="text-[14px] text-black/60">
-							전화번호: <span className="font-bold">{phoneNumber}</span>
+						<p className="text-[14px] text-black/60 flex">
+							<span className="text-gray-500 font-bold w-[60px]">전화번호</span>
+							{phoneNumber}
 						</p>
 					</div>
 				</Modal>
@@ -157,6 +161,30 @@ const Manager = () => {
 		if (isConfirm) {
 			deletePass({ id });
 		}
+	};
+
+	const handleUpdate = async ({
+		id,
+		name,
+		shoesRental,
+		type,
+	}: {
+		id: string;
+		name: string;
+		shoesRental: boolean;
+		type: 'DayPass' | 'DayExperience';
+	}) => {
+		overlay.open(({ isOpen, close, exit }) => (
+			<PassUpdateFormModal
+				open={isOpen}
+				close={close}
+				exit={exit}
+				id={id}
+				name={name}
+				shoesRental={shoesRental}
+				type={type}
+			/>
+		));
 	};
 
 	if (isPending) {
@@ -235,7 +263,7 @@ const Manager = () => {
 						className="bg-[#f4f4f4] border border-black p-2 rounded-md mt-2 flex items-center gap-2 transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
 						onClick={refreshPassList}
 					>
-						<Refresh />
+						<RefreshIcon />
 						<span>새로고침</span>
 					</button>
 				</div>
@@ -288,12 +316,7 @@ const Manager = () => {
 												)}
 											</td>
 											<td className="px-4 py-4 whitespace-nowrap">
-												<input
-													type="checkbox"
-													className="w-4 h-4 text-main bg-gray-100 border-gray-300 rounded"
-													checked={shoesRental}
-													disabled
-												/>
+												<ClimbingShoesIcon shoesRental={shoesRental} />
 											</td>
 											<td className="px-4 py-4 whitespace-nowrap">
 												{status === 'WAIT' ? (
@@ -334,6 +357,15 @@ const Manager = () => {
 														</button>
 													)}
 													<div className="ml-4 flex gap-1 invisible group-hover:visible">
+														<button
+															type="button"
+															className="flex items-center p-1 rounded-md hover:bg-gray-200"
+															onClick={() =>
+																handleUpdate({ id, name, shoesRental, type })
+															}
+														>
+															<EditIcon />
+														</button>
 														<Link
 															href={`/${gym}/manager/passDetail?id=${id}`}
 															className="flex items-center p-1 rounded-md hover:bg-gray-200"

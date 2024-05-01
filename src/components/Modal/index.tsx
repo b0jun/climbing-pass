@@ -13,14 +13,15 @@ type Props = {
 	confirmLabel?: string;
 	title: string;
 	children?: React.ReactNode;
+	disabled?: boolean;
 };
 
 const confirmConfig = {
 	default: {
-		bgColor: 'bg-gray-800',
-		hoverBgColor: 'hover:bg-gray-900',
+		bgColor: 'bg-main/90',
+		hoverBgColor: 'hover:bg-main',
 		textColor: 'text-white',
-		focusRingColor: 'focus:ring-gray-300',
+		focusRingColor: 'focus:ring-main/30',
 	},
 	warn: {
 		bgColor: 'bg-error/90',
@@ -30,7 +31,17 @@ const confirmConfig = {
 	},
 };
 
-const Modal = ({ type = 'default', open, onClose, onConfirm, cancelLabel, confirmLabel, title, children }: Props) => {
+const Modal = ({
+	type = 'default',
+	disabled = false,
+	open,
+	onClose,
+	onConfirm,
+	cancelLabel,
+	confirmLabel,
+	title,
+	children,
+}: Props) => {
 	useLockBodyScroll();
 	return (
 		<>
@@ -64,8 +75,9 @@ const Modal = ({ type = 'default', open, onClose, onConfirm, cancelLabel, confir
 							<button
 								onClick={onConfirm}
 								type="button"
+								disabled={disabled}
 								className={cn(
-									'focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full',
+									'focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 w-full disabled:bg-gray-300',
 									confirmConfig[type].bgColor,
 									confirmConfig[type].textColor,
 									confirmConfig[type].hoverBgColor,
