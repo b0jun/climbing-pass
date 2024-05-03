@@ -53,7 +53,7 @@ const Signature = ({ onConfirm }: Props) => {
 					서명
 				</p>
 			</div>
-			<Button label="이용 동의 및 서명" onClick={submitSign} />
+			<Button label="이용 동의 및 서명" onClick={submitSign} disabled={!isSignEdit} />
 		</div>
 	);
 };

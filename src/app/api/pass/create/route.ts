@@ -23,7 +23,7 @@ const POST = async (request: NextRequest) => {
 				phoneNumber,
 				dateOfBirth,
 				type: type === 'day-pass' ? 'DayPass' : 'DayExperience',
-				shoesRental,
+				shoesRental: type === 'day-pass' ? shoesRental : true,
 				signature,
 				gymId: gym,
 				userId: userData?.userId,

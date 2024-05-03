@@ -161,8 +161,7 @@ const ConsentForm = () => {
 									'w-4 h-4 bg-gray-100 border-gray-300 rounded cursor-pointer text-main focus:ring-main focus:ring-2',
 									{ '!bg-gray-400 !ring-0 !cursor-default': isExperience }
 								)}
-								readOnly={isExperience}
-								{...(isExperience && { checked: true })}
+								{...(isExperience && { checked: true, readOnly: true })}
 							/>
 							<label
 								htmlFor="shoesRental"
