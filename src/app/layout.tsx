@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 						<Providers>{children}</Providers>
 					</NextAuth>
 				</ReactQuery>
-				<Analytics />
+				{/* <Analytics /> */}
 				<Toast />
 			</body>
 		</html>
