@@ -8,12 +8,12 @@ const mutationFn = async (body: any) => {
 
 const useCreatePass = () => {
 	const { replace } = useRouter();
-	const { gym } = useParams();
+	const { gym, type } = useParams();
 
 	return useMutation({
 		mutationFn,
 		onSuccess: () => {
-			replace(`/${gym}/complete`);
+			replace(`/${gym}/pass/${type}/complete`);
 		},
 	});
 };

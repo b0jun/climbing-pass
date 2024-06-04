@@ -10,14 +10,13 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 import * as yup from 'yup';
 
+import BottomSheet from '@/components/BottomSheet';
+import Button from '@/components/Button';
+import Signature from '@/components/Signature';
+import Spinner from '@/components/Spinner';
+import TextInput from '@/components/TextInput';
+import TextInputBirth from '@/components/TextInputBirth';
 import useCreatePass from '@/services/useCreatePass';
-
-import BottomSheet from '../BottomSheet';
-import Button from '../Button';
-import Signature from '../Signature';
-import Spinner from '../Spinner';
-import TextInput from '../TextInput';
-import TextInputBirth from '../TextInputBirth';
 
 type FormData = {
 	name: string;
@@ -69,10 +68,9 @@ const ConsentForm = () => {
 	const { mutate, isPending } = useCreatePass();
 	const isSubmitting = isPending || isImageUploading;
 	const overlay = useOverlay();
-	const isExperience = type === 'day-experience';
+	const isExperience = type === 'dayExperience';
 	const passType = isExperience ? '체험' : '이용';
 
-	console.log('methods.watch()', methods.watch());
 	const openSignBottomSheet = () => {
 		return new Promise<string | boolean>((resolve) => {
 			overlay.open(({ isOpen, close, exit }) => (
