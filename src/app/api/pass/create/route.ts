@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { NextRequest, NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma';
@@ -22,8 +21,8 @@ const POST = async (request: NextRequest) => {
 				name,
 				phoneNumber,
 				dateOfBirth,
-				type: type === 'day-pass' ? 'DayPass' : 'DayExperience',
-				shoesRental: type === 'day-pass' ? shoesRental : true,
+				type: type === 'dayPass' ? 'DayPass' : 'DayExperience',
+				shoesRental: type === 'dayPass' ? shoesRental : true,
 				signature,
 				gymId: gym,
 				userId: userData?.userId,
