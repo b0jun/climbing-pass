@@ -45,8 +45,8 @@ const Login = () => {
 			<div className="flex flex-col w-[320px] gap-4 px-4">
 				<h1 className="text-4xl font-semibold">Pass 로그인</h1>
 				<form className="flex flex-col gap-2" onSubmit={handleSubmit(handleLogin)}>
-					<TextInput name="identifier" label="아이디" maxLength={20} />
-					<TextInput name="password" label="비밀번호" maxLength={20} type="password" />
+					<TextInput name="identifier" autoComplete="off" label="아이디" maxLength={20} />
+					<TextInput name="password" autoComplete="off" label="비밀번호" maxLength={20} type="password" />
 					<Button type="submit" label="로그인" disabled={isSubmitting} />
 				</form>
 			</div>
