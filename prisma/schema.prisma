@@ -22,13 +22,14 @@ model Pass {
   gymId       String?
   userId      String?
   gym         Gym?       @relation(fields: [gymId], references: [domain])
-  User        User?      @relation(fields: [userId], references: [id])
+  user        User?      @relation(fields: [userId], references: [id])
 }
 
 model Gym {
   id        String   @id @default(cuid())
   name      String
-  enName    String
+  name_ko   String   @default("")
+  name_en   String   @default("")
   domain    String   @unique
   disabled  Boolean  @default(false)
   logo      String?
@@ -36,7 +37,7 @@ model Gym {
   updatedAt DateTime @updatedAt
   userId    String?
   user      User?    @relation(fields: [userId], references: [id])
-  Pass      Pass[]
+  passes    Pass[]
 }
 
 model User {
@@ -48,7 +49,7 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   gyms       Gym[]
-  Pass       Pass[]
+  passes     Pass[]
 }
 
 enum PassType {

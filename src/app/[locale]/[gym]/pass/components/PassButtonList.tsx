@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 type Props = {
 	dayPass: string;
@@ -10,21 +11,34 @@ type Props = {
 };
 
 const PassButtonList = () => {
+	const t = useTranslations('Pass');
 	const pathname = usePathname();
+	const searchParams = useSearchParams();
+	const lang = searchParams.get('lang');
 	return (
 		<div className="flex-col flex gap-4 xs:flex-row xs:gap-6 mb-20">
 			<Link
-				href={`${pathname}/dayPass/consent`}
+				href={{
+					pathname: `${pathname}/dayPass/consent`,
+					query: {
+						...(lang && { lang }),
+					},
+				}}
 				className="w-full h-24 flex items-center justify-center xs:w-32 xs:h-44 rounded-md shadow-lg text-darkBlue bg-lightBlue"
 			>
-				<h3 className="font-bold text-base xs:text-xl">일일이용</h3>
+				<h3 className="font-bold text-base xs:text-xl">{t('dayPass')}</h3>
 			</Link>
 			<Link
-				href={`${pathname}/dayExperience/consent`}
+				href={{
+					pathname: `${pathname}/dayExperience/consent`,
+					query: {
+						...(lang && { lang }),
+					},
+				}}
 				className="w-full h-24 flex flex-col items-center justify-center xs:w-32 xs:h-44 rounded-md shadow-lg text-extraDarkBlue bg-extraLightBlue"
 			>
-				<h3 className="font-bold xs:mt-6 text-center text-base xs:text-xl">일일체험</h3>
-				<p className="text-xs xs:text-sm">(클라이밍 첫 이용)</p>
+				<h3 className="font-bold xs:mt-6 text-center text-base xs:text-xl">{t('dayExperience')}</h3>
+				<p className="text-xs xs:text-sm">({t('firstVisit')})</p>
 			</Link>
 		</div>
 	);
