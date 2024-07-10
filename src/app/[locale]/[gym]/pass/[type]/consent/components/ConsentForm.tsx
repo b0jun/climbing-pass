@@ -24,8 +24,9 @@ const PassCreateSchema = (t: (key: string) => string, isEn: boolean) =>
 		name: z
 			.string()
 			.min(1, t('nameMin'))
-			.regex(/^[가-힣a-zA-Z]+$/, t('nameRegex'))
-			.max(30, t('nameMax')),
+			.regex(/^(?!\s*$)[가-힣a-zA-Z\s]*$/, t('nameRegex'))
+			.max(30, t('nameMax'))
+			.transform((val) => val.trim()),
 		phoneNumber: isEn
 			? z.string().optional()
 			: z.string().min(1, t('phoneNumberMin')).min(10, t('phoneNumberRegex')),
