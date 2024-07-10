@@ -50,7 +50,7 @@ const Home = () => {
 								className="w-full justify-center border rounded-md border-black bg-stone-300/60 flex px-6 py-2 gap-1"
 							>
 								<h4 className="whitespace-nowrap">로그인이 필요해요</h4>
-								<Image src="icons/ic_lock.svg" width={24} height={24} alt="" />
+								<Image src="/icons/ic_lock.svg" width={24} height={24} alt="" />
 							</Link>
 						</div>
 					</div>

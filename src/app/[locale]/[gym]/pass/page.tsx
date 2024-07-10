@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 import Header from '@/components/Header';
 
@@ -7,6 +8,7 @@ import PassButtonList from './components/PassButtonList';
 export const dynamicParams = false;
 
 const Pass = () => {
+	const t = useTranslations('Pass');
 	return (
 		<main className="max-w-xl flex flex-col min-h-full mx-auto shadow-mobile">
 			<Header bg="bg-contents" />
@@ -19,8 +21,8 @@ const Pass = () => {
 							</div>
 						</div>
 						<div className="px-3 mb-8 text-center">
-							<h2 className="mb-2 text-3xl font-black text-extraDarkBlue">이용권 선택</h2>
-							<h2 className="text-lg font-bold opacity-80">이용권 유형을 선택해주세요.</h2>
+							<h2 className="mb-2 text-3xl font-black text-extraDarkBlue">{t('selectPass')}</h2>
+							<h2 className="text-lg font-bold opacity-80">{t('selectPassDesc')}</h2>
 						</div>
 						<PassButtonList />
 					</div>

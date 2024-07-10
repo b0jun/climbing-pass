@@ -1,24 +1,24 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
+import { CustomError } from './CustomError';
+
 interface SignOption {
 	expiresIn?: string | number;
 }
 
 const DEFAULT_SIGN_OPTION: SignOption = {
-	expiresIn: '7d',
+	expiresIn: '15d',
 };
 
 export function signJwtAccessToken(payload: JwtPayload, options: SignOption = DEFAULT_SIGN_OPTION) {
-	const secret_key = process.env.SECRET_KEY;
+	const secret_key = process.env.JWT_SECRET;
 	const token = jwt.sign(payload, secret_key!, options);
 	return token;
 }
-class CustomError extends Error {
-	code: number | undefined;
-}
+
 export function verifyJwt(token: string) {
 	try {
-		const secret_key = process.env.SECRET_KEY;
+		const secret_key = process.env.JWT_SECRET;
 		const decoded = jwt.verify(token, secret_key!);
 		return decoded as JwtPayload;
 	} catch (e: any) {

@@ -1,9 +1,19 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: false,
 	images: {
-		domains: ['rgb3lh2iesbgvjl4.public.blob.vercel-storage.com'],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'rgb3lh2iesbgvjl4.public.blob.vercel-storage.com',
+				pathname: '**',
+			},
+		],
 	},
 };
 
-module.exports = nextConfig;
+module.exports = withNextIntl(nextConfig);

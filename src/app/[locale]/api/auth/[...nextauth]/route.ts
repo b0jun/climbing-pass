@@ -1,3 +1,4 @@
+import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -6,20 +7,12 @@ import type { NextAuthOptions } from 'next-auth';
 const AuthOptions: NextAuthOptions = {
 	providers: [
 		CredentialsProvider({
-			// The name to display on the sign in form (e.g. "Sign in with...")
 			name: 'Credentials',
-			// `credentials` is used to generate a form on the sign in page.
-			// You can specify which fields should be submitted, by adding keys to the `credentials` object.
-			// e.g. domain, username, password, 2FA token, etc.
-			// You can pass any HTML attribute to the <input> tag through the object.
 			credentials: {
-				identifier: {
-					label: '아이디',
-					type: 'text',
-				},
-				password: { label: '비밀번호', type: 'password' },
+				identifier: {},
+				password: {},
 			},
-			async authorize(credentials, req) {
+			async authorize(credentials) {
 				const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/login`, {
 					method: 'POST',
 					headers: {
@@ -32,7 +25,7 @@ const AuthOptions: NextAuthOptions = {
 				});
 				const user = await res.json();
 
-				if (user) {
+				if (res.ok && user) {
 					return user;
 				} else {
 					return null;
@@ -41,12 +34,17 @@ const AuthOptions: NextAuthOptions = {
 		}),
 	],
 	callbacks: {
-		async jwt({ token, user }) {
-			return { ...token, ...user };
+		async jwt({ token, user }: any) {
+			if (user) {
+				token.accessToken = user.accessToken;
+			}
+			return token;
 		},
 
-		async session({ session, token }) {
-			session.user = token as any;
+		async session({ session, token }: { session: any; token: JWT }) {
+			session.user = token;
+			session.accessToken = token.accessToken;
+			session.error = token.error;
 			return session;
 		},
 	},
