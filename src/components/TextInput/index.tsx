@@ -6,10 +6,11 @@ import type { InputHTMLAttributes } from 'react';
 type Props = {
 	name: string;
 	label: string;
+	isOptional?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const TextInput = (props: Props) => {
-	const { name, label, onChange: inputOnChange, ...rest } = props;
+	const { name, label, isOptional, onChange: inputOnChange, ...rest } = props;
 	const {
 		register,
 		clearErrors,
@@ -48,6 +49,7 @@ const TextInput = (props: Props) => {
 			>
 				{label}
 			</label>
+			{isOptional && <p className="absolute top-2 right-2 text-xs text-gray-400">Optional</p>}
 			{isError && <p className="text-sm text-error mt-2 ml-2">{errorMessage}</p>}
 		</div>
 	);
