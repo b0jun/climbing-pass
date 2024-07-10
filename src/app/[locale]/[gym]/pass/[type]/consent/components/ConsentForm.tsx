@@ -7,7 +7,7 @@ import cn from 'classnames';
 import { useParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 import { z } from 'zod';
 
@@ -18,22 +18,17 @@ import Spinner from '@/components/Spinner';
 import TextInput from '@/components/TextInput';
 import TextInputBirth from '@/components/TextInputBirth';
 import useCreatePass from '@/services/useCreatePass';
-type FormData = {
-	name: string;
-	phoneNumber: string;
-	dateOfBirth: string;
-	shoesRental: boolean;
-	consent: boolean;
-};
 
-const PassCreateSchema = (t: (key: string) => string) =>
+const PassCreateSchema = (t: (key: string) => string, isEn: boolean) =>
 	z.object({
 		name: z
 			.string()
 			.min(1, t('nameMin'))
 			.regex(/^[가-힣a-zA-Z]+$/, t('nameRegex'))
 			.max(30, t('nameMax')),
-		phoneNumber: z.string().min(1, t('phoneNumberMin')).min(10, t('phoneNumberRegex')),
+		phoneNumber: isEn
+			? z.string().optional()
+			: z.string().min(1, t('phoneNumberMin')).min(10, t('phoneNumberRegex')),
 		dateOfBirth: z
 			.string()
 			.min(1, t('dateOfBirthMin'))
@@ -47,8 +42,10 @@ type PassCreateSchemaType = z.infer<ReturnType<typeof PassCreateSchema>>;
 const ConsentForm = ({ gymData }: any) => {
 	const t = useTranslations('Consent');
 	const t2 = useTranslations('Pass');
+	const locale = useLocale();
+	const isEn = locale === 'en';
 	const methods = useForm<PassCreateSchemaType>({
-		resolver: zodResolver(PassCreateSchema(t)),
+		resolver: zodResolver(PassCreateSchema(t, isEn)),
 		mode: 'onBlur',
 		defaultValues: {
 			name: '',
@@ -66,7 +63,6 @@ const ConsentForm = ({ gymData }: any) => {
 	} = methods;
 	const overlay = useOverlay();
 	const { gym, type } = useParams();
-	const locale = useLocale();
 	const [isImageUploading, setIsImageUploading] = useState(false);
 	const { mutate, isPending } = useCreatePass();
 	const isSubmitting = isPending || isImageUploading;
@@ -102,7 +98,7 @@ const ConsentForm = ({ gymData }: any) => {
 		});
 	};
 
-	const onSubmit = async (data: FormData) => {
+	const onSubmit: SubmitHandler<PassCreateSchemaType> = async (data) => {
 		const signData = await openSignBottomSheet();
 		if (!signData) {
 			return;
@@ -130,7 +126,7 @@ const ConsentForm = ({ gymData }: any) => {
 			<div className="px-5 mt-5">
 				<h1
 					className={cn('whitespace-pre-wrap mt-4 mb-6 text-lg font-bold text-center', {
-						['!text-base']: locale === 'en',
+						['!text-base']: isEn,
 					})}
 				>
 					<span className="text-darkBlue">{gymName}</span>
@@ -145,6 +141,7 @@ const ConsentForm = ({ gymData }: any) => {
 						onChange={(e) => setValue('phoneNumber', e.target.value.replace(/[^0-9]/g, ''))}
 						maxLength={11}
 						inputMode="numeric"
+						{...(isEn && { isOptional: true })}
 					/>
 					<Controller
 						control={control}
