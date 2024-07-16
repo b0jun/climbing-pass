@@ -29,7 +29,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 				// ⚠️ This will not work on `localhost` websites,
 				// Use ngrok or similar to get the full upload flow
 
-				console.log('blob upload completed', blob, tokenPayload);
+				// console.log('blob upload completed', blob, tokenPayload);
 
 				try {
 					// Run any logic after the file upload completed
