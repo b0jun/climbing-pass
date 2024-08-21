@@ -212,7 +212,7 @@ const Manager = () => {
 	}
 
 	return (
-		<div className="w-full max-w-5xl mx-auto">
+		<div className="w-full">
 			<div className="inline-block min-w-full align-middle">
 				<div className="px-6 bg-stone-200 min-h-[100px] p-2">
 					<div className="flex justify-between items-center">
@@ -267,7 +267,7 @@ const Manager = () => {
 						<span>새로고침</span>
 					</button>
 				</div>
-				<table className="w-full text-sm text-left rtl:text-right text-gray-500 lg:table-fixed">
+				<table className="w-full text-sm text-left rtl:text-right text-gray-500">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
 							{tableHeaderList.map((item, index) => (
@@ -298,9 +298,11 @@ const Manager = () => {
 											<td className="px-4 py-4 whitespace-nowrap">
 												{data.passList.length - index}
 											</td>
-											<td className="px-4 py-4 font-medium text-gray-900 truncate">{name}</td>
+											<td className="px-4 py-4 font-medium text-gray-900">{name}</td>
 											<td className="px-4 py-4 whitespace-nowrap">{phoneNumber}</td>
-											<td className="px-4 py-4 whitespace-nowrap">{dateOfBirth}</td>
+											<td className="px-4 py-4 whitespace-nowrap">
+												{dayjs(dateOfBirth).format('YYYY')}
+											</td>
 											<td className="px-4 py-4 whitespace-nowrap">
 												{dayjs(createdAt).format('h:mm A')}
 											</td>

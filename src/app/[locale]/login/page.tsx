@@ -1,7 +1,9 @@
 'use client';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -24,6 +26,14 @@ const formInit = () => {
 };
 
 const Login = () => {
+	const { status } = useSession();
+	const router = useRouter();
+	useEffect(() => {
+		if (status === 'authenticated') {
+			router.replace('/home');
+		}
+	}, [status, router]);
+
 	const methods = useForm<FormData>({ ...formInit(), mode: 'onBlur' });
 	const {
 		handleSubmit,
@@ -32,13 +42,17 @@ const Login = () => {
 
 	const handleLogin = async (data: FormData) => {
 		const { identifier, password } = data;
-		await signIn('credentials', {
+		const temp = await signIn('credentials', {
 			identifier,
 			password,
-			redirect: true,
+			redirect: false,
 			callbackUrl: '/home',
 		});
+		console.log('temp', temp);
 	};
+	if (status === 'loading') {
+		return <p>Loading...</p>;
+	}
 
 	return (
 		<FormProvider {...methods}>

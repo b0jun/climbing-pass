@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
 
+import { CustomError } from '@/lib/CustomError';
 import { signJwtAccessToken } from '@/lib/jwt';
 import prisma from '@/lib/prisma';
 
@@ -18,17 +19,24 @@ const POST = async (request: NextRequest) => {
 			},
 		});
 
-		if (user && (await bcrypt.compare(body.password, user.password))) {
-			const { password, ...userWithoutPassword } = user;
-			const accessToken = signJwtAccessToken(userWithoutPassword);
-			const result = {
-				accessToken,
-			};
-
-			return NextResponse.json(result);
+		if (!user) {
+			throw new CustomError('no user', 400);
 		}
+
+		if (!(await bcrypt.compare(body.password, user.password))) {
+			throw new CustomError('not match', 400);
+		}
+
+		const { password, ...userWithoutPassword } = user;
+		const accessToken = signJwtAccessToken(userWithoutPassword);
+		const result = {
+			accessToken,
+		};
+
+		return NextResponse.json(result);
 	} catch (e: any) {
-		return NextResponse.json({ message: e.message }, { status: e.code });
+		const { message, status } = e;
+		return NextResponse.json({ message }, { status });
 	}
 };
 

@@ -2,6 +2,8 @@ import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+import { CustomError } from '@/lib/CustomError';
+
 import type { NextAuthOptions } from 'next-auth';
 
 const AuthOptions: NextAuthOptions = {
@@ -13,22 +15,25 @@ const AuthOptions: NextAuthOptions = {
 				password: {},
 			},
 			async authorize(credentials) {
-				const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/login`, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						identifier: credentials?.identifier,
-						password: credentials?.password,
-					}),
-				});
-				const user = await res.json();
-
-				if (res.ok && user) {
-					return user;
-				} else {
-					return null;
+				try {
+					const res = await fetch(`${process.env.NEXTAUTH_URL}/api/user/login`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({
+							identifier: credentials?.identifier,
+							password: credentials?.password,
+						}),
+					});
+					const result = await res.json();
+					if (res.ok && result) {
+						return result;
+					} else {
+						throw new Error(result.message);
+					}
+				} catch (error: any) {
+					throw new Error(error.message);
 				}
 			},
 		}),

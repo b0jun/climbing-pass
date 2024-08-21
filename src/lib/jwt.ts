@@ -22,8 +22,6 @@ export function verifyJwt(token: string) {
 		const decoded = jwt.verify(token, secret_key!);
 		return decoded as JwtPayload;
 	} catch (e: any) {
-		const error = new CustomError(e.name);
-		error.code = 401;
-		throw error;
+		throw new CustomError(e.name, 401);
 	}
 }
