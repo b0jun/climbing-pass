@@ -2,7 +2,7 @@
 <img alt="node" src="https://img.shields.io/badge/node-v20.17.0-green" />
 <img alt="npm" src="https://img.shields.io/badge/npm-v10.8.2-blue" />
 </p>
-<h1 align="center"> 🎬 📝 클라이밍 전자동의서 시스템</h1>
+<h1 align="center"> 📝 클라이밍 전자동의서 시스템</h1>
 
 실내암벽센터에서 일일이용자들을 위한 전자일일이용 동의서 시스템입니다. 
 
