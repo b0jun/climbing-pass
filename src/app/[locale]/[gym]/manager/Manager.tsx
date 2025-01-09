@@ -292,10 +292,10 @@ const Manager = () => {
                       <td className="px-4 py-4 whitespace-nowrap">{phoneNumber}</td>
                       <td
                         className={cn('px-4 py-4 whitespace-nowrap', {
-                          ['font-semibold text-amber-600']: totalVisits === 0,
+                          ['font-semibold text-amber-600']: totalVisits === 1,
                         })}
                       >
-                        {totalVisits === 0 ? `첫방문` : `${totalVisits}회`}
+                        {totalVisits === 1 ? `첫방문` : `${totalVisits}회`}
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap">{dateOfBirth}</td>
                       <td className="px-4 py-4 whitespace-nowrap">{dayjs(createdAt).format('h:mm A')}</td>

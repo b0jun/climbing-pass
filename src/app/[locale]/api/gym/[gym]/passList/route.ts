@@ -90,9 +90,7 @@ const GET = async (request: NextRequest, context: any) => {
         _all: true,
       },
     });
-    const visitCountsMap = Object.fromEntries(
-      visitCounts.map((v) => [`${v.name}-${v.phoneNumber}`, v._count._all - 1])
-    );
+    const visitCountsMap = Object.fromEntries(visitCounts.map((v) => [`${v.name}-${v.phoneNumber}`, v._count._all]));
     const passDataWithCounts = passData.map((pass) => {
       const key = `${pass.name}-${pass.phoneNumber}`;
       return {
