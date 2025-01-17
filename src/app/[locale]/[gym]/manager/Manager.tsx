@@ -19,8 +19,8 @@ import useChangePassStatus from '@/services/useChangePassStatus';
 import useDeletePass from '@/services/useDeletePass';
 import usePassList from '@/services/usePassList';
 
-import 'react-datepicker/dist/react-datepicker.css';
 import PassUpdateFormModal from './PassUpdateFormModal';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const tableHeaderList = [
   '순번',
