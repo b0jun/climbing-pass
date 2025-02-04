@@ -108,7 +108,7 @@ const PassList = () => {
         >
           <p className="text-[14px] text-black/60">
             입장 상태가
-            <span className="bg-gray-100 mx-2 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">대기</span>
+            <span className="mx-2 rounded bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">대기</span>
             상태로 변경됩니다.
           </p>
         </Modal>
@@ -142,13 +142,13 @@ const PassList = () => {
           }}
           confirmLabel="삭제"
         >
-          <div className="p-2 bg-[#F4F7F9] rounded-md border flex flex-col gap-2">
-            <p className="text-[14px] text-black/60 flex">
-              <span className="text-gray-500 font-bold w-[60px]">이름</span>
+          <div className="flex flex-col gap-2 rounded-md border bg-[#F4F7F9] p-2">
+            <p className="flex text-[14px] text-black/60">
+              <span className="w-[60px] font-bold text-gray-500">이름</span>
               {name}
             </p>
-            <p className="text-[14px] text-black/60 flex">
-              <span className="text-gray-500 font-bold w-[60px]">전화번호</span>
+            <p className="flex text-[14px] text-black/60">
+              <span className="w-[60px] font-bold text-gray-500">전화번호</span>
               {phoneNumber}
             </p>
           </div>
@@ -195,12 +195,12 @@ const PassList = () => {
   // TODO: 로그인 상태 아닐때만 로그인하러 가기 보내기
   if (error) {
     return (
-      <div className="bg-black/10 flex flex-1 items-center justify-center flex-col gap-4">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 bg-black/10">
         {(error as any).response.data.errorMessage}
         <button
           type="button"
           onClick={() => router.replace('/home')}
-          className="bg-blue-300 px-3 py-1 rounded-md w-[150px]"
+          className="w-[150px] rounded-md bg-blue-300 px-3 py-1"
         >
           로그인 하러가기
         </button>
@@ -209,11 +209,11 @@ const PassList = () => {
   }
 
   return (
-    <div className="w-full inline-block overflow-hidden align-middle bg-[#fff] rounded-[10px]">
-      <div className="min-h-[80px] flex items-center px-4 justify-between">
+    <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle">
+      <div className="flex min-h-[80px] items-center justify-between px-4">
         <button
           type="button"
-          className="bg-gray-50 border text-[14px] border-gray-500 p-2 rounded-lg flex items-center gap-2 transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
+          className="flex items-center gap-2 rounded-lg border border-gray-500 bg-gray-50 p-2 text-[14px] transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
           onClick={refreshPassList}
         >
           <RefreshIcon />
@@ -222,7 +222,7 @@ const PassList = () => {
           {/* 패스유형 */}
           <select
             id="passType"
-            className="bg-gray-50 border border-gray-500 text-gray-900 text-[14px] w-[100px] rounded-lg px-2 py-1"
+            className="w-[100px] rounded-lg border border-gray-500 bg-gray-50 px-2 py-1 text-[14px] text-gray-900"
             onChange={handleChangePassType}
             defaultValue={passType ?? ''}
           >
@@ -231,7 +231,7 @@ const PassList = () => {
             <option value="DayExperience">일일체험</option>
           </select>
           {/* 날짜 */}
-          <div className="h-[50px] flex items-center">
+          <div className="flex h-[50px] items-center">
             <DatePicker
               ref={datepickerRef}
               popperPlacement="bottom-start"
@@ -239,10 +239,10 @@ const PassList = () => {
               onChange={handleChangeDate}
               dateFormat="yyyy/MM/dd"
               customInput={
-                <input id="passDate" className="text-[14px] w-[100px] rounded-lg px-2 py-1 border-gray-500" />
+                <input id="passDate" className="w-[100px] rounded-lg border-gray-500 px-2 py-1 text-[14px]" />
               }
             >
-              <button type="button" onClick={setDateToToday} className="bg-emerald-500 text-white py-1 px-2 rounded-sm">
+              <button type="button" onClick={setDateToToday} className="rounded-sm bg-emerald-500 px-2 py-1 text-white">
                 Today
               </button>
             </DatePicker>
@@ -250,11 +250,11 @@ const PassList = () => {
         </div>
       </div>
       <div className="relative overflow-x-auto">
-        <table className="w-full overflow-x-auto text-sm text-left text-gray-500">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+        <table className="w-full overflow-x-auto text-left text-sm text-gray-500">
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700">
             <tr>
               {tableHeaderList.map((item, index) => (
-                <th key={item} scope="col" className="px-4 py-3 whitespace-nowrap last:text-right">
+                <th key={item} scope="col" className="whitespace-nowrap px-4 py-3 last:text-right">
                   {index === tableHeaderList.length - 1 ? (
                     <span>
                       총 이용자 수: <span className="text-main">{data?.passList?.length ?? 0}</span>명
@@ -269,33 +269,33 @@ const PassList = () => {
           <tbody>
             {isPending ? (
               Array.from({ length: 5 }).map((_, index) => (
-                <tr key={index} className="bg-white border-b hover:bg-gray-50 group last:border-b-0">
-                  <td className="px-4 h-[65px] w-[56px] whitespace-nowrap">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                <tr key={index} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
+                  <td className="h-[] w-[56px] whitespace-nowrap px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[72px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[72px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[128px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[128px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[78px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[78px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[113px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[113px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[103px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[103px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[82px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[82px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[93px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[93px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="px-4 h-[65px] w-[82px]">
-                    <div className="h-5 bg-gray-200 animate-pulse rounded"></div>
+                  <td className="h-[] w-[82px] px-4">
+                    <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
                 </tr>
               ))
@@ -303,48 +303,48 @@ const PassList = () => {
               data.passList.map(
                 (
                   { id, name, phoneNumber, totalVisits, dateOfBirth, type, shoesRental, status, createdAt }: any,
-                  index: number
+                  index: number,
                 ) => (
-                  <tr key={id} className="bg-white border-b hover:bg-gray-50 group last:border-b-0">
-                    <td className="px-4 py-4 whitespace-nowrap">{data.passList.length - index}</td>
-                    <td className="px-4 py-4 font-medium text-gray-900 truncate">{name}</td>
-                    <td className="px-4 py-4 whitespace-nowrap">{phoneNumber}</td>
+                  <tr key={id} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
+                    <td className="whitespace-nowrap px-4 py-4">{data.passList.length - index}</td>
+                    <td className="truncate px-4 py-4 font-medium text-gray-900">{name}</td>
+                    <td className="whitespace-nowrap px-4 py-4">{phoneNumber}</td>
                     <td
-                      className={`px-4 py-4 whitespace-nowrap ${
+                      className={`whitespace-nowrap px-4 py-4 ${
                         totalVisits === 1 ? 'font-semibold text-amber-600' : ''
                       }`}
                     >
                       {totalVisits === 1 ? '첫 방문' : `${totalVisits}회`}
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">{dateOfBirth}</td>
-                    <td className="px-4 py-4 whitespace-nowrap">{dayjs(createdAt).format('h:mm A')}</td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-4 py-4">{dateOfBirth}</td>
+                    <td className="whitespace-nowrap px-4 py-4">{dayjs(createdAt).format('h:mm A')}</td>
+                    <td className="whitespace-nowrap px-4 py-4">
                       <span
-                        className={`px-2.5 py-0.5 rounded text-xs font-medium ${
+                        className={`rounded px-2.5 py-0.5 text-xs font-medium ${
                           type === 'DayPass' ? 'bg-gray-100 text-gray-800' : 'bg-yellow-100 text-yellow-800'
                         }`}
                       >
                         {type === 'DayPass' ? '이용' : '체험'}
                       </span>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-4 py-4">
                       <ClimbingShoesIcon shoesRental={shoesRental} />
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-4 py-4">
                       <span
-                        className={`px-2.5 py-0.5 rounded text-xs font-medium ${
+                        className={`rounded px-2.5 py-0.5 text-xs font-medium ${
                           status === 'WAIT' ? 'bg-gray-100 text-gray-800' : 'bg-green-100 text-green-800'
                         }`}
                       >
                         {status === 'WAIT' ? '대기' : '승인'}
                       </span>
                     </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
+                    <td className="whitespace-nowrap px-4 py-4">
                       <div className="flex justify-between">
                         {status === 'WAIT' ? (
                           <button
                             type="button"
-                            className="bg-gray-100 text-gray-800 group text-xs font-medium px-2 py-1 rounded border border-gray-500 hover:bg-green-200 transition-all"
+                            className="group rounded border border-gray-500 bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 transition-all hover:bg-green-200"
                             onClick={() => changePassStatus({ id, status: 'APPROVED' })}
                           >
                             입장
@@ -352,29 +352,29 @@ const PassList = () => {
                         ) : (
                           <button
                             type="button"
-                            className="bg-gray-100 text-gray-800 text-xs font-medium px-2 py-1 rounded border border-gray-500 hover:bg-gray-200 transition-all"
+                            className="rounded border border-gray-500 bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 transition-all hover:bg-gray-200"
                             onClick={() => handleCancelPass(id)}
                           >
                             취소
                           </button>
                         )}
-                        <div className="ml-4 flex gap-1 invisible group-hover:visible">
+                        <div className="invisible ml-4 flex gap-1 group-hover:visible">
                           <button
                             type="button"
-                            className="flex items-center p-1 rounded-md hover:bg-gray-200"
+                            className="flex items-center rounded-md p-1 hover:bg-gray-200"
                             onClick={() => handleUpdate({ id, name, shoesRental, type })}
                           >
                             <EditIcon />
                           </button>
                           <Link
                             href={`/${gym}/info/passDetail?id=${id}`}
-                            className="flex items-center p-1 rounded-md hover:bg-gray-200"
+                            className="flex items-center rounded-md p-1 hover:bg-gray-200"
                           >
                             <PassViewIcon />
                           </Link>
                           <button
                             type="button"
-                            className="text-red-800 text-xs font-bold flex items-center p-1 rounded-md hover:bg-gray-200"
+                            className="flex items-center rounded-md p-1 text-xs font-bold text-red-800 hover:bg-gray-200"
                             onClick={() => handleDeletePass({ id, name, phoneNumber })}
                           >
                             <PassDeleteIcon />
@@ -383,7 +383,7 @@ const PassList = () => {
                       </div>
                     </td>
                   </tr>
-                )
+                ),
               )
             ) : (
               <tr>
