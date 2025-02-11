@@ -184,14 +184,6 @@ const PassList = () => {
     ));
   };
 
-  // if (isPending) {
-  //   return (
-  //     <div className="bg-[#fff] rounded-[10px] min-h-[300px] flex flex-1 justify-center items-center">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
-
   // TODO: 로그인 상태 아닐때만 로그인하러 가기 보내기
   if (error) {
     return (
@@ -270,31 +262,31 @@ const PassList = () => {
             {isPending ? (
               Array.from({ length: 5 }).map((_, index) => (
                 <tr key={index} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
-                  <td className="h-[] w-[56px] whitespace-nowrap px-4">
+                  <td className="h-[65px] w-[56px] whitespace-nowrap px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[72px] px-4">
+                  <td className="h-[65px] w-[72px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[128px] px-4">
+                  <td className="h-[65px] w-[128px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[78px] px-4">
+                  <td className="h-[65px] w-[78px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[113px] px-4">
+                  <td className="h-[65px] w-[113px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[103px] px-4">
+                  <td className="h-[65px] w-[103px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[82px] px-4">
+                  <td className="h-[65px] w-[82px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[93px] px-4">
+                  <td className="h-[65px] w-[93px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[] w-[82px] px-4">
+                  <td className="h-[65px] w-[82px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
                 </tr>
