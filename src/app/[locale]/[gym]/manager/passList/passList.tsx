@@ -262,31 +262,31 @@ const PassList = () => {
             {isPending ? (
               Array.from({ length: 5 }).map((_, index) => (
                 <tr key={index} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
-                  <td className="h-[65px] w-[56px] whitespace-nowrap px-4">
+                  <td className="h-[65px] min-w-[56px] whitespace-nowrap px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[72px] px-4">
+                  <td className="h-[65px] min-w-[72px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[128px] px-4">
+                  <td className="h-[65px] min-w-[128px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[78px] px-4">
+                  <td className="h-[65px] min-w-[78px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[113px] px-4">
+                  <td className="h-[65px] min-w-[113px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[103px] px-4">
+                  <td className="h-[65px] min-w-[103px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[82px] px-4">
+                  <td className="h-[65px] min-w-[82px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[93px] px-4">
+                  <td className="h-[65px] min-w-[93px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
-                  <td className="h-[65px] w-[82px] px-4">
+                  <td className="h-[65px] min-w-[82px] px-4">
                     <div className="h-5 animate-pulse rounded bg-gray-200"></div>
                   </td>
                 </tr>
