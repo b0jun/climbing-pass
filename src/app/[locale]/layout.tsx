@@ -33,7 +33,6 @@ export default async function RootLayout({
   params: { locale: string };
 }) {
   const messages = await getMessages();
-  console.log('###VERCEL_URL:', process.env.VERCEL_URL);
 
   return (
     <html lang={locale}>

@@ -18,6 +18,7 @@ class InvalidCredentialsError extends AuthError {
 }
 
 export const authOptions: NextAuthConfig = {
+  trustHost: true,
   providers: [
     CredentialsProvider({
       name: 'Credentials',
