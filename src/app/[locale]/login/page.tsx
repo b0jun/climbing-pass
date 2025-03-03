@@ -41,7 +41,6 @@ const Login = () => {
       window.location.href = '/home';
     }
   };
-  console.log('VERCEL_URL:', process.env.VERCEL_URL);
 
   return (
     <FormProvider {...methods}>
