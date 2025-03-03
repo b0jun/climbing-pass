@@ -26,7 +26,6 @@ export const authOptions: NextAuthConfig = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials: Partial<Record<'identifier' | 'password', unknown>>) {
-        console.log('VERCEL_URL:', process.env.VERCEL_URL);
         if (!credentials?.identifier || !credentials?.password) {
           throw new InvalidCredentialsError('Missing credentials');
         }
