@@ -5,7 +5,7 @@ import { getToken } from 'next-auth/jwt';
 import { verifyJwt } from '@/lib/jwt';
 import prisma from '@/lib/prisma';
 
-const secret = process.env.NEXTAUTH_SECRET;
+const secret = process.env.AUTH_SECRET;
 
 const GET = async (request: NextRequest, context: any) => {
   try {
@@ -18,7 +18,7 @@ const GET = async (request: NextRequest, context: any) => {
         { errorMessage: 'No Auth' },
         {
           status: 401,
-        }
+        },
       );
     }
     const gymData = await prisma.gym.findFirst({
@@ -36,7 +36,7 @@ const GET = async (request: NextRequest, context: any) => {
         { errorMessage: 'No Permission' },
         {
           status: 403,
-        }
+        },
       );
     }
 
@@ -106,7 +106,7 @@ const GET = async (request: NextRequest, context: any) => {
       },
       {
         status: 200,
-      }
+      },
     );
   } catch (e: any) {
     return NextResponse.json({ message: e.message }, { status: e.code });
