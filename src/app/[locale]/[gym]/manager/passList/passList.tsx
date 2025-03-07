@@ -38,44 +38,36 @@ const PassList = () => {
   const router = useRouter();
   const { gym } = useParams();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const overlay = useOverlay();
-  const { createQueryString, deleteQueryString } = useQueryString();
+  const { updateQueryString } = useQueryString();
   const { data, isPending, error } = usePassList();
   const { status } = useSession();
 
   const { mutate: deletePass } = useDeletePass();
   const { mutate: changePassStatus } = useChangePassStatus();
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.replace('/home');
-    }
-  }, [status, router]);
+
+  if (status === 'unauthenticated') {
+    router.replace('/home');
+    return null;
+  }
 
   const today = dayjs().format('YYYY/MM/DD');
-  const searchParams = useSearchParams();
-  const passType = searchParams.get('passType');
+  const passType = searchParams.get('passType') ?? '';
   const passDate = searchParams.get('passDate') ?? today;
 
   const handleChangePassType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const passType = event.target.value;
-    let queryString;
-    if (!passType) {
-      queryString = deleteQueryString('passType');
-    } else {
-      queryString = createQueryString('passType', passType);
-    }
-    router.replace(`${pathname}?${queryString}`);
+    router.replace(`${pathname}?${updateQueryString('passType', event.target.value || undefined)}`);
   };
 
   const handleChangeDate = (date: Date) => {
-    const queryString = createQueryString('passDate', dayjs(date).format('YYYY/MM/DD'));
+    const queryString = updateQueryString('passDate', dayjs(date).format('YYYY/MM/DD'));
     router.replace(`${pathname}?${queryString}`);
   };
 
   const setDateToToday = () => {
-    const queryString = deleteQueryString('passDate');
-    router.replace(`${pathname}?${queryString}`);
+    router.replace(`${pathname}?${updateQueryString('passDate', undefined)}`);
     datepickerRef.current?.setOpen(false);
   };
 
@@ -216,7 +208,7 @@ const PassList = () => {
             id="passType"
             className="w-[100px] rounded-lg border border-gray-500 bg-gray-50 px-2 py-1 text-[14px] text-gray-900"
             onChange={handleChangePassType}
-            defaultValue={passType ?? ''}
+            defaultValue={passType}
           >
             <option value="">패스 유형</option>
             <option value="DayPass">일일이용</option>
