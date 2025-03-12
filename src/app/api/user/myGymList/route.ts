@@ -1,28 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 
-import { verifyJwt } from '@/lib/jwt';
+import { auth } from '@/auth';
 import prisma from '@/lib/prisma';
-
-const secret = process.env.AUTH_SECRET;
+import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
 const GET = async (request: NextRequest) => {
   try {
-    const token = await getToken({ req: request, secret });
-    const userData = verifyJwt(token?.accessToken as string);
-    if (!userData) {
-      return NextResponse.json(
-        { errorMessage: userData },
-        {
-          status: 401,
-        },
-      );
-    }
+    const cookieStore = await cookies();
+    console.log('cookie:', cookieStore);
 
-    const { id } = userData;
+    const session = await auth();
+    console.log('@@@@@session SERVER:', session);
+    // if (!session || !session.user?.id) {
+    //   return NextResponse.json({ errorMessage: 'Unauthorized' }, { status: 401 });
+    // }
 
+    // const id = session.user.id;
+    const id = 'clvffhawu0000y5hax0mmu4ny';
     const data = await prisma.gym.findMany({
       where: {
         disabled: false,
