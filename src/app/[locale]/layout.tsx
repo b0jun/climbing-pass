@@ -4,7 +4,6 @@ import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
-import NextAuth from '@/components/Provider/NextAuth';
 import ReactQuery from '@/components/Provider/ReactQuery';
 import Providers from '@/components/Providers';
 import Toast from '@/components/Toast';
@@ -41,11 +40,9 @@ export default async function RootLayout({
       </head>
       <body className={`${notoSansKr.className} ${notoSans.className}`}>
         <ReactQuery>
-          <NextAuth>
-            <NextIntlClientProvider messages={messages}>
-              <Providers>{children}</Providers>
-            </NextIntlClientProvider>
-          </NextAuth>
+          <NextIntlClientProvider messages={messages}>
+            <Providers>{children}</Providers>
+          </NextIntlClientProvider>
         </ReactQuery>
         {/* <Analytics /> */}
         <Toast />
