@@ -1,10 +1,13 @@
-import Header from './Header';
+import { auth } from '@/auth';
+import HomeHeader from './components/HomeHeader';
 
 export default async function Layout(props: { children: React.ReactNode }) {
-	return (
-		<main className="max-w-xl flex flex-col min-h-full mx-auto shadow-mobile">
-			<Header />
-			<div className="flex-1 flex justify-center items-center bg-contents">{props.children}</div>
-		</main>
-	);
+  const session = await auth();
+  const isLogin = !!session;
+  return (
+    <main className="mx-auto flex min-h-full max-w-xl flex-col shadow-mobile">
+      <HomeHeader isLogin={isLogin} />
+      <div className="flex flex-1 flex-col bg-contents">{props.children}</div>
+    </main>
+  );
 }
