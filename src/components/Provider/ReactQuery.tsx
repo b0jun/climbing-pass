@@ -6,35 +6,30 @@ import { signOut } from 'next-auth/react';
 import { ReactNode } from 'react';
 
 type Props = {
-	children: ReactNode;
+  children: ReactNode;
 };
 
 const queryClient = new QueryClient({
-	queryCache: new QueryCache({
-		onError: (error: any, query) => {
-			if (
-				error.response.data.message === 'TokenExpiredError' ||
-				error.response.data.message === 'JsonWebTokenError'
-			) {
-				signOut();
-			}
-		},
-	}),
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false, // default: true
-			retry: false,
-		},
-	},
+  // * TODO: Query Error 적용
+  // queryCache: new QueryCache({
+  //   onError: (error: any, query) => {
+  //   },
+  // }),
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // default: true
+      retry: false,
+    },
+  },
 });
 
 const ReactQuery = ({ children }: Props) => {
-	return (
-		<QueryClientProvider client={queryClient}>
-			{children}
-			<ReactQueryDevtools initialIsOpen={false} />
-		</QueryClientProvider>
-	);
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 };
 
 export default ReactQuery;
