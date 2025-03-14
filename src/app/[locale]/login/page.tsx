@@ -1,62 +1,51 @@
 'use client';
 
-import { yupResolver } from '@hookform/resolvers/yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 
-import Button from '@/components/Button';
-import Spinner from '@/components/Spinner';
-import TextInput from '@/components/TextInput';
-import { authenticate } from '@/lib/actions';
+import { Button, Spinner, TextInput } from '@/shared/components';
 
-type FormData = {
-  identifier: string;
-  password: string;
-};
-
-const formInit = () => {
-  const validations = {
-    identifier: yup.string().required('아이디를 입력해주세요.'),
-    password: yup.string().required('패스워드를 입력해주세요.'),
-  };
-  const resolver = yupResolver(yup.object().shape(validations));
-  return { resolver };
-};
+import { useLoginMutation } from './hooks/useLoginMutation';
+import { LoginFormData, loginSchema } from './schema/loginSchema';
 
 const Login = () => {
-  const methods = useForm<FormData>({ ...formInit(), mode: 'onBlur' });
+  const methods = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onBlur',
+    defaultValues: { identifier: '', password: '' },
+  });
+
   const {
     handleSubmit,
-    formState: { isSubmitting },
-    setError,
+    formState: { isValid },
   } = methods;
-  const handleLogin = async (data: FormData) => {
-    const result = await authenticate(data);
-    if (result?.error) {
-      if (result.error.message) {
-        setError('identifier', { message: '아이디 또는 비밀번호가 올바르지 않습니다. 다시 확인해주세요.' });
-        setError('password', { message: '' });
-      }
-    } else if (result.success) {
-      window.location.href = '/home';
-    }
+  const { mutate, isPending } = useLoginMutation(methods);
+
+  const onSubmit = (data: LoginFormData) => {
+    mutate(data);
   };
 
   return (
     <FormProvider {...methods}>
-      <div className="flex w-[400px] flex-col gap-4 px-4">
-        <h1 className="text-4xl font-semibold">Manager 로그인</h1>
-        <form className="flex flex-col gap-2" onSubmit={handleSubmit(handleLogin)}>
-          <TextInput name="identifier" autoComplete="off" label="아이디" maxLength={20} />
-          <TextInput name="password" autoComplete="off" label="비밀번호" maxLength={20} type="password" />
-          <Button type="submit" label="로그인" disabled={isSubmitting} />
-        </form>
-      </div>
-      {isSubmitting && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-          <Spinner />
+      <div className="mx-4 w-full max-w-md rounded-lg border bg-form shadow-sm sm:mx-auto">
+        <div className="p-6">
+          <h1 className="text-2xl font-semibold">Manager Login</h1>
         </div>
-      )}
+        <form onSubmit={handleSubmit(onSubmit)} className="px-6">
+          <div className="space-y-4">
+            <TextInput name="identifier" autoComplete="off" label="아이디" maxLength={20} />
+            <TextInput name="password" autoComplete="off" label="비밀번호" maxLength={20} type="password" />
+          </div>
+          <Button type="submit" disabled={isPending} className={`w-full ${isValid ? '' : 'opacity-50'}`}>
+            {isPending ? '로그인 중...' : '로그인'}
+          </Button>
+        </form>
+        {isPending && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+            <Spinner />
+          </div>
+        )}
+      </div>
     </FormProvider>
   );
 };
