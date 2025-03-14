@@ -1,14 +1,13 @@
 import './globals.css';
 // import { Analytics } from '@vercel/analytics/react';
 import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
 
-import ReactQuery from '@/components/Provider/ReactQuery';
-import Providers from '@/components/Providers';
 import Toast from '@/components/Toast';
 
 import type { Metadata, Viewport } from 'next';
+import { routing } from '@/i18n/routing';
+import { notFound } from 'next/navigation';
+import { Providers } from './components/Providers';
 
 const notoSansKr = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] });
 const notoSans = Noto_Sans({ subsets: ['latin'], weight: ['400', '700', '900'] });
@@ -24,14 +23,16 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default async function RootLayout({
-  children,
-  params: { locale },
-}: {
+type Props = {
   children: React.ReactNode;
-  params: { locale: string };
-}) {
-  const messages = await getMessages();
+  params: Promise<{ locale: string }>;
+};
+
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params;
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
 
   return (
     <html lang={locale}>
@@ -39,11 +40,7 @@ export default async function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={`${notoSansKr.className} ${notoSans.className}`}>
-        <ReactQuery>
-          <NextIntlClientProvider messages={messages}>
-            <Providers>{children}</Providers>
-          </NextIntlClientProvider>
-        </ReactQuery>
+        <Providers>{children}</Providers>
         {/* <Analytics /> */}
         <Toast />
       </body>

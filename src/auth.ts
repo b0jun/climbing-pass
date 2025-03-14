@@ -29,6 +29,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }: { token: JWT; user?: any }) {
       if (user) {
         token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
       }
       return token;
     },
@@ -38,7 +40,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         name: token.name,
         email: token.email,
       };
-      session.error = token.error;
+      session.error = token.error || null;
       return session;
     },
   },
