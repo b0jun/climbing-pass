@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 import { verifyJwt } from '@/lib/jwt';
-import prisma from '@/lib/prisma';
+import { db } from '@/shared/lib/prisma';
 
 const secret = process.env.AUTH_SECRET;
 
@@ -21,7 +21,7 @@ const GET = async (request: NextRequest, context: any) => {
         },
       );
     }
-    const gymData = await prisma.gym.findFirst({
+    const gymData = await db.gym.findFirst({
       where: {
         domain: gym,
         userId: userData.id,
@@ -49,7 +49,7 @@ const GET = async (request: NextRequest, context: any) => {
     const nextDate = new Date(passDate);
     nextDate.setDate(nextDate.getDate() + 1);
 
-    const passData = await prisma.pass.findMany({
+    const passData = await db.pass.findMany({
       where: {
         userId: id,
         gymId: gym,
@@ -77,7 +77,7 @@ const GET = async (request: NextRequest, context: any) => {
       },
     });
 
-    const visitCounts = await prisma.pass.groupBy({
+    const visitCounts = await db.pass.groupBy({
       by: ['name', 'phoneNumber'],
       where: {
         userId: id,

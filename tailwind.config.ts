@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        xs: '290px',
+        xs: '360px',
       },
       boxShadow: {
         mobile: '0 0 20px rgba(130,130,130,0.15)',

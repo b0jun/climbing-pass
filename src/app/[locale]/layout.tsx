@@ -1,49 +1,28 @@
-import './globals.css';
-// import { Analytics } from '@vercel/analytics/react';
-import { Noto_Sans, Noto_Sans_KR } from 'next/font/google';
-
-import Toast from '@/components/Toast';
-
-import type { Metadata, Viewport } from 'next';
-import { routing } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
-import { Providers } from './components/Providers';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 
-const notoSansKr = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '900'] });
-const notoSans = Noto_Sans({ subsets: ['latin'], weight: ['400', '700', '900'] });
+import { routing } from '@/i18n/routing';
 
-export const metadata: Metadata = {
-  title: 'Pass',
-};
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
-
-type Props = {
+interface LocaleLayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
-};
+}
 
-export default async function LocaleLayout({ children, params }: Props) {
+export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = await params;
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
+  const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
-      <body className={`${notoSansKr.className} ${notoSans.className}`}>
-        <Providers>{children}</Providers>
-        {/* <Analytics /> */}
-        <Toast />
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      {children}
+    </NextIntlClientProvider>
   );
+}
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
 }

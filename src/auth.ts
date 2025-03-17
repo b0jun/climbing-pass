@@ -1,10 +1,9 @@
-import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import NextAuth, { AuthError } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const prisma = new PrismaClient();
+import { db } from './shared/lib/prisma';
 
 class InvalidCredentialsError extends AuthError {
   constructor(message: string) {
@@ -59,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const identifier = credentials.identifier as string;
         const password = credentials.password as string;
 
-        const user = await prisma.user.findFirst({
+        const user = await db.user.findFirst({
           where: { identifier },
         });
 

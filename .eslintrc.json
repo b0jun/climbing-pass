@@ -1,6 +1,8 @@
 {
 	"parser": "@typescript-eslint/parser",
-	"plugins": ["import"],
+	"plugins": [
+		"import"
+	],
 	"extends": "next/core-web-vitals",
 	"rules": {
 		"import/order": [
@@ -22,6 +24,7 @@
 					"caseInsensitive": true
 				}
 			}
-		]
+		],
+		"react/display-name": "off",
 	}
 }

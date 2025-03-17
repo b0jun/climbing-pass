@@ -1,10 +1,9 @@
 'use client';
 
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
-
-import { useRouter } from '@/i18n/navigation';
 
 import { login } from '../actions/login';
 import { LoginFormData } from '../schema/loginSchema';
