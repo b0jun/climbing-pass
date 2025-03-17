@@ -7,7 +7,7 @@ interface HomeHeaderProps {
   isLogin: boolean;
 }
 
-export default function HomeHeader({ isLogin }: HomeHeaderProps) {
+const HomeHeader = ({ isLogin }: HomeHeaderProps) => {
   const queryClient = useQueryClient();
 
   const onSignOut = () => {
@@ -24,4 +24,6 @@ export default function HomeHeader({ isLogin }: HomeHeaderProps) {
       )}
     </div>
   );
-}
+};
+
+export default HomeHeader;
