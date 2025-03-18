@@ -22,7 +22,3 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
     </NextIntlClientProvider>
   );
 }
-
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
