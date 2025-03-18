@@ -1,9 +1,11 @@
-import { Suspense } from 'react';
-import { auth } from '@/auth';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+
+import { auth } from '@/auth';
+
 import { getGyms } from '../actions/getGyms';
 import { GymType } from '../types/gym.type';
-import Link from 'next/link';
 
 const GymList = async () => {
   const session = await auth();

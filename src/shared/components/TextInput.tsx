@@ -1,3 +1,4 @@
+'use client';
 import cn from 'classnames';
 import { useFormContext } from 'react-hook-form';
 
