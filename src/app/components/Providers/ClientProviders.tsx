@@ -1,6 +1,6 @@
 'use client';
 
-// import { OverlayProvider } from '@toss/use-overlay';
+import { OverlayProvider } from 'overlay-kit';
 
 import { QueryProvider } from './ReactQuery';
 
@@ -10,9 +10,8 @@ interface ClientProvidersProps {
 
 export function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <QueryProvider>
-      {children}
-      {/* <OverlayProvider>{children}</OverlayProvider> */}
-    </QueryProvider>
+    <OverlayProvider>
+      <QueryProvider>{children}</QueryProvider>
+    </OverlayProvider>
   );
 }

@@ -36,7 +36,7 @@ const TextInput = (props: Props) => {
         onChange={onChange}
         placeholder=" "
         className={cn(
-          'peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-slate-100 px-2.5 pb-2.5 pt-5 text-base text-gray-900 placeholder:text-transparent focus:border-main focus:outline-none focus:ring-0 focus:placeholder:text-gray-400',
+          'peer block w-full appearance-none rounded-t-lg border-0 border-b-2 border-gray-300 bg-white px-2.5 pb-2.5 pt-5 text-base text-gray-900 placeholder:text-transparent focus:border-main focus:outline-none focus:ring-0 focus:placeholder:text-gray-400',
           { ['!border-error']: isError },
         )}
         {...rest}

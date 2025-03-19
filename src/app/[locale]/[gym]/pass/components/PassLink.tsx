@@ -36,7 +36,7 @@ const PassLink = ({ label, subLabel, icon, type, extraText, onClick }: PassLinkP
     <Link href={`${pathname}/${type}/consent`} onClick={onClick} className={className}>
       <div className={cn('font-bold tracking-tight', isKo ? 'text-xl xs:text-2xl' : 'text-lg xs:text-xl')}>{label}</div>
       {isKo && <div className="mt-1 text-[13px] tracking-tighter opacity-80 xs:text-[15px]">{subLabel}</div>}
-      {extraText && <div className="text-[12px] tracking-tight opacity-60">{extraText}</div>}
+      {extraText && <div className="mt-1 whitespace-pre-wrap text-[11px] tracking-tight opacity-60">{extraText}</div>}
       <div className="absolute bottom-3 right-3 opacity-20 xs:bottom-4 xs:right-4">{icon}</div>
     </Link>
   );
