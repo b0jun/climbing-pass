@@ -1,40 +1,41 @@
 {
-	"Pass": {
-		"dayPass": "Day Pass",
-		"dayExperience": "Day Experience",
-		"firstVisit": "New to Climbing",
-		"selectPass": "Select Pass",
-		"selectPassDesc": "Please select a pass type."
-	},
-	"Consent": {
-		"title": "{type} Consent Form",
-		"name": "Name",
-		"nameMin": "Please enter your name.",
-		"nameRegex": "Invalid name format.",
-		"nameMax": "The name is too long.",
-		"namePlaceholder": "Please Enter your name",
-		"phoneNumber": "Phone",
-		"phoneNumberPlaceholder": "Please enter only numbers.",
-		"phoneNumberMin": "Please enter your phone number.",
-		"phoneNumberRegex": "Please enter a valid phone number.",
-		"dateOfBirth": "Date of birth",
-		"dateOfBirthMin": "Please enter your date of birth.",
-		"dateOfBirthRegex": "Invalid date of birth format.",
-		"shoeRental": "Climbing shoe rental",
-		"shoeNotice": "The Day Experience includes climbing shoe rental",
-		"consent": "Acknowledgement of Risk And Release of Liability",
-		"consentDesc": "1) There is a possibility of accidents occurring during 'Dolmenge Climbing' activities and while using the facilities, which may result in injuries.\n-I acknowledge and understand the risks involved, and I agree not to hold the facility responsible for any injuries or material losses caused by my negligence or the actions of others.\n\n2) I agree to compensate for any damages to the facilities or equipment of the 'Dolmenge Climbing' facility.\n\n3) I am responsible for any loss of valuables, wallets, electronic devices, etc., that are not deposited at the front desk.\n\n4) I agree not to hold the owner or staff of the 'Dolmenge Climbing' facility legally responsible for any accidents resulting from the above actions and acknowledge that this agreement remains valid during any future use of the facility.",
-		"consentCheckbox": "I have read and accept.",
-		"bottomSheetDesc": "I have read and understood the terms and conditions and hereby agree to them to apply for the daily pass.",
-		"signature": "signature",
-		"signatureTitle": "Accept and Sign",
-		"nextButton": "Next",
-		"submitButton": "Complete"
-	},
-	"Complete": {
-		"titlePass": "Day Pass application completed",
-		"titleExperience": "Day Experience application completed",
-		"description": "Please show this screen to the counter staff.",
-		"goToMain": "Go to Main"
-	}
+  "Common": {
+    "day-pass": "Day Pass",
+    "day-experience": "Day Experience"
+  },
+  "Pass": {
+    "firstVisit": "First time climbing?\nChoose this option!"
+  },
+  "Consent": {
+    "title": "{type} Consent Form",
+    "subTitle": "To climb safely, please fill in the details below.",
+    "name": "Name",
+    "nameMin": "Please enter your name.",
+    "nameRegex": "Invalid name format.",
+    "nameMax": "The name is too long.",
+    "namePlaceholder": "Please Enter your name",
+    "phoneNumber": "Phone",
+    "phoneNumberPlaceholder": "Please enter only numbers.",
+    "phoneNumberMin": "Please enter your phone number.",
+    "phoneNumberRegex": "Please enter a valid phone number.",
+    "dateOfBirth": "Date of birth",
+    "dateOfBirthMin": "Please enter your date of birth.",
+    "dateOfBirthRegex": "Invalid date of birth format.",
+    "shoeRental": "Climbing shoe rental",
+    "shoeNotice": "The Day Experience includes climbing shoe rental",
+    "consent": "Acknowledgement of Risk And Release of Liability",
+    "consentDesc": "1) There is a possibility of accidents occurring during 'Dolmenge Climbing' activities and while using the facilities, which may result in injuries.\n-I acknowledge and understand the risks involved, and I agree not to hold the facility responsible for any injuries or material losses caused by my negligence or the actions of others.\n\n2) I agree to compensate for any damages to the facilities or equipment of the 'Dolmenge Climbing' facility.\n\n3) I am responsible for any loss of valuables, wallets, electronic devices, etc., that are not deposited at the front desk.\n\n4) I agree not to hold the owner or staff of the 'Dolmenge Climbing' facility legally responsible for any accidents resulting from the above actions and acknowledge that this agreement remains valid during any future use of the facility.",
+    "consentCheckbox": "I have read and accept.",
+    "signatureDesc": "I have read and understood the terms and conditions and hereby agree to them to apply for the {type}.",
+    "signature": "signature",
+    "signatureButton": "Accept and Sign",
+    "nextButton": "Next",
+    "submitButton": "Complete"
+  },
+  "Complete": {
+    "titlePass": "Day Pass application completed",
+    "titleExperience": "Day Experience application completed",
+    "description": "Please show this screen to the counter staff.",
+    "goToMain": "Go to Main"
+  }
 }
