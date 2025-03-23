@@ -1,18 +1,17 @@
-// app/dolmenge_jeonpo/pass/[slug]/layout.js
 import { notFound } from 'next/navigation';
+import { use } from 'react';
 
-import { PassType } from '@/types/pass';
+import { PASS_VALID_TYPES, PassValidType } from './types/passType.type';
 
-export default function Layout({
-	children,
-	params: { type },
-}: {
-	children: React.ReactNode;
-	params: { type: PassType };
-}) {
-	if (type === 'dayPass' || type === 'dayExperience') {
-		return <>{children}</>;
-	} else {
-		notFound();
-	}
+interface PassTypeLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ type: string }>;
+}
+
+export default function PassTypeLayout({ children, params }: PassTypeLayoutProps) {
+  const { type } = use(params);
+  if (!PASS_VALID_TYPES.includes(type as PassValidType)) {
+    notFound();
+  }
+  return <>{children}</>;
 }

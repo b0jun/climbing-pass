@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import prisma from '@/lib/prisma';
+import { db } from '@/shared/lib/prisma';
 
 const GET = async (request: NextRequest, context: any) => {
   try {
     const { gym } = context.params;
 
-    const gymData = await prisma.gym.findFirst({
+    const gymData = await db.gym.findFirst({
       where: {
         domain: gym,
       },

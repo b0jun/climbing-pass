@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 import { verifyJwt } from '@/lib/jwt';
-import prisma from '@/lib/prisma';
+import { db } from '@/shared/lib/prisma';
 
 const secret = process.env.AUTH_SECRET;
 
@@ -20,7 +20,7 @@ const PATCH = async (request: NextRequest) => {
       );
     }
 
-    const gymData = await prisma.gym.findFirst({
+    const gymData = await db.gym.findFirst({
       where: {
         userId: userData.id,
       },
@@ -38,7 +38,7 @@ const PATCH = async (request: NextRequest) => {
     const { body } = await request.json();
     const { id, status } = body;
 
-    await prisma.pass.update({
+    await db.pass.update({
       where: {
         id,
       },
@@ -77,7 +77,7 @@ const DELETE = async (request: NextRequest) => {
       );
     }
 
-    const gymData = await prisma.gym.findFirst({
+    const gymData = await db.gym.findFirst({
       where: {
         userId: userData.id,
       },
@@ -95,7 +95,7 @@ const DELETE = async (request: NextRequest) => {
     const { body } = await request.json();
     const { id } = body;
 
-    await prisma.pass.update({
+    await db.pass.update({
       where: {
         id,
       },

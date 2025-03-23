@@ -1,8 +1,8 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { auth } from '@/auth';
-import prisma from '@/lib/prisma';
-import { cookies } from 'next/headers';
+import { db } from '@/shared/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -19,7 +19,7 @@ const GET = async (request: NextRequest) => {
 
     // const id = session.user.id;
     const id = 'clvffhawu0000y5hax0mmu4ny';
-    const data = await prisma.gym.findMany({
+    const data = await db.gym.findMany({
       where: {
         disabled: false,
         userId: id,

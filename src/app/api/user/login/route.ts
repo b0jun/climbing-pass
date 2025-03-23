@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { signJwtAccessToken } from '@/lib/jwt';
-import prisma from '@/lib/prisma';
+import { db } from '@/shared/lib/prisma';
 
 interface RequestBody {
   identifier: string;
@@ -13,7 +13,7 @@ interface RequestBody {
 const POST = async (request: NextRequest) => {
   const body: RequestBody = await request.json();
   try {
-    const user = await prisma.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         identifier: body.identifier,
       },

@@ -1,28 +1,39 @@
-import ConsentForm from './components/ConsentForm';
+import cn from 'classnames';
+import { getTranslations, getLocale } from 'next-intl/server';
 
-async function fetchConsentInfo() {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/gym/dolmenge_jeonpo/consentInfo`, {
-      cache: 'no-cache',
-    });
-    if (!res.ok) {
-      throw new Error('Failed to fetch consent information');
-    }
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    return { message: 'Error fetching consent information' };
-  }
+import { PassHeader } from '../../components';
+import { PassValidType } from '../types/passType.type';
+
+import { ConsentForm } from './components';
+
+interface ConsentPageProps {
+  params: Promise<{ type: PassValidType; gym: string }>;
 }
 
-const Consent = async () => {
-  const gymData = await fetchConsentInfo();
-  return (
-    <section className="flex flex-col justify-center">
-      <ConsentForm gymData={gymData} />
-    </section>
-  );
-};
+export default async function ConsentPage({ params }: ConsentPageProps) {
+  const { gym, type } = await params;
 
-export default Consent;
+  const tCommon = await getTranslations('Common');
+  const tConsent = await getTranslations('Consent');
+
+  const locale = await getLocale();
+  const isKo = locale === 'ko';
+
+  return (
+    <div className="relative flex w-full flex-1 flex-col bg-gradient-to-b from-blue-100 to-contents to-30%">
+      <PassHeader gym={gym} isKo={isKo} hasBack />
+      <div className="px-4 xs:px-10">
+        <div
+          className={cn(
+            'mb-4 mt-2 flex flex-col items-center gap-2 text-[#121619]',
+            isKo ? 'tracking-tight' : 'tracking-tighter',
+          )}
+        >
+          <p className="text-xl font-bold opacity-80">{tConsent('title', { type: tCommon(type) })}</p>
+          <p className="text-sm opacity-30">{tConsent('subTitle')}</p>
+        </div>
+        <ConsentForm type={type} />
+      </div>
+    </div>
+  );
+}
