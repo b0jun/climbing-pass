@@ -63,7 +63,7 @@ GymList.Item = ({ name, domain }: Omit<GymType, 'id'>) => {
             패스
           </Link>
           <Link
-            href={`/${domain}/manager`}
+            href={`/admin/${domain}`}
             className="hover:bg-black-700 rounded-md bg-black px-3 py-2 text-sm font-medium text-white"
           >
             관리
