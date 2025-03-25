@@ -1,19 +1,20 @@
 'use client';
+import { useQueryClient } from '@tanstack/react-query';
+import cn from 'classnames';
 import dayjs from 'dayjs';
+import { CircleCheckBig, Clock4, RotateCw } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useMemo, useRef } from 'react';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { CircleCheckBig, Clock4, RotateCw } from 'lucide-react';
-import cn from 'classnames';
 
 import { ClimbingShoesIcon, EditIcon, PassDeleteIcon, PassViewIcon } from '@/shared/components/SVG';
-import { usePassList } from '../hooks/usePassList';
-import { updateQueryString } from '@/shared/utils';
-import { useQueryClient } from '@tanstack/react-query';
 import { passKeys } from '@/shared/lib/react-query/factory';
+import { updateQueryString } from '@/shared/utils';
 
+import { usePassList } from '../hooks/usePassList';
+
+import 'react-datepicker/dist/react-datepicker.css';
 interface PassListClientProps {
   gym: string;
 }
@@ -158,10 +159,10 @@ const PassListClient = ({ gym }: PassListClientProps) => {
             ) : (
               data.map(
                 ({ id, name, phoneNumber, totalVisits, dateOfBirth, type, shoesRental, status, createdAt }, index) => {
-                  const visitText = totalVisits === 1 ? '첫 방문' : `${totalVisits}회`;
+                  const isFirstVisit = totalVisits === 1;
+                  const visitText = isFirstVisit ? '첫 방문' : `${totalVisits}회`;
                   const typeConfig = TYPE_CONFIG[type];
                   const statusConfig = STATUS_CONFIG[status === 'WAIT' ? 'WAIT' : 'APPROVED'];
-                  const formattedTime = useMemo(() => dayjs(createdAt).format('h:mm A'), [createdAt]);
                   return (
                     <tr key={id} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
                       <td className="whitespace-nowrap px-4 py-4">{data.length - index}</td>
@@ -169,13 +170,13 @@ const PassListClient = ({ gym }: PassListClientProps) => {
                       <td className="whitespace-nowrap px-4 py-4">{phoneNumber}</td>
                       <td
                         className={cn('whitespace-nowrap px-4 py-4', {
-                          'font-semibold text-amber-600': totalVisits === 1,
+                          'font-semibold text-amber-600': isFirstVisit,
                         })}
                       >
                         {visitText}
                       </td>
                       <td className="whitespace-nowrap px-4 py-4">{dateOfBirth}</td>
-                      <td className="whitespace-nowrap px-4 py-4">{formattedTime}</td>
+                      <td className="whitespace-nowrap px-4 py-4">{dayjs(createdAt).format('h:mm A')}</td>
                       <td className="whitespace-nowrap px-4 py-4">
                         <div
                           className={cn(
