@@ -28,7 +28,7 @@ export default async function PassListPage({ params, searchParams }: PassListPro
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PassListClient gym={gym} />
+      <PassListClient />
     </HydrationBoundary>
   );
 }

@@ -1,6 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { fetchPassList } from '@/app/admin/[gym]/pass-list/queryFn/passListFn';
+import { passListFn } from '@/app/admin/[gym]/pass-list/fetchFn/passListFn';
 import { PassListParams } from '@/app/admin/[gym]/pass-list/types/pass-list.type';
 
 const passKeys = {
@@ -9,7 +9,7 @@ const passKeys = {
   list: (params: PassListParams) =>
     queryOptions({
       queryKey: [{ ...passKeys.lists()[0], params }],
-      queryFn: () => fetchPassList(params),
+      queryFn: () => passListFn(params),
     }),
 };
 

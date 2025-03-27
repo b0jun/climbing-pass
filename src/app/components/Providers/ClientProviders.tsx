@@ -10,8 +10,8 @@ interface ClientProvidersProps {
 
 export function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <OverlayProvider>
-      <QueryProvider>{children}</QueryProvider>
-    </OverlayProvider>
+    <QueryProvider>
+      <OverlayProvider>{children}</OverlayProvider>
+    </QueryProvider>
   );
 }

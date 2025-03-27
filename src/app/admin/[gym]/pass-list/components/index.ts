@@ -1,1 +1,1 @@
-export { default as PassListClient } from './PassListClient';
+export { PassListClient } from './PassListClient';

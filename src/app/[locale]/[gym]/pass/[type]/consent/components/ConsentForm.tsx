@@ -6,7 +6,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { overlay } from 'overlay-kit';
 import { Controller, FormProvider, SubmitHandler, useForm, useFormContext } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
-import { boolean } from 'zod';
 
 import { BottomSheet, Button, Signature, Spinner, TextInput, TextInputBirth } from '@/shared/components';
 
@@ -28,7 +27,6 @@ const ConsentForm = ({ type }: ConsentFormProps) => {
 
   const { mutate: formSubmitMutate, isPending } = useSubmitConsent();
 
-  // Consent Form
   const methods = useForm<ConsentFormData>({
     resolver: zodResolver(consentSchema(tConsent, isKo)),
     mode: 'onBlur',

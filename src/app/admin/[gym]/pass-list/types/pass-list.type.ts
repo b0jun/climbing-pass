@@ -1,6 +1,17 @@
 import { Pass, PassType } from '@prisma/client';
 
-export interface PassWithVisits extends Pass {
+type BasePassFields =
+  | 'id'
+  | 'name'
+  | 'phoneNumber'
+  | 'dateOfBirth'
+  | 'signature'
+  | 'type'
+  | 'status'
+  | 'shoesRental'
+  | 'createdAt';
+
+export interface PassWithVisits extends Pick<Pass, BasePassFields> {
   totalVisits: number;
 }
 

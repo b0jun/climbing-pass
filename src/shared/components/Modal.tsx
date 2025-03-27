@@ -1,7 +1,6 @@
 'use client';
 
 import cn from 'classnames';
-import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
 
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
@@ -10,11 +9,10 @@ type ModalType = 'default' | 'warn';
 
 interface ModalProps {
   type?: ModalType;
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm?: () => void;
-  onExit?: () => void;
-  resolve?: (value: boolean) => void;
+  open: boolean;
+  close: () => void;
+  confirm?: () => void;
+  unmount: () => void;
   cancelLabel?: string;
   confirmLabel?: string;
   title: string;
@@ -39,11 +37,10 @@ const confirmConfig: Record<ModalType, any> = {
 
 const Modal = ({
   type = 'default',
-  isOpen,
-  onClose,
-  onConfirm,
-  onExit,
-  resolve,
+  open,
+  close,
+  confirm,
+  unmount,
   cancelLabel,
   confirmLabel,
   title,
@@ -61,22 +58,20 @@ const Modal = ({
 
       if (!open) {
         setTimeout(() => {
-          onExit?.();
+          unmount();
         }, 200);
       }
     }
-  }, [open, onExit]);
+  }, [open, unmount]);
 
   const handleClose = () => {
-    onClose?.();
-    resolve?.(false);
+    close();
   };
 
   const handleConfirm = () => {
-    onConfirm?.();
-    resolve?.(true);
-    if (!onConfirm && onClose) {
-      onClose();
+    confirm?.();
+    if (!confirm) {
+      close();
     }
   };
 
@@ -85,35 +80,25 @@ const Modal = ({
       <div
         className={cn(
           'fixed inset-0 bg-gray-300 transition-opacity duration-200',
-          isOpen ? 'pointer-events-auto opacity-60' : 'pointer-events-none opacity-0',
+          open ? 'pointer-events-auto opacity-60' : 'pointer-events-none opacity-0',
         )}
       />
       <div
         className={cn(
-          'fixed inset-0 z-10 mx-auto h-full max-w-md',
-          isOpen ? 'pointer-events-auto' : 'pointer-events-none',
+          'fixed inset-0 z-10 mx-auto h-full max-w-xs',
+          open ? 'pointer-events-auto' : 'pointer-events-none',
         )}
       >
-        <div className="flex min-h-full items-center justify-center">
+        <div className="mx-2 flex min-h-full items-center justify-center xs:mx-0">
           <div
             ref={modalRef}
             className={cn(
               'relative w-full max-w-3xl rounded-xl bg-white p-4 shadow-xl transition-all duration-200',
-              isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
+              open ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
             )}
           >
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">{title}</h2>
-              <button
-                type="button"
-                onClick={handleClose}
-                className={cn(
-                  'inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400',
-                  'hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500',
-                )}
-              >
-                <Image src="/icons/ic_close.svg" alt="close" width={24} height={24} />
-              </button>
             </div>
 
             {children && <div>{children}</div>}
