@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { Modal } from '@/shared/components';
 
-import { PassUpdateTarget } from '../types/pass.type';
+import { PassUpdateTarget } from '../types/pass-list.type';
 
 import { useUpdatePass } from './useUpdatePass';
 

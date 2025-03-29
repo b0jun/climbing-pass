@@ -1,5 +1,6 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Gym } from '@prisma/client';
 import cn from 'classnames';
 import { useParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
@@ -12,11 +13,14 @@ import { BottomSheet, Button, Signature, Spinner, TextInput, TextInputBirth } fr
 import { PassValidType } from '../../types/passType.type';
 import { useSubmitConsent } from '../hooks/useSubmitConsent';
 import { ConsentFormData, consentSchema } from '../schema/consentSchema';
+
+type GymDataType = Pick<Gym, 'name' | 'name_en'>;
 interface ConsentFormProps {
   type: PassValidType;
+  gymData: GymDataType;
 }
 
-const ConsentForm = ({ type }: ConsentFormProps) => {
+const ConsentForm = ({ type, gymData }: ConsentFormProps) => {
   const isExperience = type === 'day-experience';
   const { gym } = useParams();
 
@@ -24,7 +28,7 @@ const ConsentForm = ({ type }: ConsentFormProps) => {
   const isKo = locale === 'ko';
   const tCommon = useTranslations('Common');
   const tConsent = useTranslations('Consent');
-
+  const gymName = isKo ? gymData.name : gymData.name_en;
   const { mutate: formSubmitMutate, isPending } = useSubmitConsent();
 
   const methods = useForm<ConsentFormData>({
@@ -79,6 +83,12 @@ const ConsentForm = ({ type }: ConsentFormProps) => {
     formSubmitMutate({ formData: data, signData: signData as string, type, gymDomain: gym as string });
   };
 
+  const consentDesc = tConsent('consentDesc', { gymName });
+  const consentItems = consentDesc.split('\n\n').map((item) => {
+    const [title, ...content] = item.split('\n');
+    return { title, content: content.join('\n') };
+  });
+
   return (
     <>
       {isPending && (
@@ -114,8 +124,13 @@ const ConsentForm = ({ type }: ConsentFormProps) => {
           />
           <div>
             <h4 className="mb-2 text-sm font-bold text-gray-500">{tConsent('consent')}</h4>
-            <div className="mb-1 whitespace-pre-wrap rounded-md border-2 border-gray-300 bg-white p-4 text-gray-500">
-              {tConsent('consentDesc')}
+            <div className="mb-1 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
+              {consentItems.map((item, index) => (
+                <div key={index} className="mb-4 last:mb-0">
+                  <p className="mb-[2px] text-sm font-medium text-gray-600">{item.title}</p>
+                  <p className="ml-3 whitespace-pre-wrap text-sm leading-relaxed text-gray-500">{item.content}</p>
+                </div>
+              ))}
             </div>
             <ConsentForm.CheckboxField name="consent" label={tConsent('consentCheckbox')} />
           </div>

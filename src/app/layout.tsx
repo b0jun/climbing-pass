@@ -12,7 +12,7 @@ const notoSansKr = Noto_Sans_KR({ subsets: ['latin'], weight: ['400', '700', '90
 const notoSans = Noto_Sans({ subsets: ['latin'], weight: ['400', '700', '900'] });
 
 export const metadata: Metadata = {
-  title: 'Pass',
+  title: 'PASS',
 };
 
 export const viewport: Viewport = {

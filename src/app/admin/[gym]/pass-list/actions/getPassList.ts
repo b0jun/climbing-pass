@@ -61,8 +61,19 @@ export async function getPassList({
           p.status,
           p."shoesRental" AS "shoesRental",
           p."createdAt" AS "createdAt",
-          COUNT(*) OVER (PARTITION BY p.name, p."phoneNumber")::integer AS "totalVisits"
+          COALESCE(t.total_visits, 0)::integer AS "totalVisits"
         FROM "Pass" p
+        LEFT JOIN (
+          SELECT
+            name,
+            "phoneNumber",
+            COUNT(*) AS total_visits
+          FROM "Pass"
+          WHERE "userId" = ${userId}
+            AND "gymId" = ${gym}
+            AND status != 'DELETED'
+          GROUP BY name, "phoneNumber"
+        ) t ON p.name = t.name AND p."phoneNumber" = t."phoneNumber"
         WHERE p."userId" = ${userId}
           AND p."gymId" = ${gym}
           AND p."createdAt" >= ${startOfDay}

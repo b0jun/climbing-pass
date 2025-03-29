@@ -46,6 +46,7 @@ export const useSubmitConsent = () => {
     onError: () => {
       toast.error('이용 동의서 제출에 실패했습니다. 데스크에 문의주세요.');
     },
+    retry: 2,
   });
   return { mutate, isPending: isPending || blocked };
 };

@@ -14,7 +14,7 @@ import { updateQueryString } from '@/shared/utils';
 import { usePassUpdateModal, useStatusToDeleteModal, useStatusToWaitModal } from '../hooks';
 import { usePassList } from '../hooks/usePassList';
 import { useUpdatePass } from '../hooks/useUpdatePass';
-import { PassDeleteTarget, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass.type';
+import { PassDeleteTarget, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
 
 import { PassIconButton } from './PassIconButton';
 
@@ -246,6 +246,7 @@ export function PassListClient() {
                               icon={<FileUser size={18} />}
                               onClick={() => {
                                 // TODO: ROUTER 이동
+                                router.push(`${pathname}/${id}`);
                               }}
                             />
                             <PassIconButton

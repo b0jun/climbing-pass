@@ -5,7 +5,7 @@ import { overlay } from 'overlay-kit';
 
 import { Modal } from '@/shared/components';
 
-import { PassToggleStatusTarget } from '../types/pass.type';
+import { PassToggleStatusTarget } from '../types/pass-list.type';
 
 import { useUpdatePass } from './useUpdatePass';
 

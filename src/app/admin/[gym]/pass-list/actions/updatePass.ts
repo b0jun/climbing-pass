@@ -3,7 +3,7 @@
 import { auth } from '@/auth';
 import { db } from '@/shared/lib/prisma';
 
-import { PassUpdateRequest } from '../types/pass.type';
+import { PassUpdateRequest } from '../types/pass-list.type';
 
 type UpdatePassResponse =
   | {
