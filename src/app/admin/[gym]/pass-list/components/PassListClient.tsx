@@ -1,22 +1,23 @@
 'use client';
-import dayjs from 'dayjs';
-import Link from 'next/link';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { useMemo, useRef } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { CircleCheckBig, Clock4, RotateCw } from 'lucide-react';
-import cn from 'classnames';
-
-import { ClimbingShoesIcon, EditIcon, PassDeleteIcon, PassViewIcon } from '@/shared/components/SVG';
-import { usePassList } from '../hooks/usePassList';
-import { updateQueryString } from '@/shared/utils';
 import { useQueryClient } from '@tanstack/react-query';
-import { passKeys } from '@/shared/lib/react-query/factory';
+import cn from 'classnames';
+import { CircleCheckBig, Clock4, FileUser, RotateCw, SquarePen, Trash2 } from 'lucide-react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRef } from 'react';
+import DatePicker from 'react-datepicker';
 
-interface PassListClientProps {
-  gym: string;
-}
+import { ClimbingShoesIcon } from '@/shared/components/SVG';
+import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { passKeys } from '@/shared/lib/react-query/factory';
+import { updateQueryString } from '@/shared/utils';
+
+import { usePassUpdateModal, useStatusToDeleteModal, useStatusToWaitModal } from '../hooks';
+import { usePassList } from '../hooks/usePassList';
+import { useUpdatePass } from '../hooks/useUpdatePass';
+import { PassDeleteTarget, PassListParams, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
+
+import { PassIconButton } from './PassIconButton';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const tableHeaderList = [
   '순번',
@@ -36,31 +37,35 @@ const TYPE_CONFIG = {
   DayExperience: { label: '체험', className: 'bg-blue-100 text-blue-800' },
 } as const;
 
-const STATUS_CONFIG = {
+export const STATUS_CONFIG = {
   WAIT: {
     label: '대기',
     className: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-    icon: <Clock4 size={12} />,
+    icon: <Clock4 size={14} />,
     buttonText: '입장',
     buttonHover: 'hover:bg-green-200',
   },
   APPROVED: {
     label: '승인',
     className: 'bg-green-100 text-green-800 border-green-300',
-    icon: <CircleCheckBig size={12} />,
+    icon: <CircleCheckBig size={14} />,
     buttonText: '취소',
     buttonHover: 'hover:bg-gray-200',
   },
 } as const;
 
-const PassListClient = ({ gym }: PassListClientProps) => {
+interface PassListClientProps {
+  queryParams: PassListParams;
+}
+
+export function PassListClient({ queryParams }: PassListClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
   // * 날짜 선택
-  const today = dayjs().format('YYYY/MM/DD');
+  const today = dayjsUTC().format('YYYY/MM/DD');
   const datepickerRef = useRef<DatePicker>(null);
 
   const passDate = searchParams.get('passDate') || today;
@@ -80,16 +85,37 @@ const PassListClient = ({ gym }: PassListClientProps) => {
   };
 
   const handleChangeDate = (date: Date | null) => {
-    const newDate = date ? dayjs(date).format('YYYY/MM/DD') : undefined;
+    const newDate = date ? dayjsUTC(date).format('YYYY/MM/DD') : undefined;
     const queryString = updateQueryString('passDate', newDate, searchParams);
     router.replace(`${pathname}?${queryString}`);
   };
 
-  const { data } = usePassList(gym);
+  const { data } = usePassList(queryParams);
 
   const refreshPassList = () => {
     const queryKey = passKeys.lists();
     queryClient.invalidateQueries({ queryKey });
+  };
+
+  const { mutate: updatePassMutate } = useUpdatePass();
+  const { open: openStatusToWaitModal } = useStatusToWaitModal();
+  const { open: openStatusToDeleteModal } = useStatusToDeleteModal();
+  const { open: openPassUpdateModal } = usePassUpdateModal();
+
+  const handleToggleStatus = ({ id, name, status }: PassToggleStatusTarget) => {
+    if (status === 'APPROVED') {
+      openStatusToWaitModal({ id, name });
+      return;
+    }
+    updatePassMutate({ id, status: 'APPROVED' });
+  };
+
+  const handlePassUpdate = ({ id, name, type, shoesRental }: PassUpdateTarget) => {
+    openPassUpdateModal({ id, name, type, shoesRental });
+  };
+
+  const handleDeletePass = async ({ id, name }: PassDeleteTarget) => {
+    openStatusToDeleteModal({ id, name });
   };
 
   return (
@@ -133,7 +159,7 @@ const PassListClient = ({ gym }: PassListClientProps) => {
       </div>
       <div className="relative overflow-x-auto">
         <table className="w-full overflow-x-auto text-left text-sm text-gray-500">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-700">
+          <thead className="bg-gray-50 text-xs text-gray-700">
             <tr>
               {tableHeaderList.map((item, index) => (
                 <th key={item} scope="col" className="whitespace-nowrap px-4 py-3 last:text-right">
@@ -148,7 +174,7 @@ const PassListClient = ({ gym }: PassListClientProps) => {
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="[&>tr>td]:whitespace-nowrap [&>tr>td]:px-4 [&>tr>td]:py-4">
             {data.length === 0 ? (
               <tr>
                 <td colSpan={10} className="py-[100px] text-center text-stone-700">
@@ -158,41 +184,41 @@ const PassListClient = ({ gym }: PassListClientProps) => {
             ) : (
               data.map(
                 ({ id, name, phoneNumber, totalVisits, dateOfBirth, type, shoesRental, status, createdAt }, index) => {
-                  const visitText = totalVisits === 1 ? '첫 방문' : `${totalVisits}회`;
+                  const isFirstVisit = totalVisits === 1;
+                  const visitText = isFirstVisit ? '첫 방문' : `${totalVisits}회`;
                   const typeConfig = TYPE_CONFIG[type];
                   const statusConfig = STATUS_CONFIG[status === 'WAIT' ? 'WAIT' : 'APPROVED'];
-                  const formattedTime = useMemo(() => dayjs(createdAt).format('h:mm A'), [createdAt]);
                   return (
                     <tr key={id} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
-                      <td className="whitespace-nowrap px-4 py-4">{data.length - index}</td>
-                      <td className="truncate px-4 py-4 font-medium text-gray-900">{name}</td>
-                      <td className="whitespace-nowrap px-4 py-4">{phoneNumber}</td>
+                      <td>{data.length - index}</td>
+                      <td className="font-medium tracking-tight text-gray-900">{name}</td>
+                      <td className="tracking-tight">{phoneNumber}</td>
                       <td
-                        className={cn('whitespace-nowrap px-4 py-4', {
-                          'font-semibold text-amber-600': totalVisits === 1,
+                        className={cn('', {
+                          'font-semibold text-amber-600': isFirstVisit,
                         })}
                       >
                         {visitText}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-4">{dateOfBirth}</td>
-                      <td className="whitespace-nowrap px-4 py-4">{formattedTime}</td>
-                      <td className="whitespace-nowrap px-4 py-4">
+                      <td>{dateOfBirth}</td>
+                      <td>{dayjsUTC(createdAt).format('A h:mm')}</td>
+                      <td>
                         <div
                           className={cn(
-                            'flex items-center justify-center gap-1 rounded px-1 py-0.5 text-xs font-medium',
+                            'flex w-[50px] items-center justify-center gap-1 rounded px-1 py-0.5 text-xs font-medium',
                             typeConfig.className,
                           )}
                         >
                           <span>{typeConfig.label}</span>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-4 py-4">
+                      <td>
                         <ClimbingShoesIcon shoesRental={shoesRental} />
                       </td>
-                      <td className="whitespace-nowrap px-4 py-4">
+                      <td>
                         <div
                           className={cn(
-                            'flex items-center justify-center gap-1 rounded border px-1 py-0.5 text-xs font-medium',
+                            'flex w-[50px] items-center justify-center gap-1 rounded border px-1 py-0.5 text-xs font-medium',
                             statusConfig.className,
                           )}
                         >
@@ -200,7 +226,7 @@ const PassListClient = ({ gym }: PassListClientProps) => {
                           <span>{statusConfig.label}</span>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-4 py-4">
+                      <td>
                         <div className="flex justify-between">
                           <button
                             type="button"
@@ -208,28 +234,30 @@ const PassListClient = ({ gym }: PassListClientProps) => {
                               'group rounded border border-gray-500 bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 transition-all',
                               statusConfig.buttonHover,
                             )}
-                            // onClick={() => handleCancelPass(id)}
+                            onClick={() => handleToggleStatus({ id, status, name })}
                           >
                             {statusConfig.buttonText}
                           </button>
-                          <div className="invisible ml-4 flex gap-1 group-hover:visible">
-                            <button
-                              type="button"
-                              className="flex items-center rounded-md p-1 hover:bg-gray-200"
-                              // onClick={() => handleUpdate({ id, name, shoesRental, type })}
-                            >
-                              <EditIcon />
-                            </button>
-                            <Link href="/" className="flex items-center rounded-md p-1 hover:bg-gray-200">
-                              <PassViewIcon />
-                            </Link>
-                            <button
-                              type="button"
-                              className="flex items-center rounded-md p-1 text-xs font-bold text-red-800 hover:bg-gray-200"
-                              // onClick={() => handleDeletePass({ id, name, phoneNumber })}
-                            >
-                              <PassDeleteIcon />
-                            </button>
+                          <div className="invisible ml-4 flex items-center gap-1 group-hover:visible">
+                            <PassIconButton
+                              icon={<SquarePen size={17} />}
+                              onClick={() => {
+                                handlePassUpdate({ id, type, shoesRental, name });
+                              }}
+                            />
+                            <PassIconButton
+                              icon={<FileUser size={18} />}
+                              onClick={() => {
+                                // TODO: ROUTER 이동
+                                router.push(`${pathname}/${id}`);
+                              }}
+                            />
+                            <PassIconButton
+                              icon={<Trash2 size={18} color="#f43f5e" />}
+                              onClick={() => {
+                                handleDeletePass({ id, name });
+                              }}
+                            />
                           </div>
                         </div>
                       </td>
@@ -243,6 +271,4 @@ const PassListClient = ({ gym }: PassListClientProps) => {
       </div>
     </div>
   );
-};
-
-export default PassListClient;
+}

@@ -8,7 +8,7 @@ import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
 
 interface BottomSheetProps {
   isOpen: boolean;
-  onClose?: () => void;
+  onClose: () => void;
   title: string;
   children: React.ReactNode;
   onExit?: () => void;

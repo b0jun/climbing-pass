@@ -3,6 +3,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { useRouter } from '@/i18n/navigation';
 
@@ -26,16 +27,26 @@ export const useSubmitConsent = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: async ({ formData, signData, type, gymDomain }: SubmitConsentParams) => {
       // * 서명 이미지 업로드
-      const signatureUrl = await uploadSignature(formData.name, signData);
+      const uploadResponse = await uploadSignature(formData.name, signData);
+      if (!uploadResponse.success) {
+        return { success: false, message: uploadResponse.message };
+      }
       // * 패스 Create
-      const passData = await submitPass({ formData, signatureUrl, type, gymDomain });
-
-      return passData;
+      const submitResponse = await submitPass({ formData, signatureUrl: uploadResponse.url, type, gymDomain });
+      return submitResponse;
     },
-    onSuccess: () => {
+    onSuccess: (response) => {
+      if (!response.success) {
+        toast.error(response.message);
+        return;
+      }
       setBlocked(true);
       replace(`/${gym}/pass/${type}/complete`);
     },
+    onError: () => {
+      toast.error('이용 동의서 제출에 실패했습니다. 데스크에 문의주세요.');
+    },
+    retry: 2,
   });
   return { mutate, isPending: isPending || blocked };
 };

@@ -2,16 +2,31 @@
 
 import { db } from '@/shared/lib/prisma';
 
+import { PassValidType } from '../../types/passType.type';
 import { ConsentFormData } from '../schema/consentSchema';
 
 interface SubmitPassParams {
   formData: ConsentFormData;
   signatureUrl: string;
-  type: string;
+  type: PassValidType;
   gymDomain: string;
 }
 
-export async function submitPass({ formData, signatureUrl, type, gymDomain }: SubmitPassParams) {
+type SubmitPassResponse =
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+export async function submitPass({
+  formData,
+  signatureUrl,
+  type,
+  gymDomain,
+}: SubmitPassParams): Promise<SubmitPassResponse> {
   try {
     const { consent, ...withoutConsent } = formData;
 
@@ -22,12 +37,12 @@ export async function submitPass({ formData, signatureUrl, type, gymDomain }: Su
       where: { domain: gymDomain },
     });
     if (!gymData) {
-      throw new Error('Gym not found');
+      return { success: false, message: '해당 지점을 찾을 수 없습니다.' };
     }
 
     const { name, phoneNumber, dateOfBirth, shoesRental } = withoutConsent;
 
-    const passData = await db.pass.create({
+    await db.pass.create({
       data: {
         name,
         phoneNumber: phoneNumber || '', // TODO: phoneNumber 스키마 옵셔널로 수정
@@ -40,8 +55,8 @@ export async function submitPass({ formData, signatureUrl, type, gymDomain }: Su
         userId: gymData.userId,
       },
     });
-    return passData;
+    return { success: true };
   } catch (error) {
-    throw new Error('동의서 제출에 실패했습니다.');
+    return { success: false, message: '동의서 제출에 실패했습니다. 데스크에 문의주세요.' };
   }
 }

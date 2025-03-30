@@ -2,8 +2,18 @@
 
 import { upload } from '@vercel/blob/client';
 
+type UploadSignatureResponse =
+  | {
+      success: true;
+      url: string;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
 // TODO: 추후 공용 로직으로 추가
-export async function uploadSignature(name: string, signData: string): Promise<string> {
+export async function uploadSignature(name: string, signData: string): Promise<UploadSignatureResponse> {
   try {
     const fileName = `${name}.png`;
     const decodedURL = signData.replace(/^data:image\/\w+;base64,/, '');
@@ -13,11 +23,11 @@ export async function uploadSignature(name: string, signData: string): Promise<s
 
     const { url } = await upload(`signature/${fileName}`, file, {
       access: 'public',
-      handleUploadUrl: '/api/pass/upload',
+      handleUploadUrl: '/api/upload',
     });
 
-    return url;
+    return { success: true, url };
   } catch (error) {
-    throw new Error('서명 업로드에 실패했습니다.');
+    return { success: false, message: '서명 업로드에 실패했습니다.' };
   }
 }

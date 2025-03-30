@@ -6,16 +6,22 @@ import { signIn } from '@/auth';
 
 import { LoginFormData, loginSchema } from '../schema/loginSchema';
 
-export interface AuthResponse {
-  success: true;
-  message: string;
-}
+type AuthResponse =
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      message: string;
+    };
 
 export async function login(data: LoginFormData): Promise<AuthResponse> {
   const result = loginSchema.safeParse(data);
   if (!result.success) {
-    const errors = result.error.flatten().fieldErrors;
-    throw new Error(JSON.stringify({ message: '아이디 또는 비밀번호가 올바르지 않습니다.', details: errors }));
+    return {
+      success: false,
+      message: '아이디 또는 비밀번호가 올바르지 않습니다.',
+    };
   }
 
   const { identifier, password } = data;
@@ -26,13 +32,18 @@ export async function login(data: LoginFormData): Promise<AuthResponse> {
       password,
       redirect: false,
     });
-    return { success: true, message: '로그인에 성공했습니다.' };
+    return { success: true };
   } catch (err) {
     if (err instanceof AuthError) {
-      // console.error(`Authentication failed: ${err.message}`);
-      throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.');
+      return {
+        success: false,
+        message: '아이디 또는 비밀번호가 올바르지 않습니다.',
+      };
     }
-    throw err instanceof Error ? err : new Error('인증 오류가 발생했습니다.');
+    return {
+      success: false,
+      message: '인증 오류가 발생했습니다.',
+    };
   }
 }
 /*

@@ -25,7 +25,7 @@ export async function getGymInfo(gymDomain: string): Promise<GymInfoResoponse> {
       };
       // TODO: 지점 스키마 추가
       const locations = {
-        ko: '전포',
+        ko: '전포점',
         en: 'jeonpo',
       };
       return { logo: gym.logo, names, locations };

@@ -1,9 +1,6 @@
-import * as bcrypt from 'bcryptjs';
 import NextAuth, { AuthError } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-import { db } from './shared/lib/prisma';
 
 class InvalidCredentialsError extends AuthError {
   constructor(message: string) {
@@ -58,22 +55,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const identifier = credentials.identifier as string;
         const password = credentials.password as string;
 
-        const user = await db.user.findFirst({
-          where: { identifier },
+        const res = await fetch(`${process.env.API_URL}/api/verify-credentials`, {
+          method: 'POST',
+          body: JSON.stringify({ identifier, password }),
+          headers: { 'Content-Type': 'application/json' },
         });
 
-        if (!user) {
-          throw new InvalidCredentialsError('Invalid identifier');
-        }
+        const user = await res.json();
 
-        let isPasswordValid;
-        try {
-          isPasswordValid = await bcrypt.compare(password, user.password);
-        } catch (error) {
-          throw new InvalidCredentialsError('Password verification failed');
-        }
-        if (!isPasswordValid) {
-          throw new InvalidCredentialsError('Invalid password');
+        if (!res.ok || !user) {
+          throw new InvalidCredentialsError(user?.message || 'Invalid credentials');
         }
 
         return {
