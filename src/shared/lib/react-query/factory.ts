@@ -12,6 +12,9 @@ const passKeys = {
     queryOptions({
       queryKey: [{ ...passKeys.lists()[0], params }] as const,
       queryFn: () => passListFn(params),
+      refetchInterval: 10000,
+      refetchOnWindowFocus: true,
+      refetchIntervalInBackground: false,
     }),
   details: () => [{ ...passKeys.base[0], entity: 'passDetail' }] as const,
   detail: (params: PassDetailParams) =>

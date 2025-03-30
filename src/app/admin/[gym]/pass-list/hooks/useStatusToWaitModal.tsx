@@ -42,7 +42,7 @@ function StatusToWaitModal({ open, close, unmount, item }: StatusToWaitModal) {
 
   return (
     <Modal title="Pass 입장을 취소할까요?" type="warn" open={open} confirm={onConfirm} close={close} unmount={unmount}>
-      <div className="inline-flex gap-2 rounded-md border bg-[#f4f7f9] p-2 text-sm">
+      <div className="flex gap-2 rounded-md border bg-[#f4f7f9] px-2 py-4 text-sm">
         <span className="font-bold text-gray-500">이름</span>
         {item.name}
       </div>

@@ -1,5 +1,3 @@
-import cn from 'classnames';
-import { Roboto } from 'next/font/google';
 import Image from 'next/image';
 
 import { LanguageSelector } from '@/shared/components';
@@ -8,8 +6,7 @@ import { capitalizeFirstLetter } from '@/shared/utils';
 import { getGymInfo } from '../actions/getGymInfo';
 
 import BackButton from './BackButton';
-
-const roboto = Roboto({ subsets: ['latin'], weight: ['700'] });
+import GymInfo from './GymInfo';
 
 interface PassHeaderProps {
   hasBack?: boolean;
@@ -42,14 +39,7 @@ const PassHeader = async ({ hasBack = false, gym, isKo }: PassHeaderProps) => {
         </div>
         <LanguageSelector />
       </header>
-      <div className="mt-3 flex flex-1 flex-col px-4 xs:px-10">
-        <p className={cn('text-xl font-bold leading-relaxed text-[#121619]', { [roboto.className]: !isKo })}>
-          <span className="text-3xl text-blue-600">{name}</span>
-          <br />
-          <span className="text-xl font-medium text-[#121619]/60">{location}</span>
-        </p>
-        <div className="my-2 h-1 w-16 rounded bg-gradient-to-r from-blue-400 to-blue-500" />
-      </div>
+      <GymInfo name={name} location={location} isKo={isKo} />
     </div>
   );
 };

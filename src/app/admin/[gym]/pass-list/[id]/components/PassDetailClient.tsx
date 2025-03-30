@@ -1,20 +1,22 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { ArrowLeft, Download } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
+import { dayjsUTC } from '@/shared/lib/dayjs-config';
+
 import { usePassDetail } from '../hooks/usePassDetail';
+import { PassDetailParams } from '../types/pass-detail.type';
+interface PassDetailClientProps {
+  queryParams: PassDetailParams;
+}
 
-import 'dayjs/locale/ko';
-dayjs.locale('ko');
-
-export function PassDetailClient() {
+export function PassDetailClient({ queryParams }: PassDetailClientProps) {
   const router = useRouter();
-  const { data } = usePassDetail();
+  const { data } = usePassDetail(queryParams);
   const typeLabel = data.type === 'DayPass' ? '일일이용' : '일일체험';
   const contentRef = useRef<HTMLDivElement>(null);
   const [isPrinting, setIsPrinting] = useState(false);
@@ -86,7 +88,7 @@ export function PassDetailClient() {
             </div>
             <div className="col-span-2">
               <span className="font-medium">입장 등록시간: </span>
-              {dayjs(data.createdAt).format('YYYY년 MM월 DD일, A hh:mm')}
+              {dayjsUTC(data.createdAt).format('YYYY년 MM월 DD일, A h:mm')}
             </div>
           </div>
         </section>
@@ -162,7 +164,9 @@ export function PassDetailClient() {
           <p className="text-center text-sm font-medium text-gray-700">
             본인은 약관에 대해 충분히 읽고 이해하였으며 이에 동의하여 일일 이용권을 신청합니다.
           </p>
-          <p className="mt-4 text-center text-sm text-gray-600">{dayjs(data.createdAt).format('YYYY년 MM월 DD일')}</p>
+          <p className="mt-4 text-center text-sm text-gray-600">
+            {dayjsUTC(data.createdAt).format('YYYY년 MM월 DD일')}
+          </p>
           <div className="mt-4 flex items-center justify-between">
             <div className="relative h-[40px] w-[100px]">
               <Image

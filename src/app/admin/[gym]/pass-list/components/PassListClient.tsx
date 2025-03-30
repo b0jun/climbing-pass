@@ -1,23 +1,22 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
 import cn from 'classnames';
-import dayjs from 'dayjs';
 import { CircleCheckBig, Clock4, FileUser, RotateCw, SquarePen, Trash2 } from 'lucide-react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 
 import { ClimbingShoesIcon } from '@/shared/components/SVG';
+import { dayjsUTC } from '@/shared/lib/dayjs-config';
 import { passKeys } from '@/shared/lib/react-query/factory';
 import { updateQueryString } from '@/shared/utils';
 
 import { usePassUpdateModal, useStatusToDeleteModal, useStatusToWaitModal } from '../hooks';
 import { usePassList } from '../hooks/usePassList';
 import { useUpdatePass } from '../hooks/useUpdatePass';
-import { PassDeleteTarget, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
+import { PassDeleteTarget, PassListParams, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
 
 import { PassIconButton } from './PassIconButton';
-
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const tableHeaderList = [
@@ -55,14 +54,18 @@ export const STATUS_CONFIG = {
   },
 } as const;
 
-export function PassListClient() {
+interface PassListClientProps {
+  queryParams: PassListParams;
+}
+
+export function PassListClient({ queryParams }: PassListClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
   // * 날짜 선택
-  const today = dayjs().format('YYYY/MM/DD');
+  const today = dayjsUTC().format('YYYY/MM/DD');
   const datepickerRef = useRef<DatePicker>(null);
 
   const passDate = searchParams.get('passDate') || today;
@@ -82,12 +85,12 @@ export function PassListClient() {
   };
 
   const handleChangeDate = (date: Date | null) => {
-    const newDate = date ? dayjs(date).format('YYYY/MM/DD') : undefined;
+    const newDate = date ? dayjsUTC(date).format('YYYY/MM/DD') : undefined;
     const queryString = updateQueryString('passDate', newDate, searchParams);
     router.replace(`${pathname}?${queryString}`);
   };
 
-  const { data } = usePassList();
+  const { data } = usePassList(queryParams);
 
   const refreshPassList = () => {
     const queryKey = passKeys.lists();
@@ -198,7 +201,7 @@ export function PassListClient() {
                         {visitText}
                       </td>
                       <td>{dateOfBirth}</td>
-                      <td>{dayjs(createdAt).format('h:mm A')}</td>
+                      <td>{dayjsUTC(createdAt).format('A h:mm')}</td>
                       <td>
                         <div
                           className={cn(

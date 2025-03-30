@@ -23,7 +23,7 @@ export async function uploadSignature(name: string, signData: string): Promise<U
 
     const { url } = await upload(`signature/${fileName}`, file, {
       access: 'public',
-      handleUploadUrl: '/api/pass/upload',
+      handleUploadUrl: '/api/upload',
     });
 
     return { success: true, url };

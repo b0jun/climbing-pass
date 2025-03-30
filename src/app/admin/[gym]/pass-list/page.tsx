@@ -14,14 +14,15 @@ interface PassListProps {
 export default async function PassListPage({ params, searchParams }: PassListProps) {
   const { gym } = await params;
   const { passType, passDate } = await searchParams;
-
+  const queryParams = { gym, passType, passDate };
+  const queryOptions = passKeys.list({ gym, passType, passDate });
   const queryClient = makeServerQueryClient();
-  await queryClient.prefetchQuery(passKeys.list({ gym, passType, passDate }));
+  await queryClient.prefetchQuery(queryOptions);
   const dehydratedState = dehydrate(queryClient);
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PassListClient />
+      <PassListClient queryParams={queryParams} />
     </HydrationBoundary>
   );
 }

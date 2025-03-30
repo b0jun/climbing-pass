@@ -1,13 +1,12 @@
 'use client';
 
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 
 import { passKeys } from '@/shared/lib/react-query/factory';
 
-export function usePassDetail() {
-  const { gym, id } = useParams();
+import { PassDetailParams } from '../types/pass-detail.type';
 
-  const query = useSuspenseQuery(passKeys.detail({ gym: gym as string, id: id as string }));
+export function usePassDetail(queryParams: PassDetailParams) {
+  const query = useSuspenseQuery(passKeys.detail(queryParams));
   return query;
 }

@@ -12,12 +12,13 @@ interface PassDetailProps {
 
 export default async function PassDetailPage({ params }: PassDetailProps) {
   const { gym, id } = await params;
+  const queryParams = { gym, id };
   const queryClient = makeServerQueryClient();
   await queryClient.prefetchQuery(passKeys.detail({ gym, id }));
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <PassDetailClient />
+      <PassDetailClient queryParams={queryParams} />
     </HydrationBoundary>
   );
 }

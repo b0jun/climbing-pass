@@ -4,7 +4,7 @@ import { RotateCw } from 'lucide-react';
 
 export default function Loading() {
   return (
-    <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle">
+    <div className="inline-block w-full min-w-[740px] overflow-hidden rounded-[10px] bg-[#fff] align-middle">
       <div className="flex min-h-[80px] items-center justify-between px-4">
         <button
           type="button"
