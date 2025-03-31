@@ -26,7 +26,7 @@ GymList.Layout = ({ children }: { children: React.ReactNode }) => {
     <section className="mx-auto w-full px-16 py-8">
       <div className="mb-5 text-center">
         <h3 className="text-xl font-bold text-[#443627]">나의 지점 리스트</h3>
-        <div className="mx-auto mt-2 h-0.5 w-16 bg-[#443627]"></div>
+        <div className="mx-auto mt-2 h-0.5 w-16 bg-[#443627]" />
       </div>
       <div className="space-y-2.5">{children}</div>
     </section>
@@ -36,7 +36,6 @@ GymList.Layout = ({ children }: { children: React.ReactNode }) => {
 GymList.Content = async ({ userId }: { userId: string }) => {
   const gyms = await getGyms(userId);
   const isEmpty = gyms.length === 0;
-
   if (isEmpty) {
     return <GymList.EmptyState />;
   }
@@ -50,11 +49,14 @@ GymList.Content = async ({ userId }: { userId: string }) => {
   );
 };
 
-GymList.Item = ({ name, domain }: Omit<GymType, 'id'>) => {
+GymList.Item = ({ name, domain, location }: Omit<GymType, 'id'>) => {
   return (
     <li className="rounded-lg border border-gray-200 p-3 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex items-center">
-        <span className="flex-1 font-medium">{name}</span>
+        <div className="flex flex-1 items-center gap-2">
+          <span className="font-medium">{name}</span>
+          <span className="text-sm font-medium text-gray-500">{location}</span>
+        </div>
         <div className="flex gap-2">
           <Link
             href={`/${domain}/pass`}

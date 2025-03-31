@@ -13,7 +13,7 @@ export async function getGymInfo(gymDomain: string): Promise<GymInfoResoponse> {
     async (gdomain: string) => {
       const gym = await db.gym.findUnique({
         where: { domain: gdomain, disabled: false },
-        select: { logo: true, name: true, name_ko: true, name_en: true },
+        select: { logo: true, name: true, name_en: true, location: true, location_en: true },
       });
 
       if (!gym) {
@@ -21,12 +21,11 @@ export async function getGymInfo(gymDomain: string): Promise<GymInfoResoponse> {
       }
       const names = {
         ko: gym.name,
-        en: gym.name_en || gym.name,
+        en: gym.name_en,
       };
-      // TODO: 지점 스키마 추가
       const locations = {
-        ko: '전포점',
-        en: 'jeonpo',
+        ko: gym.location,
+        en: gym.location_en,
       };
       return { logo: gym.logo, names, locations };
     },

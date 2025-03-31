@@ -27,7 +27,7 @@ export default async function GymLayout({ children, params }: GymLayoutProps) {
       name: true,
       logo: true,
       userId: true,
-      // TODO: location 추가
+      location: true,
     },
   });
 
@@ -42,8 +42,7 @@ export default async function GymLayout({ children, params }: GymLayoutProps) {
 
   return (
     <main className="min-h-screen w-full min-w-[360px]">
-      {/* TODO: logo 필수 값으로 수정 후 as string 제거 */}
-      <AdminLayout gymName={gymData.name} logo={gymData.logo as string}>
+      <AdminLayout gymName={gymData.name} logo={gymData.logo} location={gymData.location}>
         {children}
       </AdminLayout>
     </main>

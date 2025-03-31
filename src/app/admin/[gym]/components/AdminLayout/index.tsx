@@ -8,12 +8,13 @@ import { Sidebar } from './Sidebar';
 interface AdminLayoutProps {
   children: React.ReactNode;
   gymName: string;
+  location: string;
   logo: string;
 }
 
-const AdminLayout = ({ children, gymName, logo }: AdminLayoutProps) => {
+const AdminLayout = ({ children, gymName, logo, location }: AdminLayoutProps) => {
   return (
-    <AdminLayoutProvider gymName={gymName} logo={logo}>
+    <AdminLayoutProvider gymName={gymName} logo={logo} location={location}>
       <AdminLayout.Sidebar />
       <div className="w-full bg-[#faf9f6]">
         <AdminLayout.Header />

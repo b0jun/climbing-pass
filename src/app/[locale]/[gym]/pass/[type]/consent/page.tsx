@@ -17,7 +17,7 @@ export default async function ConsentPage({ params }: ConsentPageProps) {
 
   const gymData = await db.gym.findFirst({
     where: { domain: gym },
-    select: { name: true, name_en: true },
+    select: { name: true, name_en: true, location: true, location_en: true },
   });
 
   if (!gymData) {
@@ -43,7 +43,7 @@ export default async function ConsentPage({ params }: ConsentPageProps) {
           <p className="text-xl font-bold opacity-80">{tConsent('title', { type: tCommon(type) })}</p>
           <p className="text-sm opacity-30">{tConsent('subTitle')}</p>
         </div>
-        <ConsentForm type={type} gymData={gymData} />
+        <ConsentForm gym={gym} type={type} gymData={gymData} />
       </div>
     </div>
   );
