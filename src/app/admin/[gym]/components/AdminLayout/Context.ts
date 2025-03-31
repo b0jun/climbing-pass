@@ -11,6 +11,7 @@ export const AdminLayoutStateContext = createContext<AdminLayoutStateContextType
 
 export interface GymDataContextType {
   gymName: string;
+  location: string;
   logo: string;
 }
 

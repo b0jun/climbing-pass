@@ -1,5 +1,6 @@
 'use client';
 
+import { Locale } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -17,6 +18,7 @@ interface SubmitConsentParams {
   signData: string;
   type: PassValidType;
   gymDomain: string;
+  locale: Locale;
 }
 
 export const useSubmitConsent = () => {
@@ -25,14 +27,14 @@ export const useSubmitConsent = () => {
   const [blocked, setBlocked] = useState(false);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async ({ formData, signData, type, gymDomain }: SubmitConsentParams) => {
+    mutationFn: async ({ formData, signData, type, gymDomain, locale }: SubmitConsentParams) => {
       // * 서명 이미지 업로드
       const uploadResponse = await uploadSignature(formData.name, signData);
       if (!uploadResponse.success) {
         return { success: false, message: uploadResponse.message };
       }
       // * 패스 Create
-      const submitResponse = await submitPass({ formData, signatureUrl: uploadResponse.url, type, gymDomain });
+      const submitResponse = await submitPass({ formData, signatureUrl: uploadResponse.url, type, gymDomain, locale });
       return submitResponse;
     },
     onSuccess: (response) => {

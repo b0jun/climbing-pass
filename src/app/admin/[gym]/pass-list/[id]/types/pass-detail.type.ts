@@ -1,9 +1,17 @@
 import { Pass } from '@prisma/client';
 
-type BasePassFields = 'name' | 'phoneNumber' | 'dateOfBirth' | 'signature' | 'type' | 'createdAt';
+type BasePassFields = 'name' | 'phoneNumber' | 'dateOfBirth' | 'signature' | 'type' | 'createdAt' | 'locale';
 type PassDetailFields = Pick<Pass, BasePassFields>;
 
-export type PassDetailData = PassDetailFields & { gymName: string; gymLogo: string };
+type GymData = {
+  gymName: string;
+  gymNameEn: string;
+  gymLocation: string;
+  gymLocationEn: string;
+  gymLogo: string;
+};
+
+export type PassDetailData = PassDetailFields & GymData;
 
 export interface PassDetailParams {
   gym: string;

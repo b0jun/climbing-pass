@@ -13,7 +13,7 @@ interface GymInfoProps {
 const roboto = Roboto({ subsets: ['latin'], weight: ['700'] });
 
 const GymInfo = ({ name, location, isKo }: GymInfoProps) => {
-  const [barWidth, setBarWidth] = useState(0);
+  const [barWidth, setBarWidth] = useState(5);
   const locationRef = useRef<HTMLSpanElement>(null);
   const isFirstRender = useRef(true);
 

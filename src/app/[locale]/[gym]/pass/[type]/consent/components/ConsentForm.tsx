@@ -1,8 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Gym } from '@prisma/client';
+import { Gym, Locale } from '@prisma/client';
 import cn from 'classnames';
-import { useParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import { overlay } from 'overlay-kit';
 import { Controller, FormProvider, SubmitHandler, useForm, useFormContext } from 'react-hook-form';
@@ -14,21 +13,22 @@ import { PassValidType } from '../../types/passType.type';
 import { useSubmitConsent } from '../hooks/useSubmitConsent';
 import { ConsentFormData, consentSchema } from '../schema/consentSchema';
 
-type GymDataType = Pick<Gym, 'name' | 'name_en'>;
+type GymDataType = Pick<Gym, 'name' | 'name_en' | 'location' | 'location_en'>;
 interface ConsentFormProps {
+  gym: string;
   type: PassValidType;
   gymData: GymDataType;
 }
 
-const ConsentForm = ({ type, gymData }: ConsentFormProps) => {
+const ConsentForm = ({ gym, type, gymData }: ConsentFormProps) => {
   const isExperience = type === 'day-experience';
-  const { gym } = useParams();
 
   const locale = useLocale();
   const isKo = locale === 'ko';
   const tCommon = useTranslations('Common');
   const tConsent = useTranslations('Consent');
   const gymName = isKo ? gymData.name : gymData.name_en;
+  const gymLocation = isKo ? gymData.location : gymData.location_en;
   const { mutate: formSubmitMutate, isPending } = useSubmitConsent();
 
   const methods = useForm<ConsentFormData>({
@@ -77,13 +77,13 @@ const ConsentForm = ({ type, gymData }: ConsentFormProps) => {
 
   const onSubmit: SubmitHandler<ConsentFormData> = async (data) => {
     const signData = await openSignBottomSheet();
-    if (!signData) {
+    if (!signData || typeof signData !== 'string') {
       return;
     }
-    formSubmitMutate({ formData: data, signData: signData as string, type, gymDomain: gym as string });
+    formSubmitMutate({ formData: data, signData, type, gymDomain: gym, locale: locale as Locale });
   };
 
-  const consentDesc = tConsent('consentDesc', { gymName });
+  const consentDesc = tConsent('consentDesc', { gymName, gymLocation });
   const consentItems = consentDesc.split('\n\n').map((item) => {
     const [title, ...content] = item.split('\n');
     return { title, content: content.join('\n') };

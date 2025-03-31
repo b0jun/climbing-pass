@@ -248,7 +248,6 @@ export function PassListClient({ queryParams }: PassListClientProps) {
                             <PassIconButton
                               icon={<FileUser size={18} />}
                               onClick={() => {
-                                // TODO: ROUTER 이동
                                 router.push(`${pathname}/${id}`);
                               }}
                             />

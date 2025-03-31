@@ -1,5 +1,7 @@
 'use server';
 
+import { Locale } from '@prisma/client';
+
 import { db } from '@/shared/lib/prisma';
 
 import { PassValidType } from '../../types/passType.type';
@@ -10,6 +12,7 @@ interface SubmitPassParams {
   signatureUrl: string;
   type: PassValidType;
   gymDomain: string;
+  locale: Locale;
 }
 
 type SubmitPassResponse =
@@ -26,6 +29,7 @@ export async function submitPass({
   signatureUrl,
   type,
   gymDomain,
+  locale,
 }: SubmitPassParams): Promise<SubmitPassResponse> {
   try {
     const { consent, ...withoutConsent } = formData;
@@ -49,6 +53,7 @@ export async function submitPass({
         dateOfBirth: dateOfBirth,
         shoesRental: isDayPass ? shoesRental : true,
         type: isDayPass ? 'DayPass' : 'DayExperience',
+        locale,
         signature: signatureUrl,
         status: 'WAIT',
         gymId: gymDomain,

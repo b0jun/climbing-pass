@@ -14,7 +14,7 @@ export async function getGyms(userId: string): Promise<GymType[]> {
     async (uid: string) => {
       const data = await db.gym.findMany({
         where: { disabled: false, userId: uid },
-        select: { id: true, domain: true, name: true },
+        select: { id: true, domain: true, name: true, location: true },
       });
       return data ?? [];
     },

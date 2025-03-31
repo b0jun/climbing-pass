@@ -6,12 +6,13 @@ import { AdminLayoutStateContext, GymDataContext } from './Context';
 interface AdminLayoutProviderProps {
   children: React.ReactNode;
   gymName: string;
+  location: string;
   logo: string;
 }
 
 const DESKTOP_BREAKPOINT = 1024;
 
-const AdminLayoutProvider = ({ children, gymName, logo }: AdminLayoutProviderProps) => {
+const AdminLayoutProvider = ({ children, gymName, logo, location }: AdminLayoutProviderProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -52,9 +53,10 @@ const AdminLayoutProvider = ({ children, gymName, logo }: AdminLayoutProviderPro
   const dataValue = useMemo(
     () => ({
       gymName,
+      location,
       logo,
     }),
-    [gymName, logo],
+    [gymName, location, logo],
   );
 
   return (

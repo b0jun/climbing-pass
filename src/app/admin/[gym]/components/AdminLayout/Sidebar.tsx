@@ -12,7 +12,7 @@ import { useAdminLayoutState } from '../../hooks/useAdminLayoutState';
 
 export function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen, isDesktop } = useAdminLayoutState();
-  const { gymName, logo } = useGymData();
+  const { gymName, location, logo } = useGymData();
 
   const { gym: gymDomain } = useParams();
   const pathname = usePathname();
@@ -37,7 +37,10 @@ export function Sidebar() {
             />
           </div>
         )}
-        <h2 className="flex h-[56px] items-center font-bold">{gymName}</h2>
+        <div className="flex h-[56px] items-center gap-2">
+          <h2 className="font-bold">{gymName}</h2>
+          <p className="text-sm text-gray-600">{location}</p>
+        </div>
       </div>
       <ul className="flex flex-col text-[14px]">
         {navItems.map((item) => (
