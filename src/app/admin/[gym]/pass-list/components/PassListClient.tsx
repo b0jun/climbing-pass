@@ -1,7 +1,7 @@
 'use client';
 import { useQueryClient } from '@tanstack/react-query';
 import cn from 'classnames';
-import { CircleCheckBig, Clock4, FileUser, RotateCw, SquarePen, Trash2 } from 'lucide-react';
+import { CircleCheckBig, Clock4, FileUser, RotateCw, Search, SquarePen, Trash2 } from 'lucide-react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
@@ -13,10 +13,12 @@ import { updateQueryString } from '@/shared/utils';
 
 import { usePassUpdateModal, useStatusToDeleteModal, useStatusToWaitModal } from '../hooks';
 import { usePassList } from '../hooks/usePassList';
+import { useSearchPassModal } from '../hooks/useSearchPassModal';
 import { useUpdatePass } from '../hooks/useUpdatePass';
 import { PassDeleteTarget, PassListParams, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
 
 import { PassIconButton } from './PassIconButton';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const tableHeaderList = [
@@ -101,6 +103,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
   const { open: openStatusToWaitModal } = useStatusToWaitModal();
   const { open: openStatusToDeleteModal } = useStatusToDeleteModal();
   const { open: openPassUpdateModal } = usePassUpdateModal();
+  const { open: openSearchPassModal } = useSearchPassModal();
 
   const handleToggleStatus = ({ id, name, status }: PassToggleStatusTarget) => {
     if (status === 'APPROVED') {
@@ -121,13 +124,23 @@ export function PassListClient({ queryParams }: PassListClientProps) {
   return (
     <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle">
       <div className="flex min-h-[80px] items-center justify-between px-4">
-        <button
-          type="button"
-          className="flex items-center gap-2 rounded-lg border border-gray-500 bg-gray-50 p-2 text-[14px] transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
-          onClick={refreshPassList}
-        >
-          <RotateCw size={16} />
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            className="rounded-lg border border-gray-500 bg-gray-50 p-2 transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
+            onClick={refreshPassList}
+          >
+            <RotateCw size={16} />
+          </button>
+          <button
+            onClick={openSearchPassModal}
+            type="button"
+            className="flex h-[34px] items-center gap-2 rounded-lg border border-gray-500 bg-gray-50 p-2 transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
+          >
+            <Search size={16} />
+            <span className="text-sm text-gray-800">패스 검색</span>
+          </button>
+        </div>
         <div className="flex items-center gap-3">
           <select
             id="passType"
