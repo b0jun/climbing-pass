@@ -26,3 +26,6 @@ export type PassUpdateTarget = Pick<Pass, 'id' | 'type' | 'shoesRental' | 'name'
 export type PassDeleteTarget = Pick<Pass, 'id' | 'name'>;
 
 export type PassUpdateRequest = { id: string } & Partial<Pick<Pass, 'status' | 'type' | 'shoesRental'>>;
+
+export type SearchPassRequest = { gymDomain: string } & Partial<Pick<Pass, 'name' | 'phoneNumber'>>;
+export type SeachPassResult = Pick<Pass, 'id' | 'name' | 'phoneNumber' | 'createdAt'>;

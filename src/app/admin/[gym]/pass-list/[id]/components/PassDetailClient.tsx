@@ -57,7 +57,7 @@ export function PassDetailClient({ queryParams }: PassDetailClientProps) {
   });
   return (
     <div>
-      <div className="sticky top-14 z-10 mb-6 flex items-center gap-4 bg-[#faf9f6] py-2">
+      <div className="sticky top-14 z-10 mb-6 flex items-center gap-4 bg-[#faf9f6] py-2 tracking-normal">
         <button
           type="button"
           className="flex items-center gap-2 text-sm text-gray-600 transition-colors hover:text-blue-500"
