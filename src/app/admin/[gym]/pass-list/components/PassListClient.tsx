@@ -6,7 +6,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { ClimbingShoesIcon } from '@/shared/components/SVG';
+import ShoesIcon from '@/shared/components/SVG/ShoesIcon';
 import { dayjsUTC } from '@/shared/lib/dayjs-config';
 import { passKeys } from '@/shared/lib/react-query/factory';
 import { updateQueryString } from '@/shared/utils';
@@ -226,7 +226,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
                         </div>
                       </td>
                       <td>
-                        <ClimbingShoesIcon shoesRental={shoesRental} />
+                        <ShoesIcon className={cn('h-8 w-8', shoesRental ? 'text-blue-500' : 'text-gray-300')} />
                       </td>
                       <td>
                         <div
