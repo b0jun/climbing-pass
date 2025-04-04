@@ -14,7 +14,7 @@ const UPDATE_ATE_DATE = 24 * 60 * 60; // 1일
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
-    signIn: '/login',
+    signIn: '/admin/login',
   },
   session: {
     strategy: 'jwt',

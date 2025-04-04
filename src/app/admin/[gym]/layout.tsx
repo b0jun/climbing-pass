@@ -15,7 +15,7 @@ export default async function GymLayout({ children, params }: GymLayoutProps) {
   const session = await auth();
 
   if (!session || !session.user) {
-    redirect('/login');
+    redirect('/admin/login');
   }
 
   const userId = session.user.id;

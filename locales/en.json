@@ -33,9 +33,11 @@
     "submitButton": "Complete"
   },
   "Complete": {
-    "titlePass": "Day Pass application completed",
-    "titleExperience": "Day Experience application completed",
-    "description": "Please show this screen to the counter staff.",
-    "goToMain": "Go to Main"
+    "errorTitle": "An error has occurred",
+    "errorUnknown": "An unknown error occurred.\nPlease try again shortly.",
+    "errorInvalidAccess": "Invalid access.\nPlease return using a proper link.",
+    "errorExpired": "The viewing time for this pass has expired.",
+    "errorNotFound": "The pass information could not be found.",
+    "retry": "Try Again"
   }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import cn from 'classnames';
-import Image from 'next/image';
+import { CircleX } from 'lucide-react';
 import { useRef, useState, useCallback } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
@@ -56,7 +56,7 @@ const Signature = ({ onConfirm, signatureText, signatureButton }: SignatureProps
               'absolute right-1 top-1 z-50 flex h-6 w-6 items-center justify-center rounded-sm transition duration-200',
             )}
           >
-            <Image src="/icons/ic_delete.svg" width={24} height={24} alt="eraser" />
+            <CircleX size={18} className="fill-gray-200/80 text-gray-400/80" />
           </button>
         )}
         <p

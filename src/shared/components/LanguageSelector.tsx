@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useLocale } from 'next-intl';
 import { memo, useCallback } from 'react';
 
-import { usePathname, useRouter } from '@/i18n/navigation';
+import { usePathname, useRouter } from '@/i18n/navigation.public';
 
 const LANGUAGE_OPTIONS = [
   { value: 'ko', label: '한국어' },
