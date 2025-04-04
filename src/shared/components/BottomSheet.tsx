@@ -1,7 +1,7 @@
 'use client';
 
 import cn from 'classnames';
-import Image from 'next/image';
+import { X } from 'lucide-react';
 import React, { useRef, useEffect } from 'react';
 
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
@@ -71,7 +71,7 @@ const BottomSheet = ({ isOpen, onClose, title, onExit, resolve, children }: Bott
                     'hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500',
                   )}
                 >
-                  <Image src="/icons/ic_close.svg" alt="close" width={24} height={24} />
+                  <X size={24} color="#0a0a0a" />
                 </button>
               </div>
             </div>

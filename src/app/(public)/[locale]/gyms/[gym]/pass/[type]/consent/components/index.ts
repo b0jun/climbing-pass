@@ -1,0 +1,1 @@
+export { ConsentClient } from './ConsentClient';
