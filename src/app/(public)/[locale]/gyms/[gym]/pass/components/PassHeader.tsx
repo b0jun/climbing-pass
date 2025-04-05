@@ -30,16 +30,14 @@ export function PassHeader() {
           >
             <BackButton />
           </div>
-          {logo && (
-            <div
-              className={cn(
-                'relative aspect-video h-8 w-full transition-all duration-300 ease-in-out',
-                showBackButton ? 'ml-8' : 'ml-0',
-              )}
-            >
-              <Image key="pass-logo" priority loading="eager" src={logo} alt="logo" fill className="object-contain" />
-            </div>
-          )}
+          <div
+            className={cn(
+              'relative aspect-video h-12 w-full transition-all duration-300 ease-in-out',
+              showBackButton ? 'ml-8' : 'ml-0',
+            )}
+          >
+            <Image key="pass-logo" priority loading="eager" src={logo} alt="logo" fill className="object-contain" />
+          </div>
         </div>
         <LanguageSelector />
       </header>

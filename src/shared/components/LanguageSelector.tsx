@@ -1,7 +1,8 @@
 'use client';
 
 import cn from 'classnames';
-import { useLocale } from 'next-intl';
+import { motion } from 'framer-motion';
+import { Locale, useLocale } from 'next-intl';
 import { memo, useCallback } from 'react';
 
 import { usePathname, useRouter } from '@/i18n/navigation.public';
@@ -10,7 +11,6 @@ const LANGUAGE_OPTIONS = [
   { value: 'ko', label: '한국어' },
   { value: 'en', label: 'English' },
 ] as const;
-type Locale = (typeof LANGUAGE_OPTIONS)[number]['value'];
 
 const LanguageSelector = memo(() => {
   const pathname = usePathname();
@@ -26,22 +26,31 @@ const LanguageSelector = memo(() => {
   );
 
   return (
-    <div className="flex gap-2">
+    <div className="relative flex gap-2">
       {LANGUAGE_OPTIONS.map(({ value, label }) => {
         const isActive = locale === value;
         return (
-          <button
+          <motion.button
             key={value}
             type="button"
             value={value}
             onClick={handleToggleLanguage}
+            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.05 }}
             className={cn(
-              'flex rounded-2xl px-2 py-1 text-xs font-medium transition-colors duration-200',
-              isActive ? 'bg-[#0066ff] text-white' : 'text-[#121619] hover:bg-gray-100',
+              'relative z-10 rounded-2xl px-3 py-1 text-xs font-medium transition-colors',
+              isActive ? 'text-white' : 'text-[#121619]',
             )}
           >
             {label}
-          </button>
+            {isActive && (
+              <motion.div
+                layoutId="language-indicator"
+                className="absolute inset-0 -z-10 rounded-2xl bg-[#0066ff]"
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              />
+            )}
+          </motion.button>
         );
       })}
     </div>
