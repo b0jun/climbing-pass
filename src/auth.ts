@@ -10,7 +10,7 @@ class InvalidCredentialsError extends AuthError {
 }
 
 const MAX_AGE_DATE = 15 * 24 * 60 * 60; // 15일
-const UPDATE_ATE_DATE = 24 * 60 * 60; // 1일
+const UPDATE_AGE_DATE = 24 * 60 * 60; // 1일
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
     strategy: 'jwt',
     maxAge: MAX_AGE_DATE,
-    updateAge: UPDATE_ATE_DATE,
+    updateAge: UPDATE_AGE_DATE,
   },
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: any }) {
