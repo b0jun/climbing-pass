@@ -14,13 +14,16 @@ export async function getCurrentMonthStats(gymDomain: string) {
   }
 
   const today = dayjsUTC();
+  const todayDate = today.startOf('day');
+
   const currentStart = today.startOf('month');
-  const currentEnd = today;
+  const currentEnd = today.endOf('day');
 
   const prevMonth = today.subtract(1, 'month');
-  const prevEndDay = Math.min(today.date(), prevMonth.daysInMonth());
   const prevStart = prevMonth.startOf('month');
-  const prevEnd = prevMonth.date(prevEndDay);
+
+  const dateDiff = todayDate.diff(currentStart, 'day');
+  const prevEnd = prevStart.add(dateDiff, 'day').endOf('day');
 
   const [currentPasses, prevPasses] = await Promise.all([
     db.pass.findMany({
@@ -38,9 +41,7 @@ export async function getCurrentMonthStats(gymDomain: string) {
       },
     }),
   ]);
-
   const countByType = (passes: typeof currentPasses, type: PassType) => passes.filter((p) => p.type === type).length;
-
   const dayCount = currentEnd.diff(currentStart, 'day') + 1;
   const prevDayCount = prevEnd.diff(prevStart, 'day') + 1;
   return {
