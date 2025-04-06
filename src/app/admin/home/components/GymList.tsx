@@ -1,21 +1,14 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-
-import { auth } from '@/auth';
 
 import { getGyms } from '../actions/getGyms';
 import { GymType } from '../types/gym.type';
 
-const GymList = async () => {
-  const session = await auth();
-  if (!session || !session.user?.id) {
-    return redirect('/admin/login');
-  }
+const GymList = async ({ userId }: { userId: string }) => {
   return (
     <GymList.Layout>
       <Suspense fallback={<GymList.Skeleton />}>
-        <GymList.Content userId={session.user.id} />
+        <GymList.Content userId={userId} />
       </Suspense>
     </GymList.Layout>
   );
