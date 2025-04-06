@@ -6,10 +6,6 @@ import { GymList } from './components';
 
 export default async function HomePage() {
   const session = await auth();
-
-  if (!session || !session.user?.id) {
-    return redirect('/admin/login');
-  }
-
-  return <GymList />;
+  if (!session?.user?.id) redirect('/admin/login');
+  return <GymList userId={session.user.id} />;
 }

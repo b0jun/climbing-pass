@@ -1,3 +1,12 @@
-export default function PassAnalyticsPage() {
-  return <div>준비중인 컨텐츠입니다.</div>;
+import { getCurrentMonthStats } from './actions/getCurrentMonthStats';
+import { CurrentMonthStats } from './components';
+
+interface PassAnalyticsPage {
+  params: Promise<{ gym: string }>;
+}
+
+export default async function PassAnalyticsPage({ params }: PassAnalyticsPage) {
+  const { gym } = await params;
+  const stats = await getCurrentMonthStats(gym);
+  return <CurrentMonthStats stats={stats} />;
 }
