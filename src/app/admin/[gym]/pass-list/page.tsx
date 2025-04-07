@@ -1,10 +1,16 @@
 import { PassType } from '@prisma/client';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import { Suspense } from 'react';
 
+import { QueryPrefetcher } from '@/shared/components';
 import { passKeys } from '@/shared/lib/react-query/factory';
-import { makeServerQueryClient } from '@/shared/lib/react-query/queryClient.server';
 
-import { PassListClient } from './components';
+import {
+  FilterControlsClient,
+  PassListClient,
+  PassListSkeleton,
+  VisitorStatsClient,
+  VisitorStatsSkeleton,
+} from './components';
 
 interface PassListProps {
   params: Promise<{ gym: string }>;
@@ -14,15 +20,21 @@ interface PassListProps {
 export default async function PassListPage({ params, searchParams }: PassListProps) {
   const { gym } = await params;
   const { passType, passDate } = await searchParams;
-  const queryParams = { gym, passType, passDate };
-  const queryOptions = passKeys.list({ gym, passType, passDate });
-  const queryClient = makeServerQueryClient();
-  await queryClient.prefetchQuery(queryOptions);
-  const dehydratedState = dehydrate(queryClient);
-
+  const visitorStatsQueryParams = { gym, passDate };
+  const passListQueryParams = { gym, passType, passDate };
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <PassListClient queryParams={queryParams} />
-    </HydrationBoundary>
+    <div className="space-y-4">
+      <FilterControlsClient />
+      <Suspense fallback={<VisitorStatsSkeleton />}>
+        <QueryPrefetcher queryOptions={passKeys.visitorStat(visitorStatsQueryParams)}>
+          <VisitorStatsClient queryParams={visitorStatsQueryParams} />
+        </QueryPrefetcher>
+      </Suspense>
+      <Suspense fallback={<PassListSkeleton />}>
+        <QueryPrefetcher queryOptions={passKeys.list(passListQueryParams)}>
+          <PassListClient queryParams={passListQueryParams} />
+        </QueryPrefetcher>
+      </Suspense>
+    </div>
   );
 }

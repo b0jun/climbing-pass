@@ -4,6 +4,7 @@ export { default as Button } from './Button';
 export { default as Document } from './Document';
 export { default as LanguageSelector } from './LanguageSelector';
 export { default as Modal } from './Modal';
+export { default as QueryPrefetcher } from './QueryPrefetcher';
 export { default as Signature } from './Signature';
 export { default as Spinner } from './Spinner';
 export { default as TextInput } from './TextInput';
