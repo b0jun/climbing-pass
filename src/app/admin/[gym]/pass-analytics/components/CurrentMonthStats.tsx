@@ -35,7 +35,7 @@ export function CurrentMonthStats({ stats }: CurrentMonthStatsProps) {
   const startOfMonth = now.startOf('month');
 
   const prevMonth = now.subtract(1, 'month');
-  const endOfPrevRange = dayjsUTC(prevMonth).endOf('month'); // 전달의 말일
+  const endOfPrevRange = dayjsUTC(prevMonth).endOf('month');
   const startOfPrevMonth = prevMonth.startOf('month');
 
   const rangeEndDate = Math.min(now.date(), endOfPrevRange.date());
@@ -50,7 +50,7 @@ export function CurrentMonthStats({ stats }: CurrentMonthStatsProps) {
       <div className="mt-1 text-sm text-gray-400">{formattedRange}</div>
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {list.map(({ title, value, change, icon: Icon }, index) => (
-          <div key={index} className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <div key={index} className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">{title}</span>
               <Icon className="h-5 w-5 text-gray-400" />

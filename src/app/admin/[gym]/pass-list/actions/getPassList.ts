@@ -1,12 +1,12 @@
 'use server';
 
-import { PassType, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { auth } from '@/auth';
 import { dayjsUTC } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-import { PassWithVisits } from '../types/pass-list.type';
+import { PassListParams, PassWithVisits } from '../types/pass-list.type';
 
 const getDayRange = (date?: string) => {
   const baseDate = date && dayjsUTC(date).isValid() ? dayjsUTC(date) : dayjsUTC();
@@ -15,15 +15,7 @@ const getDayRange = (date?: string) => {
   return { startOfDay, endOfDay };
 };
 
-export async function getPassList({
-  gym,
-  passType,
-  passDate,
-}: {
-  gym: string;
-  passType?: PassType;
-  passDate?: string;
-}): Promise<PassWithVisits[]> {
+export async function getPassList({ gym, passType, passDate }: PassListParams): Promise<PassWithVisits[]> {
   try {
     const session = await auth();
     if (!session || !session.user) {
@@ -31,21 +23,6 @@ export async function getPassList({
     }
 
     const userId = session.user.id;
-
-    const gymData = await db.gym.findFirst({
-      where: {
-        domain: gym,
-        userId,
-      },
-      select: {
-        name: true,
-        id: true,
-      },
-    });
-
-    if (!gymData) {
-      throw new Error('해당 지점을 찾을 수 없습니다.');
-    }
 
     const { startOfDay, endOfDay } = getDayRange(passDate);
 

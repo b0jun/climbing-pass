@@ -21,6 +21,11 @@ export interface PassListParams {
   passDate?: string;
 }
 
+export interface VisitorStatsParams {
+  gym: string;
+  passDate?: string;
+}
+
 export type PassToggleStatusTarget = Pick<Pass, 'id' | 'status' | 'name'>;
 export type PassUpdateTarget = Pick<Pass, 'id' | 'type' | 'shoesRental' | 'name'>;
 export type PassDeleteTarget = Pick<Pass, 'id' | 'name'>;

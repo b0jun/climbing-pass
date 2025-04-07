@@ -1,38 +1,18 @@
 'use client';
-import { useQueryClient } from '@tanstack/react-query';
+
 import cn from 'classnames';
-import { CircleCheckBig, Clock4, FileUser, RotateCw, Search, SquarePen, Trash2 } from 'lucide-react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
-import DatePicker from 'react-datepicker';
+import { CircleCheckBig, Clock4, FileUser, SquarePen, Trash2 } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 
 import ShoesIcon from '@/shared/components/SVG/ShoesIcon';
 import { dayjsUTC } from '@/shared/lib/dayjs-config';
-import { passKeys } from '@/shared/lib/react-query/factory';
-import { updateQueryString } from '@/shared/utils';
 
 import { usePassUpdateModal, useStatusToDeleteModal, useStatusToWaitModal } from '../hooks';
 import { usePassList } from '../hooks/usePassList';
-import { useSearchPassModal } from '../hooks/useSearchPassModal';
 import { useUpdatePass } from '../hooks/useUpdatePass';
 import { PassDeleteTarget, PassListParams, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
 
 import { PassIconButton } from './PassIconButton';
-
-import 'react-datepicker/dist/react-datepicker.css';
-
-export const tableHeaderList = [
-  '순번',
-  '이름',
-  '전화번호',
-  '방문횟수',
-  '생년월일',
-  '입장 등록시간',
-  '패스 유형',
-  '암벽화 대여',
-  '입장 상태',
-  '액션',
-];
 
 const TYPE_CONFIG = {
   DayPass: { label: '이용', className: 'bg-gray-100 text-gray-800' },
@@ -52,7 +32,7 @@ export const STATUS_CONFIG = {
     className: 'bg-green-100 text-green-800 border-green-300',
     icon: <CircleCheckBig size={14} />,
     buttonText: '취소',
-    buttonHover: 'hover:bg-gray-200',
+    buttonHover: 'hover:bg-yellow-100',
   },
 } as const;
 
@@ -63,47 +43,13 @@ interface PassListClientProps {
 export function PassListClient({ queryParams }: PassListClientProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const queryClient = useQueryClient();
-
-  // * 날짜 선택
-  const today = dayjsUTC().format('YYYY/MM/DD');
-  const datepickerRef = useRef<DatePicker>(null);
-
-  const passDate = searchParams.get('passDate') || today;
-
-  const setDateToToday = () => {
-    const queryString = updateQueryString('passDate', undefined, searchParams);
-    router.replace(`${pathname}?${queryString}`);
-    datepickerRef.current?.setOpen(false);
-  };
-
-  // * 패스유형 선택
-  const passType = (searchParams.get('passType') as 'DayPass' | 'DayExperience') || '';
-
-  const handleChangePassType = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const queryString = updateQueryString('passType', event.target.value || undefined, searchParams);
-    router.replace(`${pathname}?${queryString}`);
-  };
-
-  const handleChangeDate = (date: Date | null) => {
-    const newDate = date ? dayjsUTC(date).format('YYYY/MM/DD') : undefined;
-    const queryString = updateQueryString('passDate', newDate, searchParams);
-    router.replace(`${pathname}?${queryString}`);
-  };
 
   const { data } = usePassList(queryParams);
-
-  const refreshPassList = () => {
-    const queryKey = passKeys.lists();
-    queryClient.invalidateQueries({ queryKey });
-  };
 
   const { mutate: updatePassMutate } = useUpdatePass();
   const { open: openStatusToWaitModal } = useStatusToWaitModal();
   const { open: openStatusToDeleteModal } = useStatusToDeleteModal();
   const { open: openPassUpdateModal } = usePassUpdateModal();
-  const { open: openSearchPassModal } = useSearchPassModal();
 
   const handleToggleStatus = ({ id, name, status }: PassToggleStatusTarget) => {
     if (status === 'APPROVED') {
@@ -122,75 +68,45 @@ export function PassListClient({ queryParams }: PassListClientProps) {
   };
 
   return (
-    <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle">
-      <div className="flex min-h-[80px] items-center justify-between px-4">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            className="rounded-lg border border-gray-500 bg-gray-50 p-2 transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
-            onClick={refreshPassList}
-          >
-            <RotateCw size={16} />
-          </button>
-          <button
-            onClick={openSearchPassModal}
-            type="button"
-            className="flex h-[34px] items-center gap-2 rounded-lg border border-gray-500 bg-gray-50 p-2 transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-4 focus:ring-[#e0e0e0]"
-          >
-            <Search size={16} />
-            <span className="text-sm text-gray-800">패스 검색</span>
-          </button>
-        </div>
-        <div className="flex items-center gap-3">
-          <select
-            id="passType"
-            className="w-[100px] rounded-lg border border-gray-500 bg-gray-50 px-2 py-1 text-[14px] text-gray-900"
-            onChange={handleChangePassType}
-            value={passType}
-          >
-            <option value="">패스 유형</option>
-            <option value="DayPass">일일이용</option>
-            <option value="DayExperience">일일체험</option>
-          </select>
-          <div className="flex h-[50px] items-center">
-            <DatePicker
-              ref={datepickerRef}
-              popperPlacement="bottom-start"
-              selected={new Date(passDate)}
-              onChange={handleChangeDate}
-              dateFormat="yyyy/MM/dd"
-              customInput={
-                <input id="passDate" className="w-[100px] rounded-lg border-gray-500 px-2 py-1 text-[14px]" />
-              }
-            >
-              <button type="button" onClick={setDateToToday} className="rounded-sm bg-emerald-500 px-2 py-1 text-white">
-                Today
-              </button>
-            </DatePicker>
-          </div>
-        </div>
-      </div>
+    <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle shadow-lg">
       <div className="relative overflow-x-auto">
-        <table className="w-full overflow-x-auto text-left text-sm text-gray-500">
-          <thead className="bg-gray-50 text-xs text-gray-700">
+        <table className="w-full table-fixed text-left text-sm text-gray-500">
+          <thead className="border-b bg-gray-50 text-xs text-gray-700">
             <tr>
-              {tableHeaderList.map((item, index) => (
-                <th key={item} scope="col" className="whitespace-nowrap px-4 py-3 last:text-right">
-                  {index === tableHeaderList.length - 1 ? (
-                    <span>
-                      총 이용자 수: <span className="text-main">{data.length ?? 0}</span>명
-                    </span>
-                  ) : (
-                    item
-                  )}
-                </th>
-              ))}
+              <th scope="col" className="w-[40px] whitespace-nowrap px-3 py-3">
+                순번
+              </th>
+              <th scope="col" className="w-[130px] whitespace-nowrap px-3 py-3">
+                이름
+              </th>
+              <th scope="col" className="w-[120px] whitespace-nowrap px-3 py-3">
+                전화번호
+              </th>
+              <th scope="col" className="w-[70px] whitespace-nowrap px-3 py-3">
+                방문횟수
+              </th>
+              <th scope="col" className="w-[100px] whitespace-nowrap px-3 py-3">
+                생년월일
+              </th>
+              <th scope="col" className="w-[90px] whitespace-nowrap px-3 py-3">
+                입장 등록시간
+              </th>
+              <th scope="col" className="w-[70px] whitespace-nowrap px-3 py-3">
+                패스 유형
+              </th>
+              <th scope="col" className="w-[70px] whitespace-nowrap px-3 py-3">
+                암벽화 대여
+              </th>
+              <th scope="col" className="w-[70px] whitespace-nowrap px-3 py-3">
+                입장 상태
+              </th>
+              <th scope="col" className="w-[200px] whitespace-nowrap px-3 py-3" />
             </tr>
           </thead>
-          <tbody className="[&>tr>td]:whitespace-nowrap [&>tr>td]:px-4 [&>tr>td]:py-4">
+          <tbody className="[&>tr>td]:h-[50px] [&>tr>td]:px-3 [&>tr>td]:py-2">
             {data.length === 0 ? (
               <tr>
-                <td colSpan={10} className="py-[100px] text-center text-stone-700">
+                <td colSpan={10} className="text-center text-stone-700">
                   등록된 패스가 없습니다.
                 </td>
               </tr>
@@ -203,18 +119,20 @@ export function PassListClient({ queryParams }: PassListClientProps) {
                   const statusConfig = STATUS_CONFIG[status === 'WAIT' ? 'WAIT' : 'APPROVED'];
                   return (
                     <tr key={id} className="group border-b bg-white last:border-b-0 hover:bg-gray-50">
-                      <td>{data.length - index}</td>
-                      <td className="font-medium tracking-tight text-gray-900">{name}</td>
-                      <td className="tracking-tight">{phoneNumber}</td>
+                      <td className="truncate">{data.length - index}</td>
+                      <td className="truncate font-medium tracking-tighter text-gray-900" title={name}>
+                        {name}
+                      </td>
+                      <td className="truncate tracking-tight">{phoneNumber}</td>
                       <td
-                        className={cn('', {
+                        className={cn('truncate', {
                           'font-semibold text-amber-600': isFirstVisit,
                         })}
                       >
                         {visitText}
                       </td>
-                      <td>{dateOfBirth}</td>
-                      <td>{dayjsUTC(createdAt).format('A h:mm')}</td>
+                      <td className="truncate">{dateOfBirth}</td>
+                      <td className="truncate">{dayjsUTC(createdAt).format('A h:mm')}</td>
                       <td>
                         <div
                           className={cn(
