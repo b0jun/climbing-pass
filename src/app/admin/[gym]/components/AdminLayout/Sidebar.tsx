@@ -1,9 +1,9 @@
 'use client';
+
 import { X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import { useMemo } from 'react';
 
 import { getNavItems } from '@/app/admin/config/navigation';
 
@@ -11,13 +11,14 @@ import { useGymData } from '../../hooks';
 import { useAdminLayoutState } from '../../hooks/useAdminLayoutState';
 
 export function Sidebar() {
-  const { isSidebarOpen, setIsSidebarOpen, isDesktop } = useAdminLayoutState();
-  const { gymName, location, logo } = useGymData();
-
   const { gym: gymDomain } = useParams();
   const pathname = usePathname();
 
-  const navItems = useMemo(() => getNavItems(gymDomain as string), [gymDomain]);
+  const { isSidebarOpen, setIsSidebarOpen, isDesktop } = useAdminLayoutState();
+  const { gymName, location, logo } = useGymData();
+
+  const navItems = getNavItems(gymDomain as string);
+
   return (
     <aside
       id="sidebar"

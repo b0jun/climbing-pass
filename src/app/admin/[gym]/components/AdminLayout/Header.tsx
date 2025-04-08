@@ -3,7 +3,7 @@
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { getNavItems } from '@/app/admin/config/navigation';
 
@@ -11,24 +11,20 @@ import { useGymData } from '../../hooks';
 import { useAdminLayoutState } from '../../hooks/useAdminLayoutState';
 
 export function Header() {
+  const { gym: gymDomain } = useParams();
+  const pathname = usePathname();
+  const [isMount, setIsMount] = useState(false);
+
   const { isSidebarOpen, isDesktop, openSidebar } = useAdminLayoutState();
   const { logo, gymName } = useGymData();
-
-  // TODO: hydration mismatch: useMediaQuery 사용??
-  const [isMount, setIsMount] = useState(false);
 
   useEffect(() => {
     setIsMount(true);
   }, []);
 
-  const { gym: gymDomain } = useParams();
-  const pathname = usePathname();
-
-  const navItems = useMemo(() => getNavItems(gymDomain as string), [gymDomain]);
-  const currentLabel = useMemo(() => {
-    const currentItem = navItems.find((item) => pathname.includes(item.key));
-    return currentItem?.label;
-  }, [navItems, pathname]);
+  const navItems = getNavItems(gymDomain as string);
+  const currentItem = navItems.find((item) => pathname.includes(item.key));
+  const currentLabel = currentItem?.label ?? '';
 
   return (
     <header className="sticky top-0 z-[999] flex h-14 items-center justify-between gap-2 bg-[#faf9f6] px-4 transition-all duration-300 ease-in-out lg:ml-[250px]">
@@ -46,7 +42,7 @@ export function Header() {
         )}
         <h1 className="font-bold">{currentLabel}</h1>
       </div>
-      {!isDesktop && logo && (
+      {isMount && !isDesktop && (
         <div className="relative flex aspect-video h-10">
           <Image
             key={`${gymName}-logo`}

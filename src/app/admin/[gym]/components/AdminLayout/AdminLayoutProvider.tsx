@@ -1,5 +1,8 @@
 'use client';
-import { useState, useEffect, useMemo } from 'react';
+
+import { useMemo, useState } from 'react';
+
+import { useMediaQuery } from '@/shared/hooks';
 
 import { AdminLayoutStateContext, GymDataContext } from './Context';
 
@@ -12,33 +15,12 @@ interface AdminLayoutProviderProps {
 
 const DESKTOP_BREAKPOINT = 1024;
 
-const AdminLayoutProvider = ({ children, gymName, logo, location }: AdminLayoutProviderProps) => {
+const AdminLayoutProvider = ({ children, gymName, location, logo }: AdminLayoutProviderProps) => {
+  const isDesktop = useMediaQuery(`(min-width: ${DESKTOP_BREAKPOINT}px)`);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
 
   const openSidebar = () => setIsSidebarOpen(true);
-
-  useEffect(() => {
-    const debounce = (fn: () => void, ms: number) => {
-      let timeoutId: NodeJS.Timeout;
-      return () => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(fn, ms);
-      };
-    };
-
-    const checkScreenSize = () => {
-      const isNowDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
-      setIsDesktop(isNowDesktop);
-      setIsSidebarOpen(isNowDesktop);
-    };
-
-    const debouncedCheckScreenSize = debounce(checkScreenSize, 100);
-
-    checkScreenSize();
-    window.addEventListener('resize', debouncedCheckScreenSize);
-    return () => window.removeEventListener('resize', debouncedCheckScreenSize);
-  }, []);
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   const stateValue = useMemo(
     () => ({
@@ -67,7 +49,7 @@ const AdminLayoutProvider = ({ children, gymName, logo, location }: AdminLayoutP
           {!isDesktop && isSidebarOpen && (
             <div
               className="fixed inset-0 z-[9999] bg-black/30 transition-opacity duration-300"
-              onClick={() => setIsSidebarOpen(false)}
+              onClick={closeSidebar}
             />
           )}
         </div>
