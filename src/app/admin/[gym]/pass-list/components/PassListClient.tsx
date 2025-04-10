@@ -73,7 +73,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
         <table className="w-full table-fixed text-left text-sm text-gray-500">
           <thead className="border-b bg-gray-50 text-xs text-gray-700">
             <tr>
-              <th scope="col" className="w-[40px] whitespace-nowrap px-3 py-3">
+              <th scope="col" className="w-[50px] whitespace-nowrap px-3 py-3">
                 순번
               </th>
               <th scope="col" className="w-[130px] whitespace-nowrap px-3 py-3">
