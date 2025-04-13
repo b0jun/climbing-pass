@@ -43,7 +43,7 @@ export async function pdfGenerateAndUpload({
 
     const gym = await db.gym.findUnique({
       where: { domain: gymDomain },
-      select: { name: true, location: true },
+      select: { name: true, name_en: true, location: true, location_en: true },
     });
 
     if (!gym) {
@@ -56,8 +56,8 @@ export async function pdfGenerateAndUpload({
       dateOfBirth,
       locale,
       signData,
-      gymName: gym.name,
-      gymLocation: gym.location,
+      gymName: locale === 'ko' ? gym.name : gym.name_en,
+      gymLocation: locale === 'ko' ? gym.location : gym.location_en,
     };
 
     // * PDF를 Buffer로 생성

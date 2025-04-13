@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   section: {
@@ -74,10 +74,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoLabelText: {
-    fontSize: 12,
+    fontSize: 10,
   },
   infoValueText: {
-    fontSize: 12,
+    fontSize: 10,
     flex: 1,
   },
   entryTimeRow: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   agreementHeaderText: {
-    fontSize: 12,
+    fontSize: 10,
   },
   agreementList: {
     borderBottomWidth: 1,
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   signatureBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#e7e5e4',
+    backgroundColor: '#C9CCD566',
     paddingHorizontal: 8,
     gap: 16,
   },
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     color: '#1f2937',
   },
   signaturePlaceholder: {
-    color: '#a8a29e',
+    color: '#a8a29e99',
     fontSize: 12,
   },
   signatureImage: {
@@ -192,17 +192,23 @@ function parseConsentText(text: string) {
 }
 
 export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
-  const createdTime = dayjsUTC();
-
   // TODO: 동의서 스키마 추가 시 해당 로직 수정 필요
   const isKo = pdfData.locale === 'ko';
   const i18n = isKo ? ko : en;
-  const consent = i18n.Consent;
-  const consentDesc = interpolate(consent.consentDesc, {
-    gymName: isKo ? '돌멩이 클라이밍' : 'Dolmenge Climbing',
-    gymLocation: isKo ? '전포점' : 'Jeonpo',
+  const document = i18n.Document;
+  const consentDesc = interpolate(document.consentDesc, {
+    gymName: pdfData.gymName,
+    gymLocation: pdfData.gymLocation,
   });
   const consentItems = parseConsentText(consentDesc);
+
+  const formatCreatedTime = (date: Date, locale: 'ko' | 'en') => {
+    const d = dayjsUTC(date).locale(locale);
+    return {
+      dateOnly: locale === 'ko' ? d.format('YYYY년 MM월 DD일') : d.format('MMMM DD, YYYY'),
+      dateTime: locale === 'ko' ? d.format('YYYY년 MM월 DD일, A h:mm') : d.format('MMMM DD, YYYY, h:mm A'),
+    };
+  };
 
   return (
     <Document>
@@ -210,7 +216,7 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
         {/* 헤더 */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>
-            {pdfData.gymName} {pdfData.gymLocation} 일일 패스 동의서
+            {pdfData.gymName} {pdfData.gymLocation} {document.title}
           </Text>
         </View>
 
@@ -218,19 +224,19 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
         <View style={styles.infoGrid}>
           <View style={styles.infoRow}>
             <View style={styles.infoLabelContainer}>
-              <Text style={styles.infoLabelText}>이름</Text>
+              <Text style={styles.infoLabelText}>{document.name}</Text>
             </View>
             <Text style={styles.infoValueText}>{pdfData.name}</Text>
           </View>
           <View style={styles.infoRow}>
             <View style={styles.infoLabelContainer}>
-              <Text style={styles.infoLabelText}>생년월일</Text>
+              <Text style={styles.infoLabelText}>{document.dateOfBirth}</Text>
             </View>
             <Text style={styles.infoValueText}>{pdfData.dateOfBirth}</Text>
           </View>
           <View style={styles.infoRow}>
             <View style={styles.infoLabelContainer}>
-              <Text style={styles.infoLabelText}>연락처</Text>
+              <Text style={styles.infoLabelText}>{document.phoneNumber}</Text>
             </View>
             <Text style={styles.infoValueText}>{pdfData.phoneNumber}</Text>
           </View>
@@ -238,17 +244,17 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
         <View style={styles.entryTimeRow}>
           <View style={styles.infoRow}>
             <View style={styles.infoLabelContainer}>
-              <Text style={styles.infoLabelText}>등록시간</Text>
+              <Text style={styles.infoLabelText}>{document.createdTime}</Text>
             </View>
-            <Text style={styles.infoValueText}>{createdTime.format('YYYY년 MM월 DD일, A h:mm')}</Text>
+            <Text style={styles.infoValueText}>{formatCreatedTime(new Date(), pdfData.locale).dateTime}</Text>
           </View>
         </View>
 
         {/* 동의 내용 */}
         <View style={styles.agreementContainer}>
-          <Text style={styles.agreementTitle}>이용약관 및 동의사항</Text>
+          <Text style={styles.agreementTitle}>{document.consentTitle}</Text>
           <View style={styles.agreementHeader}>
-            <Text style={styles.agreementHeaderText}>실내 클라이밍 위험 고지</Text>
+            <Text style={styles.agreementHeaderText}>{document.consentSubTitle}</Text>
           </View>
           <View style={styles.agreementList}>
             {consentItems.map((item, index) => (
@@ -262,16 +268,14 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
 
         {/* 서명 */}
         <View style={styles.signatureWrapper}>
-          <Text style={styles.signatureAgreementText}>
-            본인은 약관에 대해 충분히 읽고 이해하였으며 이에 동의하여 일일 패스 이용권을 신청합니다.
-          </Text>
-          <Text style={styles.signatureDateText}>{createdTime.format('YYYY년 MM월 DD일')}</Text>
+          <Text style={styles.signatureAgreementText}>{document.consentConfirmText}</Text>
+          <Text style={styles.signatureDateText}>{formatCreatedTime(new Date(), pdfData.locale).dateOnly}</Text>
           <View style={styles.signatureContent}>
-            <Text>신청인</Text>
+            <Text>{document.application}</Text>
             <View style={styles.signatureBox}>
               <Text style={styles.signatureNameText}>{pdfData.name}</Text>
               <View>
-                <Text style={styles.signaturePlaceholder}>(서명)</Text>
+                <Text style={styles.signaturePlaceholder}>({document.signature})</Text>
                 <Image src={pdfData.signData} style={styles.signatureImage} />
               </View>
             </View>
