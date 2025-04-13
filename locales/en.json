@@ -39,5 +39,18 @@
     "errorExpired": "The viewing time for this pass has expired.",
     "errorNotFound": "The pass information could not be found.",
     "retry": "Try Again"
+  },
+  "Document": {
+    "title": "One-day Pass Consent Form",
+    "name": "Name",
+    "dateOfBirth": "DOB",
+    "phoneNumber": "Phone",
+    "createdTime": "Reg. Time",
+    "consentTitle": "Terms of Use and Consent",
+    "consentSubTitle": "Acknowledgement of Risk And Release of Liability",
+    "consentDesc": "1. Risk Acknowledgment and Liability Waiver\n{gymName}, {gymLocation} branch (hereinafter referred to as the \"Facility\") involves various risks in its climbing activities, including but not limited to falls, injuries during equipment use, and collisions with other users. I fully acknowledge and understand these risks, and I agree not to hold the Facility, its operators, or staff legally responsible for any physical or material damages resulting from my negligence, the actions of others, or unavoidable circumstances at the Facility.\n\n2. Facility and Equipment Usage Regulations\nI agree to comply with the Facility's instructions and guidelines when using its equipment (e.g., harnesses, ropes, climbing holds, etc.), and I accept responsibility for compensating the Facility for any damage to equipment or the premises caused by my negligence.\n\n3. Regulations for Minors\nChildren from the first grade of elementary school (age 8) to the third grade of middle school (age 16) must be accompanied by a guardian, and the guardian is responsible for the child's safety. The Facility shall not be held liable for accidents resulting from a minor's use of the Facility without a guardian.\n\n4. Responsibility for Valuables and Loss\nI agree not to hold the Facility liable for the loss, theft, or damage of valuables (e.g., wallets, electronic devices, etc.) that are not entrusted to the Facility's desk. The safekeeping of valuables is my sole responsibility.\n\n5. Consent to Collection and Use of Personal Information\nI consent to the collection and use of my personal information (e.g., name, phone number, date of birth, etc.) provided for the purpose of managing my use of the Facility and ensuring safety. The collected personal information will be retained for one year after the termination of use and will be securely destroyed thereafter.\n\n6. Right to Withdraw Consent and Dispute Resolution\nI acknowledge my right to withdraw this consent, which can be done by contacting the Facility's desk. However, withdrawal of consent may result in restricted use of the Facility. In the event of a dispute related to this consent form, the matter shall, in principle, be resolved in the competent court of the jurisdiction where the Facility is located.\n\n7. Continued Validity of Liability Waiver\nI agree that the liability waiver provisions stated in this consent form shall remain in effect during and after my use of the Facility.",
+    "consentConfirmText": "I have read and understood the terms and conditions, and I agree to apply for the One-day Pass.",
+    "application": "Applicant",
+    "signature": "Sig."
   }
 }
