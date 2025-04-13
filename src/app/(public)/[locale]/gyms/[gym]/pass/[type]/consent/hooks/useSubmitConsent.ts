@@ -9,9 +9,9 @@ import { toast } from 'react-toastify';
 import { useRouter } from '@/i18n/navigation.public';
 
 import { PassValidType } from '../../types/passType.type';
+import { pdfGenerateAndUpload } from '../actions/pdfGenerateAndUpload';
 import { submitPass } from '../actions/submitPass';
 import { ConsentFormData } from '../schema/consentSchema';
-import { uploadSignature } from '../utils/uploadSignature';
 
 interface SubmitConsentParams {
   formData: ConsentFormData;
@@ -23,18 +23,26 @@ interface SubmitConsentParams {
 
 export const useSubmitConsent = () => {
   const { replace } = useRouter();
-  const { gym, type } = useParams();
+  const { gym } = useParams();
   const [blocked, setBlocked] = useState(false);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async ({ formData, signData, type, gymDomain, locale }: SubmitConsentParams) => {
-      // * 서명 이미지 업로드
-      const uploadResponse = await uploadSignature(formData.name, signData);
-      if (!uploadResponse.success) {
-        return { success: false, message: uploadResponse.message };
+      // * PDF 업로드
+      const pdfResponse = await pdfGenerateAndUpload({
+        name: formData.name,
+        phoneNumber: formData.phoneNumber || '',
+        dateOfBirth: formData.dateOfBirth,
+        locale,
+        signData,
+        gymDomain,
+      });
+      if (!pdfResponse.success || !pdfResponse.url) {
+        return { success: false, message: 'PDF 업로드 실패' };
       }
+
       // * 패스 Create
-      const submitResponse = await submitPass({ formData, signatureUrl: uploadResponse.url, type, gymDomain, locale });
+      const submitResponse = await submitPass({ formData, pdfUrl: pdfResponse.url, type, gymDomain, locale });
       return submitResponse;
     },
     onSuccess: (response) => {

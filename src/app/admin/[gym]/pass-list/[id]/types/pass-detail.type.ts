@@ -1,6 +1,6 @@
 import { Pass } from '@prisma/client';
 
-type BasePassFields = 'name' | 'phoneNumber' | 'dateOfBirth' | 'signature' | 'type' | 'createdAt' | 'locale';
+type BasePassFields = 'name' | 'phoneNumber' | 'dateOfBirth' | 'signature' | 'type' | 'createdAt' | 'locale' | 'pdfUrl';
 type PassDetailFields = Pick<Pass, BasePassFields>;
 
 type GymData = {

@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Pass" ADD COLUMN     "pdfUrl" TEXT NOT NULL DEFAULT '',
+ALTER COLUMN "phoneNumber" DROP NOT NULL,
+ALTER COLUMN "signature" DROP NOT NULL;
