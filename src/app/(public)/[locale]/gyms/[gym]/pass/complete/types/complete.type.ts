@@ -7,6 +7,7 @@ export interface PassAndGymData {
   locale: Pass['locale'];
   type: Pass['type'];
   shoesRental: Pass['shoesRental'];
+  pdfUrl: Pass['pdfUrl'];
   gym: {
     name: Gym['name'];
     location: Gym['location'];

@@ -11,9 +11,10 @@ datasource db {
 model Pass {
   id          String     @id @default(cuid())
   name        String
-  phoneNumber String
+  phoneNumber String?
   dateOfBirth String
-  signature   String
+  signature   String?
+  pdfUrl      String     @default("")
   type        PassType
   status      PassStatus @default(WAIT)
   shoesRental Boolean    @default(false)

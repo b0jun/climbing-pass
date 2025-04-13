@@ -19,9 +19,9 @@ export async function getVisitorStats({ gym, passDate }: VisitorStatsParams) {
 
   const start = baseDate.startOf('day').toDate();
   const end = baseDate.endOf('day').toDate();
+
   const passes = await db.pass.findMany({
     where: {
-      userId: session.user.id,
       gymId: gym,
       status: 'APPROVED',
       createdAt: {

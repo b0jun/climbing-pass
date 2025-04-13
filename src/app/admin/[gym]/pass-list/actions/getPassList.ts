@@ -1,12 +1,12 @@
 'use server';
 
-import { Prisma } from '@prisma/client';
+import { Pass, Prisma } from '@prisma/client';
 
 import { auth } from '@/auth';
 import { dayjsUTC } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-import { PassListParams, PassWithVisits } from '../types/pass-list.type';
+import { BasePassFields, PassListParams, PassWithVisits } from '../types/pass-list.type';
 
 const getDayRange = (date?: string) => {
   const baseDate = date && dayjsUTC(date).isValid() ? dayjsUTC(date) : dayjsUTC();
@@ -14,6 +14,11 @@ const getDayRange = (date?: string) => {
   const endOfDay = baseDate.endOf('day').toDate();
   return { startOfDay, endOfDay };
 };
+
+type PassListRaw = {
+  totalVisits: number;
+  createdAt: Pass['createdAt'];
+} & Pick<Pass, BasePassFields>;
 
 export async function getPassList({ gym, passType, passDate }: PassListParams): Promise<PassWithVisits[]> {
   try {
@@ -26,7 +31,7 @@ export async function getPassList({ gym, passType, passDate }: PassListParams): 
 
     const { startOfDay, endOfDay } = getDayRange(passDate);
 
-    const passListData = await db.$queryRaw<PassWithVisits[]>(
+    const passListDataRaw = await db.$queryRaw<PassListRaw[]>(
       Prisma.sql`
         SELECT
           p.id,
@@ -61,7 +66,12 @@ export async function getPassList({ gym, passType, passDate }: PassListParams): 
       `,
     );
 
-    return passListData ?? [];
+    const passListData = (passListDataRaw ?? []).map((item) => ({
+      ...item,
+      createdAt: item.createdAt.toISOString(),
+    }));
+
+    return passListData;
   } catch (error) {
     throw new Error((error instanceof Error && error.message) || '패스 목록을 불러오는 중 오류가 발생했습니다.');
   }

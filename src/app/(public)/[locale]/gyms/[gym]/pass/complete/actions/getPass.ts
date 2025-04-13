@@ -29,6 +29,7 @@ export async function getPass({ id, gym }: GetPassRequest): Promise<GetPassRespo
       shoesRental: true,
       locale: true,
       gymId: true,
+      pdfUrl: true,
       gym: {
         select: {
           name: true,
@@ -63,6 +64,7 @@ export async function getPass({ id, gym }: GetPassRequest): Promise<GetPassRespo
       type: pass.type,
       shoesRental: pass.shoesRental,
       locale: pass.locale,
+      pdfUrl: pass.pdfUrl,
       gym: {
         name: isKo ? pass.gym.name : pass.gym.name_en,
         location: isKo ? pass.gym.location : pass.gym.location_en,

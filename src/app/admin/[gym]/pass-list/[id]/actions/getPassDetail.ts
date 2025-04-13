@@ -57,6 +57,7 @@ export async function getPassDetail({ id, gym }: { id: string; gym: string }): P
         createdAt: true,
         signature: true,
         locale: true,
+        pdfUrl: true,
       },
     });
 

@@ -9,7 +9,7 @@ import { ConsentFormData } from '../schema/consentSchema';
 
 interface SubmitPassParams {
   formData: ConsentFormData;
-  signatureUrl: string;
+  pdfUrl: string;
   type: PassValidType;
   gymDomain: string;
   locale: Locale;
@@ -27,7 +27,7 @@ type SubmitPassResponse =
 
 export async function submitPass({
   formData,
-  signatureUrl,
+  pdfUrl,
   type,
   gymDomain,
   locale,
@@ -50,12 +50,12 @@ export async function submitPass({
     const createdPass = await db.pass.create({
       data: {
         name,
-        phoneNumber: phoneNumber || '', // TODO: phoneNumber 스키마 옵셔널로 수정
+        phoneNumber: phoneNumber || '',
         dateOfBirth: dateOfBirth,
         shoesRental: isDayPass ? shoesRental : true,
         type: isDayPass ? 'DayPass' : 'DayExperience',
         locale,
-        signature: signatureUrl,
+        pdfUrl: pdfUrl,
         status: 'WAIT',
         gymId: gymDomain,
         userId: gymData.userId,
