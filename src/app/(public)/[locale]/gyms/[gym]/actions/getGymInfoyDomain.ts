@@ -31,7 +31,7 @@ export async function getGymInfoyDomain(gymDomain: string): Promise<GymInfoResop
       return { logo: gym.logo, names, locations };
     },
     [`gym-info-${gymDomain}`],
-    { tags: [`gym-info-${gymDomain}`] },
+    { tags: [`gym-info-${gymDomain}`], revalidate: 60 },
   );
   try {
     return await cachedGetGymInfoByDomain(gymDomain);
