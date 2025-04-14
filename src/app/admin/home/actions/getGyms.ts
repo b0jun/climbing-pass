@@ -19,7 +19,7 @@ export async function getGyms(userId: string): Promise<GymType[]> {
       return data ?? [];
     },
     [`gyms-${userId}`],
-    { tags: [`gyms-${userId}`], revalidate: 60 },
+    { tags: [`gyms-${userId}`], revalidate: 3600 },
   );
 
   try {
