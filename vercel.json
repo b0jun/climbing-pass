@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/remove-pass",
-      "schedule": "*/3 * * * *"
+      "schedule": "10 13 * * *"
     }
   ]
 }
