@@ -7,6 +7,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale('ko');
 
+dayjs.tz.setDefault('Asia/Seoul');
 const dayjsUTC = dayjs;
 
 export { dayjsUTC };
