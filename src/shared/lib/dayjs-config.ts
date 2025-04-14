@@ -9,5 +9,6 @@ dayjs.locale('ko');
 
 dayjs.tz.setDefault('Asia/Seoul');
 const dayjsUTC = dayjs;
+const dayjsKST = (date?: dayjs.ConfigType) => dayjs(date).tz('Asia/Seoul');
 
-export { dayjsUTC };
+export { dayjsUTC, dayjsKST };
