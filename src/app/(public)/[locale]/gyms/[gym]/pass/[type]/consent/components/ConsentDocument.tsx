@@ -4,7 +4,7 @@ import { Gym, Locale, Pass } from '@prisma/client';
 import { Document, Page, Text, Image, View, StyleSheet, Font } from '@react-pdf/renderer';
 
 import { interpolate } from '@/app/admin/[gym]/pass-list/[id]/utils/interpolate';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST, dayjsUTC } from '@/shared/lib/dayjs-config';
 import en from '@locales/en.json';
 import ko from '@locales/ko.json';
 
@@ -203,7 +203,7 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
   const consentItems = parseConsentText(consentDesc);
 
   const formatCreatedTime = () => {
-    const d = dayjsUTC().locale(pdfData.locale);
+    const d = dayjsKST().locale(pdfData.locale);
     return {
       dateOnly: isKo ? d.format('YYYY년 MM월 DD일') : d.format('MMMM DD, YYYY'),
       dateTime: isKo ? d.format('YYYY년 MM월 DD일, A h:mm') : d.format('MMMM DD, YYYY, h:mm A'),
