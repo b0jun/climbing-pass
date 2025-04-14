@@ -202,11 +202,11 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
   });
   const consentItems = parseConsentText(consentDesc);
 
-  const formatCreatedTime = (date: Date, locale: 'ko' | 'en') => {
-    const d = dayjsUTC(date).locale(locale);
+  const formatCreatedTime = () => {
+    const d = dayjsUTC().locale(pdfData.locale);
     return {
-      dateOnly: locale === 'ko' ? d.format('YYYY년 MM월 DD일') : d.format('MMMM DD, YYYY'),
-      dateTime: locale === 'ko' ? d.format('YYYY년 MM월 DD일, A h:mm') : d.format('MMMM DD, YYYY, h:mm A'),
+      dateOnly: isKo ? d.format('YYYY년 MM월 DD일') : d.format('MMMM DD, YYYY'),
+      dateTime: isKo ? d.format('YYYY년 MM월 DD일, A h:mm') : d.format('MMMM DD, YYYY, h:mm A'),
     };
   };
 
@@ -246,7 +246,7 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
             <View style={styles.infoLabelContainer}>
               <Text style={styles.infoLabelText}>{document.createdTime}</Text>
             </View>
-            <Text style={styles.infoValueText}>{formatCreatedTime(new Date(), pdfData.locale).dateTime}</Text>
+            <Text style={styles.infoValueText}>{formatCreatedTime().dateTime}</Text>
           </View>
         </View>
 
@@ -269,7 +269,7 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
         {/* 서명 */}
         <View style={styles.signatureWrapper}>
           <Text style={styles.signatureAgreementText}>{document.consentConfirmText}</Text>
-          <Text style={styles.signatureDateText}>{formatCreatedTime(new Date(), pdfData.locale).dateOnly}</Text>
+          <Text style={styles.signatureDateText}>{formatCreatedTime().dateOnly}</Text>
           <View style={styles.signatureContent}>
             <Text>{document.application}</Text>
             <View style={styles.signatureBox}>
