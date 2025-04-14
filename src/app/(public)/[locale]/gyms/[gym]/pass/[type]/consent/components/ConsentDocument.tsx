@@ -4,7 +4,7 @@ import { Gym, Locale, Pass } from '@prisma/client';
 import { Document, Page, Text, Image, View, StyleSheet, Font } from '@react-pdf/renderer';
 
 import { interpolate } from '@/app/admin/[gym]/pass-list/[id]/utils/interpolate';
-import { dayjsKST, dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import en from '@locales/en.json';
 import ko from '@locales/ko.json';
 

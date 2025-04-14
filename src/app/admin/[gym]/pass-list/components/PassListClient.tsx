@@ -5,7 +5,7 @@ import { CircleCheckBig, Clock4, FileUser, SquarePen, Trash2 } from 'lucide-reac
 import { useRouter, usePathname } from 'next/navigation';
 
 import ShoesIcon from '@/shared/components/SVG/ShoesIcon';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 
 import { usePassUpdateModal, useStatusToDeleteModal, useStatusToWaitModal } from '../hooks';
 import { usePassList } from '../hooks/usePassList';
@@ -132,7 +132,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
                         {visitText}
                       </td>
                       <td className="truncate">{dateOfBirth}</td>
-                      <td className="truncate">{dayjsUTC(createdAt).format('A h:mm')}</td>
+                      <td className="truncate">{dayjsKST(createdAt).format('A h:mm')}</td>
                       <td>
                         <div
                           className={cn(

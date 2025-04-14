@@ -3,7 +3,7 @@
 import { PassType } from '@prisma/client';
 
 import { auth } from '@/auth';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
 export async function getCurrentMonthStats(gymDomain: string) {
@@ -13,7 +13,7 @@ export async function getCurrentMonthStats(gymDomain: string) {
     throw new Error('세션이 없습니다.');
   }
 
-  const today = dayjsUTC();
+  const today = dayjsKST();
   const todayDate = today.startOf('day');
 
   const currentStart = today.startOf('month');

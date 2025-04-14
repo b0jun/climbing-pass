@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 import { Link } from '@/i18n/navigation.public';
 import ShoesIcon from '@/shared/components/SVG/ShoesIcon';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 
 import { PassAndGymData } from '../types/complete.type';
 
@@ -206,7 +206,7 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
               )}
               <div>
                 <div className="text-[10px] text-gray-500">{label.date}</div>
-                <div className="text-sm font-medium text-gray-800">{dayjsUTC(pass.createdAt).format('YYYY.MM.DD')}</div>
+                <div className="text-sm font-medium text-gray-800">{dayjsKST(pass.createdAt).format('YYYY.MM.DD')}</div>
               </div>
             </div>
           </div>

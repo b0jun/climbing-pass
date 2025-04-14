@@ -2,7 +2,7 @@
 
 import { Pass } from '@prisma/client';
 
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
 import { PassAndGymData } from '../types/complete.type';
@@ -47,9 +47,9 @@ export async function getPass({ id, gym }: GetPassRequest): Promise<GetPassRespo
   }
 
   // * 30분 내의 데이터만 조회가능
-  const limitTime = dayjsUTC(pass.createdAt).add(EXPIRE_TIME, 'minute');
+  const limitTime = dayjsKST(pass.createdAt).add(EXPIRE_TIME, 'minute');
 
-  if (dayjsUTC().isAfter(limitTime)) {
+  if (dayjsKST().isAfter(limitTime)) {
     return { success: false, code: 'PASS_EXPIRED' };
   }
 
