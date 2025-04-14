@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { passKeys } from '@/shared/lib/react-query/factory';
 import { updateQueryString } from '@/shared/utils';
 
@@ -30,7 +30,7 @@ export function FilterControlsClient() {
   const { open: openSearchPassModal } = useSearchPassModal();
 
   // * 날짜 선택
-  const today = dayjsUTC().format('YYYY/MM/DD');
+  const today = dayjsKST().format('YYYY/MM/DD');
   const datepickerRef = useRef<DatePicker>(null);
 
   const passDate = searchParams.get('passDate') || today;
@@ -50,7 +50,7 @@ export function FilterControlsClient() {
   };
 
   const handleChangeDate = (date: Date | null) => {
-    const newDate = date ? dayjsUTC(date).format('YYYY/MM/DD') : undefined;
+    const newDate = date ? dayjsKST(date).format('YYYY/MM/DD') : undefined;
     const queryString = updateQueryString('passDate', newDate, searchParams);
     router.replace(`${pathname}?${queryString}`);
   };

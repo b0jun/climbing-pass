@@ -2,7 +2,7 @@
 
 import { ArrowDownIcon, ArrowUpIcon, Users, Calendar, Info, Rabbit, Turtle } from 'lucide-react';
 
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 
 interface CurrentMonthStatsProps {
   stats: {
@@ -31,11 +31,11 @@ export function CurrentMonthStats({ stats }: CurrentMonthStatsProps) {
     },
   ];
 
-  const now = dayjsUTC();
+  const now = dayjsKST();
   const startOfMonth = now.startOf('month');
 
   const prevMonth = now.subtract(1, 'month');
-  const endOfPrevRange = dayjsUTC(prevMonth).endOf('month');
+  const endOfPrevRange = dayjsKST(prevMonth).endOf('month');
   const startOfPrevMonth = prevMonth.startOf('month');
 
   const rangeEndDate = Math.min(now.date(), endOfPrevRange.date());

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import en from '@locales/en.json';
 import ko from '@locales/ko.json';
 
@@ -141,7 +141,7 @@ export function PassDetailClient({ queryParams }: PassDetailClientProps) {
               </div>
               <div className="col-span-2">
                 <span className="font-medium">입장 등록시간: </span>
-                {dayjsUTC(data.createdAt).format('YYYY년 MM월 DD일, A h:mm')}
+                {dayjsKST(data.createdAt).format('YYYY년 MM월 DD일, A h:mm')}
               </div>
             </div>
           </section>
@@ -170,7 +170,7 @@ export function PassDetailClient({ queryParams }: PassDetailClientProps) {
               본인은 약관에 대해 충분히 읽고 이해하였으며 이에 동의하여 일일 이용권을 신청합니다.
             </p>
             <p className="mt-4 text-center text-sm text-gray-600">
-              {dayjsUTC(data.createdAt).format('YYYY년 MM월 DD일')}
+              {dayjsKST(data.createdAt).format('YYYY년 MM월 DD일')}
             </p>
             <div className="mt-4 flex items-center justify-between">
               <div className="relative h-[40px] w-[100px]">

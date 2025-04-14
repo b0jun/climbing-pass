@@ -3,13 +3,13 @@
 import { Pass, Prisma } from '@prisma/client';
 
 import { auth } from '@/auth';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
 import { BasePassFields, PassListParams, PassWithVisits } from '../types/pass-list.type';
 
 const getDayRange = (date?: string) => {
-  const baseDate = date && dayjsUTC(date).isValid() ? dayjsUTC(date) : dayjsUTC();
+  const baseDate = date && dayjsKST(date).isValid() ? dayjsKST(date) : dayjsKST();
   const startOfDay = baseDate.startOf('day').toDate();
   const endOfDay = baseDate.endOf('day').toDate();
   return { startOfDay, endOfDay };

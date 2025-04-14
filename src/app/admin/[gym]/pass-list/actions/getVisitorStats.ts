@@ -1,7 +1,7 @@
 'use server';
 
 import { auth } from '@/auth';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
 import { VisitorStatsParams } from '../types/pass-list.type';
@@ -12,7 +12,7 @@ export async function getVisitorStats({ gym, passDate }: VisitorStatsParams) {
     throw new Error('세션 정보가 없습니다.');
   }
 
-  const baseDate = passDate ? dayjsUTC(passDate) : dayjsUTC();
+  const baseDate = passDate ? dayjsKST(passDate) : dayjsKST();
   if (!baseDate.isValid()) {
     throw new Error('유효하지 않은 날짜입니다.');
   }

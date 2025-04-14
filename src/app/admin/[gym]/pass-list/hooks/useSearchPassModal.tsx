@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { Modal } from '@/shared/components';
-import { dayjsUTC } from '@/shared/lib/dayjs-config';
+import { dayjsKST } from '@/shared/lib/dayjs-config';
 
 import { SearchPassFormData, searchPassSchema } from '../schema/searchPassSchema';
 import { SeachPassResult } from '../types/pass-list.type';
@@ -127,7 +127,7 @@ function SearchPassModal({ open, close, unmount }: SearchPassModalProps) {
             <LoaderCircle size={24} className="animate-spin text-gray-500" />
           </div>
         ) : hasSearched ? (
-          <div className="scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-200 block max-h-[50vh] overflow-y-auto rounded-md border bg-[#f4f7f9]">
+          <div className="block max-h-[50vh] overflow-y-auto rounded-md border bg-[#f4f7f9] scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-300">
             <p className="flex items-center gap-2 border-b bg-white px-4 py-2 text-sm text-gray-500">
               <Info size={18} /> 최근 6개월 이내 데이터만 조회됩니다.
             </p>
@@ -145,7 +145,7 @@ function SearchPassModal({ open, close, unmount }: SearchPassModalProps) {
                   {results.map((result) => (
                     <tr key={result.id} className="border-t">
                       <td className="px-4 py-2 text-sm text-gray-900">
-                        {dayjsUTC(result.createdAt).format('YYYY-MM-DD')}
+                        {dayjsKST(result.createdAt).format('YYYY-MM-DD')}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-900">{result.name}</td>
                       <td className="px-4 py-2 text-sm text-gray-900">{result.phoneNumber}</td>
