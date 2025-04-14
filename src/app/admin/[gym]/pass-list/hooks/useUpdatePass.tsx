@@ -48,6 +48,7 @@ export function useUpdatePass() {
         }
         return;
       }
+      queryClient.invalidateQueries({ queryKey: passKeys.visitorStats() });
       toast.success('패스 정보가 수정되었습니다.');
     },
     onError: (_, __, context) => {
