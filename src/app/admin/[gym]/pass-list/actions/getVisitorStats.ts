@@ -6,15 +6,22 @@ import { db } from '@/shared/lib/prisma';
 
 import { VisitorStatsParams } from '../types/pass-list.type';
 
-export async function getVisitorStats({ gym, passDate }: VisitorStatsParams) {
+type GetVisitorStatsResponse =
+  | { success: true; data: { total: number; dayExperience: number; dayPass: number } }
+  | { success: false; message: string };
+
+export async function getVisitorStats({ gym, passDate }: VisitorStatsParams): Promise<GetVisitorStatsResponse> {
   const session = await auth();
-  if (!session || !session.user?.id) {
-    throw new Error('세션 정보가 없습니다.');
+  if (!session || !session.user) {
+    return { success: false, message: '권한이 없습니다.' };
   }
 
-  const baseDate = passDate ? dayjsKST(passDate) : dayjsKST();
-  if (!baseDate.isValid()) {
-    throw new Error('유효하지 않은 날짜입니다.');
+  const today = dayjsKST();
+  const baseDate = passDate && dayjsKST(passDate).isValid() ? dayjsKST(passDate) : today;
+  const oneYearAgo = today.subtract(1, 'year').startOf('day');
+
+  if (baseDate.isBefore(oneYearAgo)) {
+    return { success: false, message: '1년보다 이전의 데이터는 조회할 수 없습니다.' };
   }
 
   const start = baseDate.startOf('day').toDate();
@@ -38,8 +45,11 @@ export async function getVisitorStats({ gym, passDate }: VisitorStatsParams) {
   const dayPass = passes.filter((p) => p.type === 'DayPass').length;
 
   return {
-    total,
-    dayExperience,
-    dayPass,
+    success: true,
+    data: {
+      total,
+      dayExperience,
+      dayPass,
+    },
   };
 }

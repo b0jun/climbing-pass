@@ -26,7 +26,7 @@ export function VisitorStatsClient({ queryParams }: VisitorStatsClientProps) {
   ];
 
   return (
-    <div className="grid grid-cols-[repeat(3,_minmax(180px,_1fr))] gap-4">
+    <div className="grid grid-cols-3 gap-4">
       {visitorStats.map(({ title, value }) => (
         <div key={title} className="space-y-3 rounded-lg bg-white p-5 shadow-lg">
           <div className="text-sm font-medium leading-4 text-gray-500">{title}</div>

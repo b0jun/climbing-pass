@@ -1,6 +1,6 @@
 export function VisitorStatsSkeleton() {
   return (
-    <div className="grid grid-cols-[repeat(3,_minmax(180px,_1fr))] gap-4">
+    <div className="grid grid-cols-3 gap-4">
       {Array(3)
         .fill(0)
         .map((_, idx) => (

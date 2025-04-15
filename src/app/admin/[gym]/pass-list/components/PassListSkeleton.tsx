@@ -1,3 +1,5 @@
+import { Info } from 'lucide-react';
+
 export function PassListSkeleton() {
   return (
     <div className="inline-block w-full animate-pulse overflow-hidden rounded-[10px] bg-white align-middle shadow-lg">
@@ -14,8 +16,11 @@ export function PassListSkeleton() {
               <th scope="col" className="w-[120px] whitespace-nowrap px-3 py-3">
                 전화번호
               </th>
-              <th scope="col" className="w-[70px] whitespace-nowrap px-3 py-3">
-                방문횟수
+              <th scope="col" className="w-[80px] whitespace-nowrap px-3 py-3">
+                <div className="relative flex h-[16.5px] items-center gap-[2px]">
+                  방문횟수
+                  <Info size={12} className="cursor-pointer text-gray-500" />
+                </div>
               </th>
               <th scope="col" className="w-[100px] whitespace-nowrap px-3 py-3">
                 생년월일

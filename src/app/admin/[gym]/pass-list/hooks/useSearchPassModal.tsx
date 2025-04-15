@@ -129,7 +129,7 @@ function SearchPassModal({ open, close, unmount }: SearchPassModalProps) {
         ) : hasSearched ? (
           <div className="block max-h-[50vh] overflow-y-auto rounded-md border bg-[#f4f7f9] scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-300">
             <p className="flex items-center gap-2 border-b bg-white px-4 py-2 text-sm text-gray-500">
-              <Info size={18} /> 최근 6개월 이내 데이터만 조회됩니다.
+              <Info size={18} /> 최근 1년 이내 데이터만 조회됩니다.
             </p>
             {results.length > 0 ? (
               <table className="w-full text-left">

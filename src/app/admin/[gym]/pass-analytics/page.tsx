@@ -7,6 +7,10 @@ interface PassAnalyticsPage {
 
 export default async function PassAnalyticsPage({ params }: PassAnalyticsPage) {
   const { gym } = await params;
-  const stats = await getCurrentMonthStats(gym);
-  return <CurrentMonthStats stats={stats} />;
+  const response = await getCurrentMonthStats(gym);
+  if (!response.success) {
+    throw new Error(response.message);
+  }
+
+  return <CurrentMonthStats stats={response.data} />;
 }
