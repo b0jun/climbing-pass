@@ -22,9 +22,10 @@ const passKeys = {
     queryOptions({
       queryKey: [{ ...passKeys.visitorStats()[0], params }] as const,
       queryFn: () => visitorStatsFn(params),
-      refetchInterval: 15000,
-      refetchOnWindowFocus: true,
-      refetchIntervalInBackground: false,
+      // TODO: SSE or WebSocket
+      // refetchInterval: 15000,
+      // refetchOnWindowFocus: true,
+      // refetchIntervalInBackground: false,
     }),
   details: () => [{ ...passKeys.base[0], entity: 'passDetail' }] as const,
   detail: (params: PassDetailParams) =>

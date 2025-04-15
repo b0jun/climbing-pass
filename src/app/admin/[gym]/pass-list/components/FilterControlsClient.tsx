@@ -93,7 +93,8 @@ export function FilterControlsClient() {
             selected={new Date(passDate)}
             onChange={handleChangeDate}
             dateFormat="yyyy/MM/dd"
-            maxDate={new Date()}
+            minDate={dayjsKST().subtract(1, 'year').toDate()}
+            maxDate={dayjsKST().toDate()}
             customInput={
               <input id="passDate" className="h-[50px] w-[110px] rounded-lg border-none px-2 py-1 shadow-lg" />
             }

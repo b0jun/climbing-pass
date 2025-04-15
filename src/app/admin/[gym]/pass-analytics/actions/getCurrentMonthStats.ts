@@ -1,21 +1,20 @@
 'use server';
 
 import { PassType } from '@prisma/client';
+import dayjs from 'dayjs';
 
 import { auth } from '@/auth';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-export async function getCurrentMonthStats(gymDomain: string) {
-  const session = await auth();
+// * 변화율 계산
+function getChangeRate(current: number, previous: number): string {
+  return (((current - previous) / (previous || 1)) * 100).toFixed(1);
+}
 
-  if (!session || !session.user?.id) {
-    throw new Error('세션이 없습니다.');
-  }
-
-  const today = dayjsKST();
+// * 날짜 범위 계산
+function getDateRangeForMonthComparison(today: dayjs.Dayjs) {
   const todayDate = today.startOf('day');
-
   const currentStart = today.startOf('month');
   const currentEnd = today.endOf('day');
 
@@ -25,53 +24,82 @@ export async function getCurrentMonthStats(gymDomain: string) {
   const dateDiff = todayDate.diff(currentStart, 'day');
   const prevEnd = prevStart.add(dateDiff, 'day').endOf('day');
 
+  return {
+    current: { start: currentStart.toDate(), end: currentEnd.toDate() },
+    previous: { start: prevStart.toDate(), end: prevEnd.toDate() },
+    dayCount: currentEnd.diff(currentStart, 'day') + 1,
+    prevDayCount: prevEnd.diff(prevStart, 'day') + 1,
+  };
+}
+
+type GetCurrentMonthStatsResponse =
+  | {
+      success: true;
+      data: {
+        total: { value: number; change: string };
+        experience: { value: number; change: string };
+        usage: { value: number; change: string };
+        dailyAverage: { value: number; change: string };
+      };
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+export async function getCurrentMonthStats(gymDomain: string): Promise<GetCurrentMonthStatsResponse> {
+  const session = await auth();
+  if (!session || !session.user?.id) {
+    return { success: false, message: '권한이 없습니다.' };
+  }
+
+  const today = dayjsKST();
+  const { current, previous, dayCount, prevDayCount } = getDateRangeForMonthComparison(today);
+
   const [currentPasses, prevPasses] = await Promise.all([
     db.pass.findMany({
       where: {
         gymId: gymDomain,
         status: 'APPROVED',
-        createdAt: { gte: currentStart.toDate(), lte: currentEnd.toDate() },
+        createdAt: { gte: current.start, lte: current.end },
       },
     }),
     db.pass.findMany({
       where: {
         gymId: gymDomain,
         status: 'APPROVED',
-        createdAt: { gte: prevStart.toDate(), lte: prevEnd.toDate() },
+        createdAt: { gte: previous.start, lte: previous.end },
       },
     }),
   ]);
+
   const countByType = (passes: typeof currentPasses, type: PassType) => passes.filter((p) => p.type === type).length;
-  const dayCount = currentEnd.diff(currentStart, 'day') + 1;
-  const prevDayCount = prevEnd.diff(prevStart, 'day') + 1;
+
+  const currentExperience = countByType(currentPasses, 'DayExperience');
+  const prevExperience = countByType(prevPasses, 'DayExperience');
+
+  const currentUsage = countByType(currentPasses, 'DayPass');
+  const prevUsage = countByType(prevPasses, 'DayPass');
+
   return {
-    total: {
-      value: currentPasses.length,
-      change: (((currentPasses.length - prevPasses.length) / (prevPasses.length || 1)) * 100).toFixed(1),
-    },
-    experience: {
-      value: countByType(currentPasses, 'DayExperience'),
-      change: (
-        ((countByType(currentPasses, 'DayExperience') - countByType(prevPasses, 'DayExperience')) /
-          (countByType(prevPasses, 'DayExperience') || 1)) *
-        100
-      ).toFixed(1),
-    },
-    usage: {
-      value: countByType(currentPasses, 'DayPass'),
-      change: (
-        ((countByType(currentPasses, 'DayPass') - countByType(prevPasses, 'DayPass')) /
-          (countByType(prevPasses, 'DayPass') || 1)) *
-        100
-      ).toFixed(1),
-    },
-    dailyAverage: {
-      value: Math.round(currentPasses.length / dayCount),
-      change: (
-        ((currentPasses.length / dayCount - prevPasses.length / prevDayCount) /
-          (prevPasses.length / prevDayCount || 1)) *
-        100
-      ).toFixed(1),
+    success: true,
+    data: {
+      total: {
+        value: currentPasses.length,
+        change: getChangeRate(currentPasses.length, prevPasses.length),
+      },
+      experience: {
+        value: currentExperience,
+        change: getChangeRate(currentExperience, prevExperience),
+      },
+      usage: {
+        value: currentUsage,
+        change: getChangeRate(currentUsage, prevUsage),
+      },
+      dailyAverage: {
+        value: Math.round(currentPasses.length / dayCount),
+        change: getChangeRate(currentPasses.length / dayCount, prevPasses.length / prevDayCount),
+      },
     },
   };
 }

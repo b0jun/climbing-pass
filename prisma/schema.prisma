@@ -26,8 +26,8 @@ model Pass {
   gym         Gym?       @relation(fields: [gymId], references: [domain])
   user        User?      @relation(fields: [userId], references: [id])
 
-  @@index([userId, gymId, status, createdAt])
-  @@index([userId, gymId, status, name, phoneNumber])
+  @@index([gymId, status, createdAt])
+  @@index([gymId, status, name, phoneNumber])
 }
 
 model Gym {

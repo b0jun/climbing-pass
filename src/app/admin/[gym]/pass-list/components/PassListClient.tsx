@@ -1,7 +1,7 @@
 'use client';
 
 import cn from 'classnames';
-import { CircleCheckBig, Clock4, FileUser, SquarePen, Trash2 } from 'lucide-react';
+import { CircleCheckBig, Clock4, FileUser, Info, SquarePen, Trash2 } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import ShoesIcon from '@/shared/components/SVG/ShoesIcon';
@@ -82,8 +82,14 @@ export function PassListClient({ queryParams }: PassListClientProps) {
               <th scope="col" className="w-[120px] whitespace-nowrap px-3 py-3">
                 전화번호
               </th>
-              <th scope="col" className="w-[70px] whitespace-nowrap px-3 py-3">
-                방문횟수
+              <th scope="col" className="w-[80px] whitespace-nowrap px-3 py-3">
+                <div className="group relative flex h-[16.5px] items-center gap-[2px]">
+                  방문횟수
+                  <Info size={12} className="cursor-pointer text-gray-500" />
+                  <div className="pointer-events-none absolute left-[50px] top-1/2 z-10 ml-2 w-max -translate-y-1/2 rounded bg-black/80 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    최근 1년 기준의 방문 횟수입니다
+                  </div>
+                </div>
               </th>
               <th scope="col" className="w-[100px] whitespace-nowrap px-3 py-3">
                 생년월일

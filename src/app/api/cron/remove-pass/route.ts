@@ -20,12 +20,17 @@ async function deleteBlobFile(blobUrl: string, passId?: string, failures?: { pas
 }
 
 async function deleteDeletedPasses() {
-  const thresholdDate = dayjsKST().subtract(1, 'day').toDate();
+  const oneDayAgo = dayjsKST().subtract(1, 'day');
+  const start = oneDayAgo.subtract(1, 'day').startOf('day').toDate();
+  const end = oneDayAgo.endOf('day').toDate();
 
   const deletedPasses = await db.pass.findMany({
     where: {
       status: 'DELETED',
-      updatedAt: { lt: thresholdDate },
+      updatedAt: {
+        gte: start,
+        lte: end,
+      },
     },
     select: {
       id: true,
