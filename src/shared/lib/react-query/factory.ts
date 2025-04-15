@@ -13,19 +13,16 @@ const passKeys = {
     queryOptions({
       queryKey: [{ ...passKeys.lists()[0], params }] as const,
       queryFn: () => passListFn(params),
-      refetchInterval: 15000,
-      refetchOnWindowFocus: true,
-      refetchIntervalInBackground: false,
+      // TODO: SSE or WebSocket
+      // refetchInterval: 15000,
+      // refetchOnWindowFocus: true,
+      // refetchIntervalInBackground: false,
     }),
   visitorStats: () => [{ ...passKeys.base[0], entity: 'visitorStats' }] as const,
   visitorStat: (params: VisitorStatsParams) =>
     queryOptions({
       queryKey: [{ ...passKeys.visitorStats()[0], params }] as const,
       queryFn: () => visitorStatsFn(params),
-      // TODO: SSE or WebSocket
-      // refetchInterval: 15000,
-      // refetchOnWindowFocus: true,
-      // refetchIntervalInBackground: false,
     }),
   details: () => [{ ...passKeys.base[0], entity: 'passDetail' }] as const,
   detail: (params: PassDetailParams) =>
