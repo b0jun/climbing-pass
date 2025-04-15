@@ -155,7 +155,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
                       <td>
                         <div
                           className={cn(
-                            'flex w-[50px] items-center justify-center gap-1 rounded border px-1 py-0.5 text-xs font-medium',
+                            'flex w-[55px] items-center justify-center gap-1 rounded border px-1 py-0.5 text-xs font-medium',
                             statusConfig.className,
                           )}
                         >
