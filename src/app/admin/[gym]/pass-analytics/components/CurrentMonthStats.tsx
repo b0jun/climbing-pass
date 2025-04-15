@@ -58,7 +58,7 @@ export function CurrentMonthStats({ stats }: CurrentMonthStatsProps) {
             <div className="text-2xl font-bold text-gray-900">{value.toLocaleString()}</div>
             <div className="mt-1 flex items-center">
               <span
-                className={`flex items-center text-sm font-medium ${change >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}
+                className={`flex items-center text-xs font-medium ${change >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}
               >
                 {change >= 0 ? <ArrowUpIcon className="mr-1 h-4 w-4" /> : <ArrowDownIcon className="mr-1 h-4 w-4" />}
                 {Math.abs(change)}%
