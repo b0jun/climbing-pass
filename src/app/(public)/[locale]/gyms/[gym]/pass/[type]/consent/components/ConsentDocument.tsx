@@ -2,9 +2,9 @@
 
 import { Gym, Locale, Pass } from '@prisma/client';
 import { Document, Page, Text, Image, View, StyleSheet, Font } from '@react-pdf/renderer';
+import { type Dayjs } from 'dayjs';
 
 import { interpolate } from '@/app/admin/[gym]/pass-list/[id]/utils/interpolate';
-import { dayjsKST } from '@/shared/lib/dayjs-config';
 import en from '@locales/en.json';
 import ko from '@locales/ko.json';
 
@@ -13,11 +13,11 @@ Font.register({
   family: 'Pretendard',
   fonts: [
     {
-      src: `${process.env.BLOB_BASE_URL}/fonts/Pretendard-Regular-CHjzuhwTQtmEMDWHndgid4XCpRsWWK.ttf`,
+      src: `${process.env.API_URL}/fonts/Pretendard-Regular.ttf`,
       fontWeight: 400,
     },
     {
-      src: `${process.env.BLOB_BASE_URL}/fonts/Pretendard-SemiBold-blR1s6VMHphEC42wyKxDNS7X0WWilh.ttf`,
+      src: `${process.env.API_URL}/fonts/Pretendard-SemiBold.ttf`,
       fontWeight: 600,
     },
   ],
@@ -178,6 +178,7 @@ type PdfDataType = {
   signData: string;
   gymName: Gym['name'];
   gymLocation: Gym['location'];
+  entryTime: Dayjs;
 };
 
 interface ConsentDocumentProps {
@@ -201,14 +202,6 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
     gymLocation: pdfData.gymLocation,
   });
   const consentItems = parseConsentText(consentDesc);
-
-  const formatCreatedTime = () => {
-    const d = dayjsKST().locale(pdfData.locale);
-    return {
-      dateOnly: isKo ? d.format('YYYY년 MM월 DD일') : d.format('MMMM DD, YYYY'),
-      dateTime: isKo ? d.format('YYYY년 MM월 DD일, A h:mm') : d.format('MMMM DD, YYYY, h:mm A'),
-    };
-  };
 
   return (
     <Document>
@@ -246,7 +239,9 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
             <View style={styles.infoLabelContainer}>
               <Text style={styles.infoLabelText}>{document.createdTime}</Text>
             </View>
-            <Text style={styles.infoValueText}>{formatCreatedTime().dateTime}</Text>
+            <Text style={styles.infoValueText}>
+              {pdfData.entryTime.format(isKo ? 'YYYY년 MM월 DD일, A h:mm' : 'MMMM D, YYYY, h:mm A')}
+            </Text>
           </View>
         </View>
 
@@ -269,7 +264,9 @@ export function ConsentDocument({ pdfData }: ConsentDocumentProps) {
         {/* 서명 */}
         <View style={styles.signatureWrapper}>
           <Text style={styles.signatureAgreementText}>{document.consentConfirmText}</Text>
-          <Text style={styles.signatureDateText}>{formatCreatedTime().dateOnly}</Text>
+          <Text style={styles.signatureDateText}>
+            {pdfData.entryTime.format(isKo ? 'YYYY년 MM월 DD일' : 'MMMM DD, YYYY')}
+          </Text>
           <View style={styles.signatureContent}>
             <Text>{document.application}</Text>
             <View style={styles.signatureBox}>
