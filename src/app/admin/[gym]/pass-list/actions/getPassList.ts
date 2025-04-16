@@ -29,7 +29,6 @@ export async function getPassList({ gym, passType, passDate }: PassListParams): 
     return { success: false, message: '권한이 없습니다.' };
   }
 
-  const userId = session.user.id;
   const today = dayjsKST();
   const baseDate = passDate && dayjsKST(passDate).isValid() ? dayjsKST(passDate) : today;
   const oneYearAgo = today.subtract(1, 'year').startOf('day');
@@ -66,8 +65,7 @@ export async function getPassList({ gym, passType, passDate }: PassListParams): 
             AND "createdAt" >= ${totalVisitSince}
           GROUP BY name, "phoneNumber"
         ) t ON p.name = t.name AND p."phoneNumber" = t."phoneNumber"
-        WHERE p."userId" = ${userId}
-          AND p."gymId" = ${gym}
+        WHERE p."gymId" = ${gym}
           AND p."createdAt" >= ${startOfDay}
           AND p."createdAt" <= ${endOfDay}
           AND p.status != 'DELETED'
