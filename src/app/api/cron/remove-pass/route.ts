@@ -3,10 +3,10 @@ import { del } from '@vercel/blob';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-const VERCEL_BLOB_DOMAIN = '.public.blob.vercel-storage.com';
+const BLOB_BASE_URL = process.env.BLOB_BASE_URL!;
 
 async function deleteBlobFile(blobUrl: string, passId?: string, failures?: { passId: string; url: string }[]) {
-  if (!blobUrl.includes(VERCEL_BLOB_DOMAIN)) return;
+  if (!blobUrl.includes(BLOB_BASE_URL)) return;
   try {
     await del(blobUrl, {
       token: process.env.BLOB_READ_WRITE_TOKEN,
@@ -44,10 +44,10 @@ async function deleteDeletedPasses() {
 
   await Promise.all(
     deletedPasses.map(async (pass) => {
-      if (pass.signature?.includes(VERCEL_BLOB_DOMAIN)) {
+      if (pass.signature?.includes(BLOB_BASE_URL)) {
         await deleteBlobFile(pass.signature, pass.id, failedBlobDeletions);
       }
-      if (pass.pdfUrl?.includes(VERCEL_BLOB_DOMAIN)) {
+      if (pass.pdfUrl?.includes(BLOB_BASE_URL)) {
         await deleteBlobFile(pass.pdfUrl, pass.id, failedBlobDeletions);
       }
     }),
@@ -97,10 +97,10 @@ async function anonymizeOldPasses() {
 
   await Promise.all(
     oldPasses.map(async (pass) => {
-      if (pass.signature?.includes(VERCEL_BLOB_DOMAIN)) {
+      if (pass.signature?.includes(BLOB_BASE_URL)) {
         await deleteBlobFile(pass.signature, pass.id, failedBlobDeletions);
       }
-      if (pass.pdfUrl?.includes(VERCEL_BLOB_DOMAIN)) {
+      if (pass.pdfUrl?.includes(BLOB_BASE_URL)) {
         await deleteBlobFile(pass.pdfUrl, pass.id, failedBlobDeletions);
       }
     }),

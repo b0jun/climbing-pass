@@ -13,11 +13,11 @@ Font.register({
   family: 'Pretendard',
   fonts: [
     {
-      src: 'https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff',
+      src: `${process.env.BLOB_BASE_URL}/fonts/Pretendard-Regular-CHjzuhwTQtmEMDWHndgid4XCpRsWWK.ttf`,
       fontWeight: 400,
     },
     {
-      src: 'https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff',
+      src: `${process.env.BLOB_BASE_URL}/fonts/Pretendard-SemiBold-blR1s6VMHphEC42wyKxDNS7X0WWilh.ttf`,
       fontWeight: 600,
     },
   ],
