@@ -28,6 +28,8 @@ export const useSubmitConsent = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async ({ formData, signData, type, gymDomain, locale }: SubmitConsentParams) => {
+      // const start = performance.now();
+      // const pdfStart = performance.now();
       // * PDF 업로드
       const pdfResponse = await pdfGenerateAndUpload({
         name: formData.name,
@@ -37,12 +39,18 @@ export const useSubmitConsent = () => {
         signData,
         gymDomain,
       });
+      // const pdfEnd = performance.now();
       if (!pdfResponse.success || !pdfResponse.url) {
         return { success: false, message: 'PDF 업로드 실패' };
       }
+      // console.log(`[PDF 생성 완료] ${(pdfEnd - pdfStart).toFixed(1)}ms`);
 
       // * 패스 Create
+      // const submitStart = performance.now();
       const submitResponse = await submitPass({ formData, pdfUrl: pdfResponse.url, type, gymDomain, locale });
+      // const submitEnd = performance.now();
+      // console.log(`[패스 생성 완료] ${(submitEnd - submitStart).toFixed(1)}ms`);
+      // console.log(`[총 처리 시간] ${(submitEnd - start).toFixed(1)}ms`);
       return submitResponse;
     },
     onSuccess: (response) => {
