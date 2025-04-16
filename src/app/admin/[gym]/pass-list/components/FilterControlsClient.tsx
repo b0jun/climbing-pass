@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
+import { useIsFetching, useQueryClient } from '@tanstack/react-query';
 import { RotateCw, Search } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useRef } from 'react';
@@ -20,9 +20,11 @@ export function FilterControlsClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
+  const isFetching = useIsFetching({ queryKey: passKeys.lists() }) > 0;
 
   // * 새로고침
-  const refreshPassList = () => {
+  const refreshPassList = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.blur();
     const queryKey = passKeys.lists();
     queryClient.invalidateQueries({ queryKey });
   };
@@ -53,9 +55,16 @@ export function FilterControlsClient() {
       <div className="flex h-full items-center gap-3">
         <button
           type="button"
-          className="flex h-full w-[50px] items-center justify-center rounded-lg bg-white shadow-lg transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-2 focus:ring-[#e0e0e0]"
+          className="relative flex h-full w-[50px] items-center justify-center rounded-lg bg-white shadow-lg transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-2 focus:ring-[#e0e0e0]"
           onClick={refreshPassList}
         >
+          {isFetching && (
+            <div className="absolute -top-2 left-1/2 flex -translate-x-1/2 gap-[2px]">
+              <span className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.2s]" />
+              <span className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:0s]" />
+              <span className="h-1 w-1 animate-bounce rounded-full bg-gray-500 [animation-delay:0.2s]" />
+            </div>
+          )}
           <RotateCw size={18} />
         </button>
         <button
