@@ -24,16 +24,23 @@ export function useUpdatePass() {
       await queryClient.cancelQueries({ queryKey });
       const previousPass = queryClient.getQueryData<PassWithVisits[]>(queryKey);
       if (previousPass) {
-        const updatedPassList = previousPass.map((pass: PassWithVisits) =>
-          pass.id === id
-            ? {
-                ...pass,
-                ...(status && { status }),
-                ...(type && { type }),
-                ...(shoesRental !== undefined && { shoesRental }),
-              }
-            : pass,
-        );
+        let updatedPassList: PassWithVisits[];
+
+        if (status === 'DELETED') {
+          updatedPassList = previousPass.filter((pass) => pass.id !== id);
+        } else {
+          updatedPassList = previousPass.map((pass) =>
+            pass.id === id
+              ? {
+                  ...pass,
+                  ...(status && { status }),
+                  ...(type && { type }),
+                  ...(shoesRental !== undefined && { shoesRental }),
+                }
+              : pass,
+          );
+        }
+
         queryClient.setQueryData(queryKey, updatedPassList);
       }
 
