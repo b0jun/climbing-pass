@@ -56,24 +56,32 @@ export async function getPassList({ gym, passType, passDate }: PassListParams): 
         FROM "Pass" p
         LEFT JOIN (
           SELECT
-            name,
-            "phoneNumber",
+            CASE
+              WHEN "phoneNumber" IS NOT NULL AND "phoneNumber" != ''
+                THEN name || '|' || "phoneNumber"
+              ELSE name || '|' || "dateOfBirth"
+            END AS match_key,
             COUNT(*) AS total_visits
           FROM "Pass"
           WHERE "gymId" = ${gym}
-            AND status != 'DELETED'
+            AND status IN ('WAIT', 'APPROVED')
             AND "createdAt" >= ${totalVisitSince}
-          GROUP BY name, "phoneNumber"
-        ) t ON p.name = t.name AND p."phoneNumber" = t."phoneNumber"
+          GROUP BY match_key
+        ) t ON (
+          CASE
+            WHEN p."phoneNumber" IS NOT NULL AND p."phoneNumber" != ''
+              THEN p.name || '|' || p."phoneNumber"
+            ELSE p.name || '|' || p."dateOfBirth"
+          END = t.match_key
+        )
         WHERE p."gymId" = ${gym}
           AND p."createdAt" >= ${startOfDay}
           AND p."createdAt" <= ${endOfDay}
-          AND p.status != 'DELETED'
+          AND p.status IN ('WAIT', 'APPROVED')
           ${passType ? Prisma.sql`AND p.type = ${Prisma.raw(`'${passType}'`)}` : Prisma.sql``}
         ORDER BY p."createdAt" DESC
       `,
   );
-
   const passListData = (passListDataRaw ?? []).map((item) => ({
     ...item,
     createdAt: item.createdAt.toISOString(),

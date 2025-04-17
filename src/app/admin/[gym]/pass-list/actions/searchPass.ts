@@ -29,7 +29,7 @@ export async function searchPass(data: SearchPassRequest): Promise<UpdatePassRes
   const { name, phoneNumber, gymDomain } = data;
   const whereClause: any = {
     gymId: gymDomain,
-    status: { not: 'DELETED' },
+    status: { in: ['WAIT', 'APPROVED'] },
     createdAt: {
       gte: dayjsKST().subtract(1, 'year').toDate(), // * 1년 이내
     },

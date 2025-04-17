@@ -58,7 +58,7 @@ export async function submitConsent({
 
   const pdfData = {
     name,
-    phoneNumber: phoneNumber || '',
+    phoneNumber: phoneNumber || null,
     dateOfBirth,
     locale,
     signData,
