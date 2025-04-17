@@ -22,9 +22,7 @@ model Pass {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   gymId       String?
-  userId      String?
   gym         Gym?       @relation(fields: [gymId], references: [domain])
-  user        User?      @relation(fields: [userId], references: [id])
 
   @@index([gymId, status, createdAt])
   @@index([gymId, status, name, phoneNumber])
@@ -55,7 +53,6 @@ model User {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   gyms       Gym[]
-  passes     Pass[]
 }
 
 enum PassType {
