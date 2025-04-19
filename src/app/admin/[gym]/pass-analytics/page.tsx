@@ -1,5 +1,13 @@
-import { getCurrentMonthStats } from './actions/getCurrentMonthStats';
-import { CurrentMonthStats } from './components';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+
+import {
+  CurrentMonthStatsContainer,
+  CurrentMonthStatsSkeleton,
+  ErrorSection,
+  MonthlyPassChartContainer,
+  MonthlyPassChartSkeleton,
+} from './components';
 
 interface PassAnalyticsPage {
   params: Promise<{ gym: string }>;
@@ -7,10 +15,21 @@ interface PassAnalyticsPage {
 
 export default async function PassAnalyticsPage({ params }: PassAnalyticsPage) {
   const { gym } = await params;
-  const response = await getCurrentMonthStats(gym);
-  if (!response.success) {
-    throw new Error(response.message);
-  }
 
-  return <CurrentMonthStats stats={response.data} />;
+  return (
+    <div className="grid grid-cols-1 gap-4">
+      <ErrorBoundary fallback={<ErrorSection />}>
+        <Suspense fallback={<CurrentMonthStatsSkeleton />}>
+          <CurrentMonthStatsContainer gym={gym} />
+        </Suspense>
+      </ErrorBoundary>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <ErrorBoundary fallback={<ErrorSection />}>
+          <Suspense fallback={<MonthlyPassChartSkeleton />}>
+            <MonthlyPassChartContainer gym={gym} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+    </div>
+  );
 }

@@ -7,6 +7,8 @@ import { auth } from '@/auth';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
+import { CurrentMonthStatsData } from '../types/pass-analytics.type';
+
 // * 변화율 계산
 function getChangeRate(current: number, previous: number): string {
   return (((current - previous) / (previous || 1)) * 100).toFixed(1);
@@ -35,12 +37,7 @@ function getDateRangeForMonthComparison(today: dayjs.Dayjs) {
 type GetCurrentMonthStatsResponse =
   | {
       success: true;
-      data: {
-        total: { value: number; change: string };
-        experience: { value: number; change: string };
-        usage: { value: number; change: string };
-        dailyAverage: { value: number; change: string };
-      };
+      data: CurrentMonthStatsData;
     }
   | {
       success: false;
