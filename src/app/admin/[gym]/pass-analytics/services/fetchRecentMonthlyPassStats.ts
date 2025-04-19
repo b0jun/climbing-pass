@@ -1,20 +1,17 @@
-'use server';
-
+import { authCheck } from '@/shared/lib/authCheck';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
 import { MonthlyPassStatsData } from '../types/pass-analytics.type';
 
-type GetRecentMonthlyPassStatsResponse =
-  | { success: true; data: MonthlyPassStatsData[] }
-  | { success: false; message: string };
+export async function fetchRecentMonthlyPassStats(gymDomain: string): Promise<MonthlyPassStatsData[]> {
+  await authCheck();
 
-export async function getRecentMonthlyPassStats(gymDomain: string): Promise<GetRecentMonthlyPassStatsResponse> {
+  const today = dayjsKST();
+  const sixMonthsAgo = today.subtract(5, 'month').startOf('month').toDate();
+  const endOfThisMonth = today.endOf('month').toDate();
+
   try {
-    const today = dayjsKST();
-    const sixMonthsAgo = today.subtract(5, 'month').startOf('month').toDate();
-    const endOfThisMonth = today.endOf('month').toDate();
-
     const passes = await db.pass.findMany({
       where: {
         gymId: gymDomain,
@@ -53,18 +50,15 @@ export async function getRecentMonthlyPassStats(gymDomain: string): Promise<GetR
       }
     }
 
-    const sorted = Array.from(statsMap.entries())
+    return Array.from(statsMap.entries())
       .sort(([a], [b]) => a.localeCompare(b))
       .map(([, value]) => ({
         ...value,
         month: dayjsKST(value.month).format('M월'),
       }));
-
-    return { success: true, data: sorted };
   } catch (error) {
-    return {
-      success: false,
-      message: '최근 월별 방문자 통계를 불러오는 데 실패했습니다.',
-    };
+    throw new Error(
+      error instanceof Error ? error.message : '최근 월별 방문자 통계를 가져오는 중 오류가 발생했습니다.',
+    );
   }
 }
