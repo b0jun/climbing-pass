@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { getGyms } from '../actions/getGyms';
+import { getGyms } from '../lib/getGyms';
 import { GymType } from '../types/gym.type';
 
 const GymList = async ({ userId }: { userId: string }) => {
