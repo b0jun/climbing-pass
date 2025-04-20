@@ -4,7 +4,7 @@ import { authCheck } from '@/shared/lib/authCheck';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-export async function fetchCurrentMonthStats(gymDomain: string) {
+export async function getCurrentMonthStats(gymDomain: string) {
   await authCheck();
 
   const today = dayjsKST();

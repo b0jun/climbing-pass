@@ -4,7 +4,7 @@ import { db } from '@/shared/lib/prisma';
 
 import { MonthlyPassStatsData } from '../types/pass-analytics.type';
 
-export async function fetchRecentMonthlyPassStats(gymDomain: string): Promise<MonthlyPassStatsData[]> {
+export async function getRecentMonthlyPassStats(gymDomain: string): Promise<MonthlyPassStatsData[]> {
   await authCheck();
 
   const today = dayjsKST();

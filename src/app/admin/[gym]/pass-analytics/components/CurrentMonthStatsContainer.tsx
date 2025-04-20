@@ -1,11 +1,11 @@
 import { delay } from '@/shared/utils';
 
-import { fetchCurrentMonthStats } from '../services/fetchCurrentMonthStats';
+import { getCurrentMonthStats } from '../lib/getCurrentMonthStats';
 
 import { CurrentMonthStatsClient } from './CurrentMonthStatsClient';
 
 export async function CurrentMonthStatsContainer({ gym }: { gym: string }) {
   await delay(300);
-  const data = await fetchCurrentMonthStats(gym);
+  const data = await getCurrentMonthStats(gym);
   return <CurrentMonthStatsClient data={data} />;
 }
