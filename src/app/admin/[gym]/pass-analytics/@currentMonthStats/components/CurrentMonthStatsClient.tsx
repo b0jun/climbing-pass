@@ -4,7 +4,7 @@ import { ArrowDownIcon, ArrowUpIcon, Users, Calendar, Info, Rabbit, Turtle } fro
 
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 
-import { CurrentMonthStatsData } from '../types/pass-analytics.type';
+import { CurrentMonthStatsData } from '../type';
 
 interface CurrentMonthStatsClientProps {
   data: CurrentMonthStatsData;

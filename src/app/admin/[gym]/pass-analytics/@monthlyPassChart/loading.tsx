@@ -1,4 +1,4 @@
-export function MonthlyPassChartSkeleton() {
+export default function MonthlyPassChartLoading() {
   return (
     <div className="animate-pulse rounded-[10px] bg-white p-4 shadow-md">
       <div className="mb-4 h-6 w-40 rounded bg-gray-200" />

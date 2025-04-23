@@ -1,6 +1,6 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 
-import { auth } from '@/auth';
+import { checkAuth } from '@/shared/lib';
 import { db } from '@/shared/lib/prisma';
 
 import { AdminLayout } from './components';
@@ -12,13 +12,7 @@ interface GymLayoutProps {
 
 export default async function GymLayout({ children, params }: GymLayoutProps) {
   const { gym } = await params;
-  const session = await auth();
-
-  if (!session || !session.user) {
-    redirect('/admin/login');
-  }
-
-  const userId = session.user.id;
+  const { userId } = await checkAuth();
 
   const gymData = await db.gym.findUnique({
     where: { domain: gym, disabled: false },

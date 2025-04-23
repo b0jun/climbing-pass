@@ -1,11 +1,12 @@
-import { authCheck } from '@/shared/lib/authCheck';
+import { checkAuth, checkGymOwner } from '@/shared/lib';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-import { MonthlyPassStatsData } from '../types/pass-analytics.type';
+import { MonthlyPassStatsData } from '../type';
 
 export async function getRecentMonthlyPassStats(gymDomain: string): Promise<MonthlyPassStatsData[]> {
-  await authCheck();
+  const { userId } = await checkAuth();
+  await checkGymOwner(userId, gymDomain);
 
   const today = dayjsKST();
   const sixMonthsAgo = today.subtract(5, 'month').startOf('month').toDate();

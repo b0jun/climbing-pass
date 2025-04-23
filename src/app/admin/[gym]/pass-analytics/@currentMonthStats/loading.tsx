@@ -1,4 +1,4 @@
-export function CurrentMonthStatsSkeleton() {
+export default function CurrentMonthStatsLoading() {
   return (
     <div className="animate-pulse rounded-[10px] bg-white p-4 shadow-md">
       <div className="mb-2 h-6 w-28 rounded bg-gray-200" />
