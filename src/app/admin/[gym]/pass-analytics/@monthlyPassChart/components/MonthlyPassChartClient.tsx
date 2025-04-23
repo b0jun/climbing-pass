@@ -2,7 +2,7 @@
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 
-import { MonthlyPassStatsData } from '../types/pass-analytics.type';
+import { MonthlyPassStatsData } from '../type';
 
 interface MonthlyPassChartProps {
   data: MonthlyPassStatsData[];

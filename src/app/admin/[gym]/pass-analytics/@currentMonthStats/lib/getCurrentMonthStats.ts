@@ -1,11 +1,14 @@
 import { PassType } from '@prisma/client';
 
-import { authCheck } from '@/shared/lib/authCheck';
+import { checkAuth, checkGymOwner } from '@/shared/lib';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
-export async function getCurrentMonthStats(gymDomain: string) {
-  await authCheck();
+import { CurrentMonthStatsData } from '../type';
+
+export async function getCurrentMonthStats(gymDomain: string): Promise<CurrentMonthStatsData> {
+  const { userId } = await checkAuth();
+  await checkGymOwner(userId, gymDomain);
 
   const today = dayjsKST();
   const currentStart = today.startOf('month');

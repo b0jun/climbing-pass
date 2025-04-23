@@ -4,9 +4,3 @@ export interface CurrentMonthStatsData {
   usage: { value: number; change: string };
   dailyAverage: { value: number; change: string };
 }
-
-export interface MonthlyPassStatsData {
-  month: string;
-  dayExperience: number;
-  dayUse: number;
-}
