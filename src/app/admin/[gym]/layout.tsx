@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { checkAuth } from '@/shared/lib';
 import { db } from '@/shared/lib/prisma';
@@ -30,8 +30,7 @@ export default async function GymLayout({ children, params }: GymLayoutProps) {
   }
 
   if (gymData.userId !== userId) {
-    // TODO: 403
-    notFound();
+    redirect('/admin/403');
   }
 
   return (

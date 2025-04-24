@@ -6,13 +6,12 @@ import { Document } from '@/shared/components';
 export default function NotFound() {
   return (
     <Document locale="ko">
-      <div className="flex h-full w-full items-center justify-center">
-        <div className="flex flex-col items-center gap-4 rounded-2xl bg-form p-20">
-          <p className="text-lg">지원하지 않는 페이지입니다.</p>
-          <Link href="/" className="rounded-md bg-gray-300 px-3 py-1 text-white hover:bg-gray-400">
-            홈으로 가기
-          </Link>
-        </div>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
+        <h1 className="text-4xl font-bold text-error">404 - NotFound</h1>
+        <p className="mt-4 text-lg text-gray-600">지원하지 않는 페이지입니다.</p>
+        <Link href="/" className="mt-6 rounded bg-gray-800 px-4 py-2 text-white transition-all hover:bg-gray-700">
+          홈으로 돌아가기
+        </Link>
       </div>
     </Document>
   );

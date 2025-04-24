@@ -9,7 +9,7 @@ export default function PassAnalyticsLayout({
   return (
     <div className="grid grid-cols-1 gap-4">
       {currentMonthStats}
-      {monthlyPassChart}
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{monthlyPassChart}</div>
     </div>
   );
 }

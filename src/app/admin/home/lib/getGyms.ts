@@ -1,13 +1,14 @@
 import { unstable_cache } from 'next/cache';
 
+import { auth } from '@/auth';
 import { db } from '@/shared/lib/prisma';
 
 import { GymType } from '../types/gym.type';
 
-export async function getGyms(userId: string): Promise<GymType[]> {
-  if (!userId) {
-    throw new Error('User ID is required');
-  }
+export async function getGyms(): Promise<GymType[]> {
+  const session = await auth();
+  const userId = session?.user?.id as string; // * HomePage에서 Check
+
   const cachedGetGyms = unstable_cache(
     async (uid: string) => {
       const data = await db.gym.findMany({
