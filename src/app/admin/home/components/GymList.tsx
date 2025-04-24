@@ -4,11 +4,11 @@ import { Suspense } from 'react';
 import { getGyms } from '../lib/getGyms';
 import { GymType } from '../types/gym.type';
 
-const GymList = async ({ userId }: { userId: string }) => {
+const GymList = async () => {
   return (
     <GymList.Layout>
       <Suspense fallback={<GymList.Skeleton />}>
-        <GymList.Content userId={userId} />
+        <GymList.Content />
       </Suspense>
     </GymList.Layout>
   );
@@ -26,8 +26,8 @@ GymList.Layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-GymList.Content = async ({ userId }: { userId: string }) => {
-  const gyms = await getGyms(userId);
+GymList.Content = async () => {
+  const gyms = await getGyms();
   const isEmpty = gyms.length === 0;
   if (isEmpty) {
     return <GymList.EmptyState />;
