@@ -2,7 +2,7 @@
 
 import { Pass, Prisma } from '@prisma/client';
 
-import { auth } from '@/auth';
+import { checkAuth, checkGymOwner } from '@/shared/lib';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
@@ -24,10 +24,8 @@ type PassListRaw = {
 type GetPassListResponse = { success: true; data: PassWithVisits[] } | { success: false; message: string };
 
 export async function getPassList({ gym, passType, passDate }: PassListParams): Promise<GetPassListResponse> {
-  const session = await auth();
-  if (!session || !session.user) {
-    return { success: false, message: '권한이 없습니다.' };
-  }
+  const { userId } = await checkAuth();
+  await checkGymOwner(userId, gym);
 
   const today = dayjsKST();
   const baseDate = passDate && dayjsKST(passDate).isValid() ? dayjsKST(passDate) : today;
