@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@/auth';
+import { checkAuth, checkGymOwner } from '@/shared/lib';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
@@ -11,10 +11,8 @@ type GetVisitorStatsResponse =
   | { success: false; message: string };
 
 export async function getVisitorStats({ gym, passDate }: VisitorStatsParams): Promise<GetVisitorStatsResponse> {
-  const session = await auth();
-  if (!session || !session.user) {
-    return { success: false, message: '권한이 없습니다.' };
-  }
+  const { userId } = await checkAuth();
+  await checkGymOwner(userId, gym);
 
   const today = dayjsKST();
   const baseDate = passDate && dayjsKST(passDate).isValid() ? dayjsKST(passDate) : today;
