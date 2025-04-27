@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { getCurrentMonthStats } from '@/app/admin/[gym]/pass-analytics/@currentMonthStats/lib/getCurrentMonthStats';
 import { passDetailFn } from '@/app/admin/[gym]/pass-list/[id]/fetchFn/passDetailFn';
 import { PassDetailParams } from '@/app/admin/[gym]/pass-list/[id]/types/pass-detail.type';
 import { passListFn } from '@/app/admin/[gym]/pass-list/fetchFn/passListFn';
@@ -32,4 +33,14 @@ const passKeys = {
     }),
 };
 
-export { passKeys };
+const passAnalyticsKeys = {
+  base: [{ scope: 'pass-analytics' }] as const,
+  currentMonthStats: () => [{ ...passAnalyticsKeys.base[0], entity: 'currentMonthStats' }] as const,
+  currentMonthStat: (params: string) =>
+    queryOptions({
+      queryKey: [{ ...passAnalyticsKeys.currentMonthStats()[0], params }] as const,
+      queryFn: () => getCurrentMonthStats(params),
+    }),
+};
+
+export { passKeys, passAnalyticsKeys };
