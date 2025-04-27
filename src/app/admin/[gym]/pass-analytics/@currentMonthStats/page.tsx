@@ -1,12 +1,13 @@
-import { delay } from '@/shared/utils';
+import { QueryPrefetcher } from '@/shared/components';
+import { passAnalyticsKeys } from '@/shared/lib/react-query/factory';
 
 import { CurrentMonthStatsClient } from './components/CurrentMonthStatsClient';
-import { getCurrentMonthStats } from './lib/getCurrentMonthStats';
 
 export default async function CurrentMonthStatsPage({ params }: { params: Promise<{ gym: string }> }) {
   const { gym } = await params;
-
-  await delay(300);
-  const data = await getCurrentMonthStats(gym);
-  return <CurrentMonthStatsClient data={data} />;
+  return (
+    <QueryPrefetcher queryOptions={passAnalyticsKeys.currentMonthStat(gym)}>
+      <CurrentMonthStatsClient gym={gym} />
+    </QueryPrefetcher>
+  );
 }

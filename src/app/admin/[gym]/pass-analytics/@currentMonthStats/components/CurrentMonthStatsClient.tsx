@@ -4,13 +4,11 @@ import { ArrowDownIcon, ArrowUpIcon, Users, Calendar, Info, Rabbit, Turtle } fro
 
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 
-import { CurrentMonthStatsData } from '../type';
+import { useCurrentMonthStats } from '../hooks/useCurrentMonthStats';
 
-interface CurrentMonthStatsClientProps {
-  data: CurrentMonthStatsData;
-}
+export function CurrentMonthStatsClient({ gym }: { gym: string }) {
+  const { data } = useCurrentMonthStats(gym);
 
-export function CurrentMonthStatsClient({ data }: CurrentMonthStatsClientProps) {
   const list = [
     { title: '총 방문자', value: data.total.value, change: parseFloat(data.total.change), icon: Users },
     {
