@@ -3,7 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { getCurrentMonthStats } from '@/app/admin/[gym]/pass-analytics/@currentMonthStats/lib/getCurrentMonthStats';
 import { passDetailFn } from '@/app/admin/[gym]/pass-list/[id]/fetchFn/passDetailFn';
 import { PassDetailParams } from '@/app/admin/[gym]/pass-list/[id]/types/pass-detail.type';
-import { passListFn } from '@/app/admin/[gym]/pass-list/fetchFn/passListFn';
+import { getPassList } from '@/app/admin/[gym]/pass-list/actions';
 import { visitorStatsFn } from '@/app/admin/[gym]/pass-list/fetchFn/visitorStatsFn';
 import { PassListParams, VisitorStatsParams } from '@/app/admin/[gym]/pass-list/types/pass-list.type';
 
@@ -12,23 +12,26 @@ const passKeys = {
   lists: () => [{ ...passKeys.base[0], entity: 'passList' }] as const,
   list: (params: PassListParams) =>
     queryOptions({
-      queryKey: [{ ...passKeys.lists()[0], params }] as const,
-      queryFn: () => passListFn(params),
+      queryKey: [{ ...passKeys.lists()[0], ...params }] as const,
+      queryFn: async () => {
+        const response = await getPassList(params);
+        if (!response.success) {
+          throw new Error(response.message);
+        }
+        return response.data;
+      },
       // TODO: SSE or WebSocket
-      // refetchInterval: 15000,
-      // refetchOnWindowFocus: true,
-      // refetchIntervalInBackground: false,
     }),
   visitorStats: () => [{ ...passKeys.base[0], entity: 'visitorStats' }] as const,
   visitorStat: (params: VisitorStatsParams) =>
     queryOptions({
-      queryKey: [{ ...passKeys.visitorStats()[0], params }] as const,
+      queryKey: [{ ...passKeys.visitorStats()[0], ...params }] as const,
       queryFn: () => visitorStatsFn(params),
     }),
   details: () => [{ ...passKeys.base[0], entity: 'passDetail' }] as const,
   detail: (params: PassDetailParams) =>
     queryOptions({
-      queryKey: [{ ...passKeys.details()[0], params }] as const,
+      queryKey: [{ ...passKeys.details()[0], ...params }] as const,
       queryFn: () => passDetailFn(params),
     }),
 };
