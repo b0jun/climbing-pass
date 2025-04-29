@@ -1,6 +1,6 @@
-import { dehydrate, HydrationBoundary, QueryKey, FetchQueryOptions } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary, QueryKey, FetchQueryOptions, QueryClient } from '@tanstack/react-query';
 
-import { makeServerQueryClient } from '@/shared/lib/react-query/queryClient.server';
+import { getQueryClient } from '../lib/react-query/get-query-client';
 
 interface QueryPrefetcherProps<
   TQueryFnData = unknown,
@@ -12,7 +12,7 @@ interface QueryPrefetcherProps<
   queryOptions: FetchQueryOptions<TQueryFnData, TError, TData, TQueryKey>;
 }
 
-const QueryPrefetcher = async <
+const QueryPrefetcher = <
   TQueryFnData = unknown,
   TError = unknown,
   TData = TQueryFnData,
@@ -21,11 +21,10 @@ const QueryPrefetcher = async <
   children,
   queryOptions,
 }: QueryPrefetcherProps<TQueryFnData, TError, TData, TQueryKey>) => {
-  const queryClient = makeServerQueryClient();
-  await queryClient.prefetchQuery(queryOptions);
-  const dehydratedState = dehydrate(queryClient);
+  const queryClient = getQueryClient();
+  void queryClient.prefetchQuery(queryOptions);
 
-  return <HydrationBoundary state={dehydratedState}>{children}</HydrationBoundary>;
+  return <HydrationBoundary state={dehydrate(queryClient)}>{children}</HydrationBoundary>;
 };
 
 export default QueryPrefetcher;

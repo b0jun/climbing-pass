@@ -84,6 +84,7 @@ export function PassDetailClient({ queryParams }: PassDetailClientProps) {
     },
   });
 
+  // TODO: PDF URL 로 완전 전환 시 수정 필요
   return (
     <>
       <div className="sticky top-14 z-10 mb-6 flex items-center gap-4 bg-[#faf9f6] py-2 tracking-normal">
