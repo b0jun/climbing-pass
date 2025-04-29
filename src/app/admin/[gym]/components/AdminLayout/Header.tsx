@@ -27,7 +27,7 @@ export function Header() {
   const currentLabel = currentItem?.label ?? '';
 
   return (
-    <header className="sticky top-0 z-[999] flex h-14 items-center justify-between gap-2 bg-[#faf9f6] px-4 transition-all duration-300 ease-in-out lg:ml-[250px]">
+    <header className="sticky top-0 z-[998] flex h-14 items-center justify-between gap-2 bg-[#faf9f6] px-4 transition-all duration-300 ease-in-out lg:ml-[250px]">
       <div className="flex items-center gap-2">
         {isMount && !isDesktop && (
           <button
