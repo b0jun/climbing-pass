@@ -13,6 +13,7 @@ import { useUpdatePass } from '../hooks/useUpdatePass';
 import { PassDeleteTarget, PassListParams, PassToggleStatusTarget, PassUpdateTarget } from '../types/pass-list.type';
 
 import { PassIconButton } from './PassIconButton';
+import { PassListSkeleton } from './PassListSkeleton';
 
 const TYPE_CONFIG = {
   DayPass: { label: '이용', className: 'bg-gray-100 text-gray-800' },
@@ -44,7 +45,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data } = usePassList(queryParams);
+  const { data, error, isLoading } = usePassList(queryParams);
 
   const { mutate: updatePassMutate } = useUpdatePass();
   const { open: openStatusToWaitModal } = useStatusToWaitModal();
@@ -66,6 +67,16 @@ export function PassListClient({ queryParams }: PassListClientProps) {
   const handleDeletePass = async ({ id, name }: PassDeleteTarget) => {
     openStatusToDeleteModal({ id, name });
   };
+
+  if (error) {
+    return (
+      <div className="flex h-[300px] flex-col items-center justify-center text-red-500">
+        <p>데이터를 불러오는 중 문제가 발생했습니다.</p>
+      </div>
+    );
+  }
+
+  if (isLoading) return <PassListSkeleton />;
 
   return (
     <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle shadow-lg">
@@ -110,14 +121,14 @@ export function PassListClient({ queryParams }: PassListClientProps) {
             </tr>
           </thead>
           <tbody className="[&>tr>td]:h-[50px] [&>tr>td]:px-3 [&>tr>td]:py-2">
-            {data.length === 0 ? (
+            {data?.length === 0 ? (
               <tr>
                 <td colSpan={10} className="text-center text-stone-700">
                   등록된 패스가 없습니다.
                 </td>
               </tr>
             ) : (
-              data.map(
+              data?.map(
                 ({ id, name, phoneNumber, totalVisits, dateOfBirth, type, shoesRental, status, createdAt }, index) => {
                   const isFirstVisit = totalVisits === 1;
                   const visitText = isFirstVisit ? '첫 방문' : `${totalVisits}회`;
