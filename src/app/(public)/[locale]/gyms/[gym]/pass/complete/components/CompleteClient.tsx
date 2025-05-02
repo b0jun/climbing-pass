@@ -82,12 +82,12 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="absolute right-4 top-4 z-50"
+        className="absolute top-4 right-4 z-50"
       >
         <Link
           href={`/gyms/${gym}/pass`}
           replace
-          className="flex items-center gap-1 rounded-md bg-main px-3 py-2 text-sm text-white transition-transform duration-150 ease-in-out active:scale-95"
+          className="bg-main flex items-center gap-1 rounded-md px-3 py-2 text-sm text-white transition-transform duration-150 ease-in-out active:scale-95"
         >
           {label.addPass}
         </Link>
@@ -101,7 +101,7 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
           whileHover={{ scale: 1.02, rotate: 0.5 }}
           whileTap={{ scale: 0.98 }}
         >
-          <div className="flex flex-col bg-gradient-to-b from-blue-300 to-blue-200 to-30% p-4 text-black">
+          <div className="flex flex-col bg-linear-to-b from-blue-300 to-blue-200 to-30% p-4 text-black">
             <div className="my-6 flex flex-col items-center">
               <motion.img
                 src="/images/complete.png"
@@ -118,7 +118,7 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
                   ease: 'easeInOut',
                 }}
               />
-              <div className="mx-auto mb-4 h-1 w-16 rounded bg-gradient-to-r from-blue-400 to-blue-500" />
+              <div className="mx-auto mb-4 h-1 w-16 rounded-sm bg-linear-to-r from-blue-400 to-blue-500" />
               <motion.h4
                 className="text-center tracking-tight text-gray-500"
                 initial={{ x: 0, opacity: 0, scale: 0.95 }}
@@ -162,16 +162,16 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
               </div>
             </div>
           </div>
-          <div className="bg-gradient-to-r from-slate-600 to-slate-800 px-4 py-2 text-center text-white">
+          <div className="bg-linear-to-r from-slate-600 to-slate-800 px-4 py-2 text-center text-white">
             <h2 className="font-bold">{label.title}</h2>
           </div>
           <div className="relative bg-gray-100 py-1">
             <div className="absolute left-0 w-full border-t-2 border-dashed border-gray-300"></div>
-            <div className="absolute left-1 top-1/2 -translate-y-1/2">
+            <div className="absolute top-1/2 left-1 -translate-y-1/2">
               <Scissors className="h-5 w-5 text-gray-400" />
             </div>
           </div>
-          <div className="grid gap-6 rounded-xl bg-white p-6 shadow-md [grid-template-columns:3fr_2fr]">
+          <div className="grid [grid-template-columns:3fr_2fr] gap-6 rounded-xl bg-white p-6 shadow-md">
             <div className="space-y-4 border-r pr-6">
               <div>
                 <div className="text-[10px] text-gray-500">{label.type}</div>
@@ -187,7 +187,7 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
               {pass.shoesRental && (
                 <div className="space-y-1">
                   <div className="text-[10px] text-gray-500">{label.shoesRental}</div>
-                  <span className="relative inline-flex items-center justify-center rounded-full bg-blue-100 p-1 shadow-sm">
+                  <span className="relative inline-flex items-center justify-center rounded-full bg-blue-100 p-1 shadow-xs">
                     <ShoesIcon className="h-6 w-6 text-blue-600" />
                   </span>
                 </div>
@@ -196,7 +196,7 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
             <div className="space-y-2">
               <div>
                 <div className="text-[10px] text-gray-500">{label.name}</div>
-                <div className="break-all text-sm font-medium text-gray-800">{pass.name}</div>
+                <div className="text-sm font-medium break-all text-gray-800">{pass.name}</div>
               </div>
               {pass.phoneNumber && (
                 <div>
@@ -220,7 +220,7 @@ export function CompleteClient({ gym, pass }: CompleteClientProps) {
           <button
             onClick={handleDownload}
             disabled={isLoading}
-            className="flex w-full items-center justify-center gap-2 rounded-md bg-main py-2 text-sm font-medium text-white shadow-md transition-transform duration-150 ease-in-out active:scale-95"
+            className="bg-main flex w-full items-center justify-center gap-2 rounded-md py-2 text-sm font-medium text-white shadow-md transition-transform duration-150 ease-in-out active:scale-95"
           >
             {label.download}
           </button>

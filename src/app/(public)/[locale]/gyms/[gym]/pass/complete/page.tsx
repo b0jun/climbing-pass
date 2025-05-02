@@ -24,7 +24,7 @@ export default async function CompletePage({ params, searchParams }: CompletePag
   }
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white px-4 py-6 pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-linear-to-b from-blue-100 to-white px-4 py-6 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <CompleteClient gym={gym} pass={result.data} />
     </div>
   );

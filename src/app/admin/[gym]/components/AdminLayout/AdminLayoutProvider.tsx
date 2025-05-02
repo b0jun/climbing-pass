@@ -44,10 +44,10 @@ const AdminLayoutProvider = ({ children, gymName, location, logo }: AdminLayoutP
   return (
     <AdminLayoutStateContext.Provider value={stateValue}>
       <GymDataContext.Provider value={dataValue}>
-        <div className="min-w-screen relative flex min-h-screen w-full">
+        <div className="relative flex min-h-screen w-full min-w-screen">
           {children}
           {!isDesktop && isSidebarOpen && (
-            <div className="fixed inset-0 z-[999] bg-black/30 transition-opacity duration-300" onClick={closeSidebar} />
+            <div className="fixed inset-0 z-999 bg-black/30 transition-opacity duration-300" onClick={closeSidebar} />
           )}
         </div>
       </GymDataContext.Provider>

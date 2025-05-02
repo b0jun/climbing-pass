@@ -50,7 +50,7 @@ function StatusToWaitModal({ open, close, unmount, item }: StatusToWaitModal) {
         입장 상태가
         <span
           className={cn(
-            'flex w-[50px] items-center justify-center gap-1 rounded border px-1 py-0.5 text-xs font-medium',
+            'flex w-[50px] items-center justify-center gap-1 rounded-sm border px-1 py-0.5 text-xs font-medium',
             STATUS_CONFIG['WAIT'].className,
           )}
         >

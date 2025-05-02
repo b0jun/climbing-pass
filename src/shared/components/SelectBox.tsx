@@ -70,7 +70,7 @@ function Trigger() {
     <button
       type="button"
       onClick={toggleOpen}
-      className="flex h-full w-full items-center justify-between gap-2 rounded-lg bg-white px-4 py-2 text-left text-gray-800 shadow-lg transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-2 focus:ring-[#e0e0e0]"
+      className="flex h-full w-full items-center justify-between gap-2 rounded-lg bg-white px-4 py-2 text-left text-gray-800 shadow-lg transition-all hover:bg-[#eeeeee] focus:ring-2 focus:ring-[#e0e0e0] focus:outline-hidden"
     >
       <span>{selected?.label ?? '선택하세요'}</span>
       <motion.span animate={{ scale: open ? 1.1 : 1 }} transition={{ type: 'spring', stiffness: 250, damping: 15 }}>

@@ -10,8 +10,8 @@ export default async function ConsentPage({ params }: ConsentPageProps) {
   const { gym, type } = await params;
 
   return (
-    <div className="relative flex w-full flex-1 flex-col bg-gradient-to-b from-blue-100 to-contents to-30%">
-      <div className="px-4 xs:px-10">
+    <div className="to-contents relative flex w-full flex-1 flex-col bg-linear-to-b from-blue-100 to-30%">
+      <div className="xs:px-10 px-4">
         <ConsentClient gym={gym} type={type} />
       </div>
     </div>

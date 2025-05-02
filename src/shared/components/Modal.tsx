@@ -79,20 +79,20 @@ const Modal = ({
     <>
       <div
         className={cn(
-          'fixed inset-0 z-[10000] bg-gray-300 transition-opacity duration-200',
+          'fixed inset-0 z-10000 bg-gray-300 transition-opacity duration-200',
           open ? 'pointer-events-auto opacity-60' : 'pointer-events-none opacity-0',
         )}
       />
       <div
         className={cn(
-          'fixed inset-0 z-[10001] flex items-center justify-center p-4',
+          'fixed inset-0 z-10001 flex items-center justify-center p-4',
           open ? 'pointer-events-auto' : 'pointer-events-none',
         )}
       >
         <div
           ref={modalRef}
           className={cn(
-            'min-w-[320px] max-w-[672px] rounded-xl bg-white p-4 shadow-xl transition-all duration-200',
+            'max-w-[672px] min-w-[320px] rounded-xl bg-white p-4 shadow-xl transition-all duration-200',
             open ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
           )}
         >
@@ -105,7 +105,7 @@ const Modal = ({
             <button
               onClick={handleClose}
               type="button"
-              className="w-full rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-100"
+              className="w-full rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 focus:outline-hidden"
             >
               {cancelLabel ?? '취소'}
             </button>
@@ -114,7 +114,7 @@ const Modal = ({
               type="button"
               disabled={disabled}
               className={cn(
-                'w-full rounded-lg px-5 py-2.5 text-sm font-medium focus:outline-none focus:ring-4 disabled:bg-gray-300',
+                'w-full rounded-lg px-5 py-2.5 text-sm font-medium focus:ring-4 focus:outline-hidden disabled:bg-gray-300',
                 confirmConfig[type].bgColor,
                 confirmConfig[type].textColor,
                 confirmConfig[type].hoverBgColor,

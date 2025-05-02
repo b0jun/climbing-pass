@@ -36,8 +36,8 @@ export function GymInfo() {
   }, [location, isKo, barWidth]);
 
   return (
-    <div className="mt-3 flex flex-1 flex-col px-4 xs:px-10">
-      <p className={cn('text-xl font-bold leading-relaxed text-[#121619]', { [roboto.className]: !isKo })}>
+    <div className="xs:px-10 mt-3 flex flex-1 flex-col px-4">
+      <p className={cn('text-xl leading-relaxed font-bold text-[#121619]', { [roboto.className]: !isKo })}>
         <span className="text-3xl text-blue-600">{name}</span>
         <br />
         <span ref={locationRef} className="text-xl font-medium text-[#121619]/60">
@@ -45,7 +45,7 @@ export function GymInfo() {
         </span>
       </p>
       <div
-        className="my-2 h-1 rounded bg-gradient-to-r from-blue-400 to-blue-500 transition-[width] duration-300 ease-linear"
+        className="my-2 h-1 rounded-sm bg-linear-to-r from-blue-400 to-blue-500 transition-[width] duration-300 ease-linear"
         style={{ width: `${barWidth}px` }}
       />
     </div>
