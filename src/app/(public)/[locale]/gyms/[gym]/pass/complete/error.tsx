@@ -15,7 +15,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
   }, [error]);
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white px-4 py-6 pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-linear-to-b from-blue-100 to-white px-4 py-6 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <motion.div
         className="w-full max-w-[320px] overflow-hidden rounded-lg border-2 border-gray-200 bg-white shadow-xl"
         initial={{ opacity: 0, y: 30 }}
@@ -27,7 +27,7 @@ export default function Error({ error, reset }: { error: Error; reset: () => voi
           <h2 className="text-lg font-semibold text-gray-800">{t('errorTitle')}</h2>
           <button
             onClick={reset}
-            className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white shadow-sm transition-transform active:scale-95"
+            className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white shadow-xs transition-transform active:scale-95"
           >
             {t('retry')}
           </button>

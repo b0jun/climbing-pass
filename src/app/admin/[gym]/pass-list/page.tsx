@@ -30,11 +30,9 @@ export default async function PassListPage({ params, searchParams }: PassListPro
           <VisitorStatsClient queryParams={visitorStatsQueryParams} />
         </QueryPrefetcher>
       </Suspense>
-      <Suspense fallback={<PassListSkeleton />}>
-        <QueryPrefetcher queryOptions={passKeys.list(passListQueryParams)}>
-          <PassListClient queryParams={passListQueryParams} />
-        </QueryPrefetcher>
-      </Suspense>
+      <QueryPrefetcher queryOptions={passKeys.list(passListQueryParams)}>
+        <PassListClient queryParams={passListQueryParams} />
+      </QueryPrefetcher>
     </div>
   );
 }

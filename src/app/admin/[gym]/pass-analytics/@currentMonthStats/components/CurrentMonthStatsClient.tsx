@@ -45,7 +45,7 @@ export function CurrentMonthStatsClient({ gym }: { gym: string }) {
       <div className="mb-4 text-sm/4 text-gray-400">{formattedRange}</div>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {list.map(({ title, value, change, icon: Icon }, index) => (
-          <div key={index} className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+          <div key={index} className="rounded-lg border border-gray-200 bg-white p-5 shadow-xs">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-sm/4 font-medium text-gray-500">{title}</span>
               <Icon className="h-5 w-5 text-gray-400" />
@@ -60,7 +60,7 @@ export function CurrentMonthStatsClient({ gym }: { gym: string }) {
               </span>
               <div className="group relative ml-1 flex items-center gap-[2px] text-xs/4 text-gray-400">
                 전월 대비 <Info className="inline h-3 w-3" />
-                <div className="absolute -top-8 left-0 z-10 hidden w-max rounded bg-black px-2 py-1 text-[10px] text-white group-hover:block">
+                <div className="absolute -top-8 left-0 z-10 hidden w-max rounded-sm bg-black px-2 py-1 text-[10px] text-white group-hover:block">
                   {formattedPrevRange} 기준 비교
                 </div>
               </div>
