@@ -44,7 +44,7 @@ GymList.Content = async () => {
 
 GymList.Item = ({ name, domain, location }: Omit<GymType, 'id'>) => {
   return (
-    <li className="rounded-lg border border-gray-200 p-3 shadow-sm transition-shadow hover:shadow-md">
+    <li className="rounded-lg border border-gray-200 p-3 shadow-xs transition-shadow hover:shadow-md">
       <div className="flex items-center">
         <div className="flex flex-1 items-center gap-2">
           <span className="font-medium">{name}</span>
@@ -71,7 +71,7 @@ GymList.Item = ({ name, domain, location }: Omit<GymType, 'id'>) => {
 
 GymList.EmptyState = () => {
   return (
-    <div className="rounded-lg border border-gray-200 p-3 text-center text-gray-500 shadow-sm transition-shadow hover:shadow-md">
+    <div className="rounded-lg border border-gray-200 p-3 text-center text-gray-500 shadow-xs transition-shadow hover:shadow-md">
       아직 등록된 지점이 없습니다.
     </div>
   );
@@ -83,7 +83,7 @@ GymList.Skeleton = () => {
       {Array(2)
         .fill(0)
         .map((_, idx) => (
-          <li key={idx} className="rounded-lg border border-gray-200 bg-gray-100 p-3 shadow-sm">
+          <li key={idx} className="rounded-lg border border-gray-200 bg-gray-100 p-3 shadow-xs">
             <div className="flex animate-pulse items-center gap-1">
               <div className="h-5 w-36 rounded-md bg-gray-300" />
               <div className="ml-auto flex gap-2">

@@ -98,7 +98,7 @@ export function PassDetailClient({ queryParams }: PassDetailClientProps) {
         </button>
         <button
           type="button"
-          className="flex items-center gap-1 rounded-sm bg-gray-200 px-2 py-1 text-[11px] text-gray-700 shadow-sm transition-colors hover:bg-blue-50 hover:text-blue-500 disabled:bg-gray-300 disabled:text-gray-400"
+          className="flex items-center gap-1 rounded-xs bg-gray-200 px-2 py-1 text-[11px] text-gray-700 shadow-xs transition-colors hover:bg-blue-50 hover:text-blue-500 disabled:bg-gray-300 disabled:text-gray-400"
           onClick={hasPdfUrl ? handleDownload : () => handlePrint()}
           disabled={hasPdfUrl ? isLoading : isPrinting}
         >
@@ -192,7 +192,7 @@ export function PassDetailClient({ queryParams }: PassDetailClientProps) {
                   <span className="text-sm text-gray-800">{data.name}</span>
                   <p className="text-stone-400/60">(서명)</p>
                   {data.signature && (
-                    <div className="absolute -right-[25px] top-1/2 h-[60px] w-[100px] -translate-y-1/2">
+                    <div className="absolute top-1/2 -right-[25px] h-[60px] w-[100px] -translate-y-1/2">
                       <Image
                         key="sign"
                         priority

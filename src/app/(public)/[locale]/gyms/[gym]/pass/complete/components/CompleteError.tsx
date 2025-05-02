@@ -19,7 +19,7 @@ export function CompleteError({ code }: { code: string }) {
   })();
 
   return (
-    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white px-4 py-6 pb-[env(safe-area-inset-bottom)] pt-[env(safe-area-inset-top)]">
+    <div className="relative flex min-h-dvh flex-col items-center justify-center bg-linear-to-b from-blue-100 to-white px-4 py-6 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       <motion.div
         className="w-full max-w-[320px] overflow-hidden rounded-lg border-2 border-gray-200 bg-white shadow-xl"
         initial={{ opacity: 0, y: 30 }}
@@ -29,7 +29,7 @@ export function CompleteError({ code }: { code: string }) {
         <div className="flex flex-col items-center gap-4 p-6 text-center text-gray-700">
           <AlertCircle className="h-10 w-10 text-red-500" />
           <h2 className="text-lg font-semibold text-gray-800">{t('errorTitle')}</h2>
-          <p className="whitespace-pre-wrap text-sm">{errorMessage}</p>
+          <p className="text-sm whitespace-pre-wrap">{errorMessage}</p>
         </div>
       </motion.div>
     </div>

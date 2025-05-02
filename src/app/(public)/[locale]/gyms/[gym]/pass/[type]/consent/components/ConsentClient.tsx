@@ -95,14 +95,14 @@ export function ConsentClient({ gym, type }: ConsentClientProps) {
   return (
     <>
       {isPending && (
-        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/40">
+        <div className="fixed inset-0 z-99999 flex items-center justify-center bg-black/40">
           <Spinner />
         </div>
       )}
       <FormProvider {...methods}>
         <div
           className={cn(
-            'mb-4 mt-2 flex flex-col items-center gap-2 text-[#121619]',
+            'mt-2 mb-4 flex flex-col items-center gap-2 text-[#121619]',
             isKo ? 'tracking-tight' : 'tracking-tighter',
           )}
         >
@@ -136,11 +136,11 @@ export function ConsentClient({ gym, type }: ConsentClientProps) {
           />
           <div>
             <h4 className="mb-2 text-sm font-bold text-gray-500">{tConsent('consent')}</h4>
-            <div className="mb-1 rounded-md border-2 border-gray-300 bg-white p-4 shadow-sm">
+            <div className="mb-1 rounded-md border-2 border-gray-300 bg-white p-4 shadow-xs">
               {consentItems.map((item, index) => (
                 <div key={index} className="mb-4 last:mb-0">
                   <p className="mb-[2px] text-sm font-medium text-gray-600">{item.title}</p>
-                  <p className="ml-3 whitespace-pre-wrap text-sm leading-relaxed text-gray-500">{item.content}</p>
+                  <p className="ml-3 text-sm leading-relaxed whitespace-pre-wrap text-gray-500">{item.content}</p>
                 </div>
               ))}
             </div>
@@ -175,7 +175,7 @@ ConsentClient.CheckboxField = function CheckboxField({
           id={name}
           type="checkbox"
           disabled={disabled}
-          className="h-4 w-4 cursor-pointer rounded border-gray-300 bg-gray-100 text-main focus:ring-2 focus:ring-main disabled:cursor-default disabled:text-gray-400 disabled:ring-0"
+          className="text-main focus:ring-main h-4 w-4 cursor-pointer rounded-sm border-gray-300 bg-gray-100 focus:ring-2 disabled:cursor-default disabled:text-gray-400 disabled:ring-0"
         />
         <label htmlFor={name} className={cn('text-sm font-bold text-gray-500', { 'text-gray-400': disabled })}>
           {label}

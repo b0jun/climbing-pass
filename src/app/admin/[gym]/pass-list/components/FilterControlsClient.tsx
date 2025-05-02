@@ -55,7 +55,7 @@ export function FilterControlsClient() {
       <div className="flex h-full items-center gap-3">
         <button
           type="button"
-          className="relative flex h-full w-[50px] items-center justify-center rounded-lg bg-white shadow-lg transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-2 focus:ring-[#e0e0e0]"
+          className="relative flex h-full w-[50px] items-center justify-center rounded-lg bg-white text-center shadow-lg transition-all hover:bg-[#eeeeee] focus:ring-2 focus:ring-[#e0e0e0] focus:outline-hidden"
           onClick={refreshPassList}
         >
           {isFetching && (
@@ -70,7 +70,7 @@ export function FilterControlsClient() {
         <button
           onClick={openSearchPassModal}
           type="button"
-          className="flex h-full w-[120px] items-center justify-center gap-2 rounded-lg bg-white shadow-lg transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-2 focus:ring-[#e0e0e0]"
+          className="flex h-full w-[120px] items-center justify-center gap-2 rounded-lg bg-white shadow-lg transition-all hover:bg-[#eeeeee] focus:ring-2 focus:ring-[#e0e0e0] focus:outline-hidden"
         >
           <Search size={18} />
           <span>패스 검색</span>
@@ -104,11 +104,11 @@ export function FilterControlsClient() {
             customInput={
               <input
                 id="passDate"
-                className="h-[50px] w-[110px] rounded-lg border-none bg-white text-gray-800 shadow-lg transition-all hover:bg-[#eeeeee] focus:outline-none focus:ring-2 focus:ring-[#e0e0e0]"
+                className="h-[50px] w-[110px] rounded-lg border-none bg-white text-center text-gray-800 shadow-lg transition-all hover:bg-[#eeeeee] focus:ring-2 focus:ring-[#e0e0e0] focus:outline-hidden"
               />
             }
           >
-            <div className="flex w-full justify-end border-t pb-1 pt-2">
+            <div className="flex w-full justify-end border-t pt-2 pb-1">
               <button
                 type="button"
                 onClick={setDateToToday}

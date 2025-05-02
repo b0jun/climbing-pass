@@ -22,7 +22,7 @@ export function Sidebar() {
   return (
     <aside
       id="sidebar"
-      className={`fixed left-0 top-0 z-[1000] h-full w-[250px] bg-[#fff] px-3 shadow-lg transition-transform duration-300 ease-in-out ${isDesktop || isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
+      className={`fixed top-0 left-0 z-1000 h-full w-[250px] bg-[#fff] px-3 shadow-lg transition-transform duration-300 ease-in-out ${isDesktop || isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
     >
       <div className="p-2">
         {logo && (
@@ -56,7 +56,7 @@ export function Sidebar() {
         ))}
       </ul>
       {!isDesktop && isSidebarOpen && (
-        <button onClick={() => setIsSidebarOpen(false)} className="absolute right-4 top-4">
+        <button onClick={() => setIsSidebarOpen(false)} className="absolute top-4 right-4">
           <X size={24} />
         </button>
       )}

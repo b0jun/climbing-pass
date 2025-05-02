@@ -27,7 +27,7 @@ const Login = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="mx-4 w-full max-w-md rounded-lg border bg-form shadow-sm sm:mx-auto">
+      <div className="bg-form mx-4 w-full max-w-md rounded-lg border shadow-xs sm:mx-auto">
         <div className="p-6">
           <h1 className="text-2xl font-semibold">Manager Login</h1>
         </div>

@@ -53,7 +53,7 @@ const Signature = ({ onConfirm, signatureText, signatureButton }: SignatureProps
             type="button"
             onClick={clearSign}
             className={cn(
-              'absolute right-1 top-1 z-50 flex h-6 w-6 items-center justify-center rounded-sm transition duration-200',
+              'absolute top-1 right-1 z-50 flex h-6 w-6 items-center justify-center rounded-xs transition duration-200',
             )}
           >
             <CircleX size={18} className="fill-gray-200/80 text-gray-400/80" />
@@ -61,7 +61,7 @@ const Signature = ({ onConfirm, signatureText, signatureButton }: SignatureProps
         )}
         <p
           className={cn(
-            'absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-2xl font-bold text-black',
+            'absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-2xl font-bold text-black',
           )}
         >
           {signatureText}
