@@ -4,13 +4,7 @@ import { Suspense } from 'react';
 import { QueryPrefetcher } from '@/shared/components';
 import { passKeys } from '@/shared/lib/react-query/factory';
 
-import {
-  FilterControlsClient,
-  PassListClient,
-  PassListSkeleton,
-  VisitorStatsClient,
-  VisitorStatsSkeleton,
-} from './components';
+import { FilterControlsClient, PassListClient, VisitorStatsClient, VisitorStatsSkeleton } from './components';
 
 interface PassListProps {
   params: Promise<{ gym: string }>;
