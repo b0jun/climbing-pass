@@ -3,8 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { getCurrentMonthStats } from '@/app/admin/[gym]/pass-analytics/@currentMonthStats/lib/getCurrentMonthStats';
 import { passDetailFn } from '@/app/admin/[gym]/pass-list/[id]/fetchFn/passDetailFn';
 import { PassDetailParams } from '@/app/admin/[gym]/pass-list/[id]/types/pass-detail.type';
-import { getPassList } from '@/app/admin/[gym]/pass-list/actions';
-import { visitorStatsFn } from '@/app/admin/[gym]/pass-list/fetchFn/visitorStatsFn';
+import { getPassList, getVisitorStats } from '@/app/admin/[gym]/pass-list/actions';
 import { PassListParams, VisitorStatsParams } from '@/app/admin/[gym]/pass-list/types/pass-list.type';
 
 const passKeys = {
@@ -20,13 +19,19 @@ const passKeys = {
         }
         return response.data;
       },
-      // TODO: SSE or WebSocket
+      // TODO: SSE
     }),
   visitorStats: () => [{ ...passKeys.base[0], entity: 'visitorStats' }] as const,
   visitorStat: (params: VisitorStatsParams) =>
     queryOptions({
       queryKey: [{ ...passKeys.visitorStats()[0], ...params }] as const,
-      queryFn: () => visitorStatsFn(params),
+      queryFn: async () => {
+        const response = await getVisitorStats(params);
+        if (!response.success) {
+          throw new Error(response.message);
+        }
+        return response.data;
+      },
     }),
   details: () => [{ ...passKeys.base[0], entity: 'passDetail' }] as const,
   detail: (params: PassDetailParams) =>

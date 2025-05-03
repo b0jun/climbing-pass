@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import { passKeys } from '@/shared/lib/react-query/factory';
 
-import { togglePassStatusFn } from '../fetchFn/togglePassStatusFn';
+import { updatePass } from '../actions';
 import { PassWithVisits } from '../types/pass-list.type';
 
 export function useUpdatePass() {
@@ -19,7 +19,7 @@ export function useUpdatePass() {
 
   const queryKey = passKeys.list({ gym: gym as string, passDate, passType }).queryKey;
   return useMutation({
-    mutationFn: togglePassStatusFn,
+    mutationFn: updatePass,
     onMutate: async ({ id, status, type, shoesRental }) => {
       await queryClient.cancelQueries({ queryKey });
       const previousPass = queryClient.getQueryData<PassWithVisits[]>(queryKey);

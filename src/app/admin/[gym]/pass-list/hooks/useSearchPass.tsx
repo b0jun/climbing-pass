@@ -2,11 +2,11 @@
 
 import { useMutation } from '@tanstack/react-query';
 
-import { searchPassFn } from '../fetchFn/searchPassFn';
+import { searchPass } from '../actions/searchPass';
 
 export function useSearchPass() {
   const query = useMutation({
-    mutationFn: searchPassFn,
+    mutationFn: searchPass,
   });
   return query;
 }
