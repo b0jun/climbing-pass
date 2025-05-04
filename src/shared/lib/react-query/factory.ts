@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
 import { getCurrentMonthStats } from '@/app/admin/[gym]/pass-analytics/@currentMonthStats/lib/getCurrentMonthStats';
-import { passDetailFn } from '@/app/admin/[gym]/pass-list/[id]/fetchFn/passDetailFn';
+import { getPassDetail } from '@/app/admin/[gym]/pass-list/[id]/actions/getPassDetail';
 import { PassDetailParams } from '@/app/admin/[gym]/pass-list/[id]/types/pass-detail.type';
 import { getPassList, getVisitorStats } from '@/app/admin/[gym]/pass-list/actions';
 import { PassListParams, VisitorStatsParams } from '@/app/admin/[gym]/pass-list/types/pass-list.type';
@@ -37,7 +37,7 @@ const passKeys = {
   detail: (params: PassDetailParams) =>
     queryOptions({
       queryKey: [{ ...passKeys.details()[0], ...params }] as const,
-      queryFn: () => passDetailFn(params),
+      queryFn: () => getPassDetail(params),
     }),
 };
 
