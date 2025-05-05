@@ -6,12 +6,12 @@ import { PassDetailParams } from '@/app/admin/[gym]/pass-list/[id]/types/pass-de
 import { getPassList, getVisitorStats } from '@/app/admin/[gym]/pass-list/actions';
 import { PassListParams, VisitorStatsParams } from '@/app/admin/[gym]/pass-list/types/pass-list.type';
 
-const passKeys = {
+const passQueries = {
   base: [{ scope: 'pass' }] as const,
-  lists: () => [{ ...passKeys.base[0], entity: 'passList' }] as const,
+  lists: () => [{ ...passQueries.base[0], entity: 'passList' }] as const,
   list: (params: PassListParams) =>
     queryOptions({
-      queryKey: [{ ...passKeys.lists()[0], ...params }] as const,
+      queryKey: [{ ...passQueries.lists()[0], ...params }] as const,
       queryFn: async () => {
         const response = await getPassList(params);
         if (!response.success) {
@@ -21,10 +21,10 @@ const passKeys = {
       },
       // TODO: SSE
     }),
-  visitorStats: () => [{ ...passKeys.base[0], entity: 'visitorStats' }] as const,
+  visitorStats: () => [{ ...passQueries.base[0], entity: 'visitorStats' }] as const,
   visitorStat: (params: VisitorStatsParams) =>
     queryOptions({
-      queryKey: [{ ...passKeys.visitorStats()[0], ...params }] as const,
+      queryKey: [{ ...passQueries.visitorStats()[0], ...params }] as const,
       queryFn: async () => {
         const response = await getVisitorStats(params);
         if (!response.success) {
@@ -33,22 +33,22 @@ const passKeys = {
         return response.data;
       },
     }),
-  details: () => [{ ...passKeys.base[0], entity: 'passDetail' }] as const,
+  details: () => [{ ...passQueries.base[0], entity: 'passDetail' }] as const,
   detail: (params: PassDetailParams) =>
     queryOptions({
-      queryKey: [{ ...passKeys.details()[0], ...params }] as const,
+      queryKey: [{ ...passQueries.details()[0], ...params }] as const,
       queryFn: () => getPassDetail(params),
     }),
 };
 
-const passAnalyticsKeys = {
+const passAnalyticsQueries = {
   base: [{ scope: 'pass-analytics' }] as const,
-  currentMonthStats: () => [{ ...passAnalyticsKeys.base[0], entity: 'currentMonthStats' }] as const,
+  currentMonthStats: () => [{ ...passAnalyticsQueries.base[0], entity: 'currentMonthStats' }] as const,
   currentMonthStat: (params: string) =>
     queryOptions({
-      queryKey: [{ ...passAnalyticsKeys.currentMonthStats()[0], params }] as const,
+      queryKey: [{ ...passAnalyticsQueries.currentMonthStats()[0], params }] as const,
       queryFn: () => getCurrentMonthStats(params),
     }),
 };
 
-export { passKeys, passAnalyticsKeys };
+export { passQueries, passAnalyticsQueries };

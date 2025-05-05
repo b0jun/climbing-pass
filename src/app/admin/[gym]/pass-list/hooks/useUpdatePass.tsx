@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
-import { passKeys } from '@/shared/lib/react-query/factory';
+import { passQueries } from '@/shared/lib/react-query/factory';
 
 import { updatePass } from '../actions';
 import { PassWithVisits } from '../types/pass-list.type';
@@ -17,7 +17,7 @@ export function useUpdatePass() {
   const passType = (searchParams.get('passType') as PassType) || undefined;
   const passDate = searchParams.get('passDate') || undefined;
 
-  const queryKey = passKeys.list({ gym: gym as string, passDate, passType }).queryKey;
+  const queryKey = passQueries.list({ gym: gym as string, passDate, passType }).queryKey;
   return useMutation({
     mutationFn: updatePass,
     onMutate: async ({ id, status, type, shoesRental }) => {
@@ -55,7 +55,7 @@ export function useUpdatePass() {
         }
         return;
       }
-      queryClient.invalidateQueries({ queryKey: passKeys.visitorStats() });
+      queryClient.invalidateQueries({ queryKey: passQueries.visitorStats() });
       toast.success('패스 정보가 수정되었습니다.');
     },
     onError: (_, __, context) => {

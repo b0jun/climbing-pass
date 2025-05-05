@@ -2,7 +2,7 @@ import { Pass } from '@prisma/client';
 import { Suspense } from 'react';
 
 import { QueryPrefetcher } from '@/shared/components';
-import { passKeys } from '@/shared/lib/react-query/factory';
+import { passQueries } from '@/shared/lib/react-query/factory';
 
 import { PassDetailClient } from './components/PassDetailClient';
 
@@ -15,7 +15,7 @@ export default async function PassDetailPage({ params }: PassDetailProps) {
   const queryParams = { gym, id };
   return (
     <Suspense>
-      <QueryPrefetcher queryOptions={passKeys.detail({ gym, id })}>
+      <QueryPrefetcher queryOptions={passQueries.detail({ gym, id })}>
         <PassDetailClient queryParams={queryParams} />
       </QueryPrefetcher>
     </Suspense>

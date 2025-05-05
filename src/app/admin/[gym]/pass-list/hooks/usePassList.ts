@@ -2,11 +2,11 @@
 
 import { useQuery } from '@tanstack/react-query';
 
-import { passKeys } from '@/shared/lib/react-query/factory';
+import { passQueries } from '@/shared/lib/react-query/factory';
 
 import { PassListParams } from '../types/pass-list.type';
 
 export function usePassList(queryParams: PassListParams) {
-  const query = useQuery(passKeys.list(queryParams));
+  const query = useQuery(passQueries.list(queryParams));
   return query;
 }
