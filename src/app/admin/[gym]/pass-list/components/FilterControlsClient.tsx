@@ -8,7 +8,7 @@ import DatePicker from 'react-datepicker';
 
 import { SelectBox } from '@/shared/components';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
-import { passKeys } from '@/shared/lib/react-query/factory';
+import { passQueries } from '@/shared/lib/react-query/factory';
 import { updateQueryString } from '@/shared/utils';
 
 import { useSearchPassModal } from '../hooks/useSearchPassModal';
@@ -20,12 +20,12 @@ export function FilterControlsClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const isFetching = useIsFetching({ queryKey: passKeys.lists() }) > 0;
+  const isFetching = useIsFetching({ queryKey: passQueries.lists() }) > 0;
 
   // * 새로고침
   const refreshPassList = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.blur();
-    const queryKey = passKeys.lists();
+    const queryKey = passQueries.lists();
     queryClient.invalidateQueries({ queryKey });
   };
 

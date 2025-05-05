@@ -2,7 +2,7 @@ import { PassType } from '@prisma/client';
 import { Suspense } from 'react';
 
 import { QueryPrefetcher } from '@/shared/components';
-import { passKeys } from '@/shared/lib/react-query/factory';
+import { passQueries } from '@/shared/lib/react-query/factory';
 
 import { FilterControlsClient, PassListClient, VisitorStatsClient, VisitorStatsSkeleton } from './components';
 
@@ -20,11 +20,11 @@ export default async function PassListPage({ params, searchParams }: PassListPro
     <div className="space-y-4">
       <FilterControlsClient />
       <Suspense fallback={<VisitorStatsSkeleton />}>
-        <QueryPrefetcher queryOptions={passKeys.visitorStat(visitorStatsQueryParams)}>
+        <QueryPrefetcher queryOptions={passQueries.visitorStat(visitorStatsQueryParams)}>
           <VisitorStatsClient queryParams={visitorStatsQueryParams} />
         </QueryPrefetcher>
       </Suspense>
-      <QueryPrefetcher queryOptions={passKeys.list(passListQueryParams)}>
+      <QueryPrefetcher queryOptions={passQueries.list(passListQueryParams)}>
         <PassListClient queryParams={passListQueryParams} />
       </QueryPrefetcher>
     </div>
