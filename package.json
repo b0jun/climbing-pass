@@ -28,7 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.506.0",
     "next": "^15.2.4",
-    "next-auth": "^5.0.0-beta.25",
+    "next-auth": "^5.0.0-beta.27",
     "next-intl": "^4.0.2",
     "overlay-kit": "^1.6.2",
     "react": "19.0.0",
