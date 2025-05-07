@@ -2,6 +2,7 @@ export { default as BottomSheet } from './BottomSheet';
 export { default as BuildTime } from './BuildTime';
 export { default as Button } from './Button';
 export { default as Document } from './Document';
+export { default as Input } from './Input';
 export { default as LanguageSelector } from './LanguageSelector';
 export { default as Modal } from './Modal';
 export { default as QueryPrefetcher } from './QueryPrefetcher';

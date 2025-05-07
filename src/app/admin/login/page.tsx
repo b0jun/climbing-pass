@@ -1,53 +1,51 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useActionState } from 'react';
 
-import { Button, Spinner, TextInput } from '@/shared/components';
+import { Button, Input, Spinner } from '@/shared/components';
 
-import { useLoginMutation } from './hooks/useLoginMutation';
-import { LoginFormData, loginSchema } from './schema/loginSchema';
+import { login } from './actions/login';
 
-const Login = () => {
-  const methods = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    mode: 'onBlur',
-    defaultValues: { identifier: '', password: '' },
-  });
-
-  const {
-    handleSubmit,
-    formState: { isValid },
-  } = methods;
-  const { mutate, isPending } = useLoginMutation(methods);
-
-  const onSubmit = (data: LoginFormData) => {
-    mutate(data);
-  };
-
-  return (
-    <FormProvider {...methods}>
-      <div className="bg-form mx-4 w-full max-w-md rounded-lg border shadow-xs sm:mx-auto">
-        <div className="p-6">
-          <h1 className="text-2xl font-semibold">Manager Login</h1>
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="px-6">
-          <div className="space-y-4">
-            <TextInput name="identifier" autoComplete="off" label="아이디" maxLength={20} />
-            <TextInput name="password" autoComplete="off" label="비밀번호" maxLength={20} type="password" />
-          </div>
-          <Button type="submit" disabled={isPending} className={`w-full ${isValid ? '' : 'opacity-50'}`}>
-            {isPending ? '로그인 중...' : '로그인'}
-          </Button>
-        </form>
-        {isPending && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-            <Spinner />
-          </div>
-        )}
-      </div>
-    </FormProvider>
-  );
+const initialState = {
+  fields: { identifier: '', password: '' },
+  errors: { identifier: [], password: [] },
 };
 
-export default Login;
+export default function Login() {
+  const [state, formAction, isPending] = useActionState(login, initialState);
+  return (
+    <div className="bg-form mx-4 w-full max-w-md rounded-lg border shadow-xs sm:mx-auto">
+      <div className="p-6">
+        <h1 className="text-2xl font-semibold">Manager Login</h1>
+      </div>
+      <form action={formAction} className="px-6">
+        <div className="space-y-2">
+          <Input
+            name="identifier"
+            type="text"
+            defaultValue={state.fields?.identifier}
+            autoComplete="off"
+            label="아이디"
+            errorMessage={state.errors?.identifier?.[0]}
+          />
+          <Input
+            name="password"
+            type="password"
+            defaultValue={state.fields?.password}
+            autoComplete="off"
+            label="비밀번호"
+            errorMessage={state.errors?.password?.[0]}
+          />
+        </div>
+        <Button type="submit" disabled={isPending} className={`w-full ${isPending ? 'opacity-50' : ''}`}>
+          로그인
+        </Button>
+      </form>
+      {isPending && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+          <Spinner />
+        </div>
+      )}
+    </div>
+  );
+}
