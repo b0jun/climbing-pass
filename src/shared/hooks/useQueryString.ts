@@ -1,7 +1,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 
-const useQueryString = () => {
+export function useQueryString() {
   const searchParams = useSearchParams();
 
   const updateQueryString = useCallback(
@@ -20,6 +20,4 @@ const useQueryString = () => {
   );
 
   return { updateQueryString };
-};
-
-export default useQueryString;
+}

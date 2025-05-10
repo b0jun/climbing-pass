@@ -36,8 +36,9 @@ const Spinner = () => {
             duration: 0.6,
             ease: 'easeOut',
           }}
+          className="relative aspect-[5/4] w-[50px]"
         >
-          <Image src={src} width={50} height={40} alt={`climbing hold ${3 - index}`} />
+          <Image src={src} fill sizes="50px" className="object-contain" alt={`climbing hold ${3 - index}`} />
         </motion.div>
       ))}
     </div>

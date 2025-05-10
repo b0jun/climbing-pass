@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { X } from 'lucide-react';
 import React, { useRef, useEffect } from 'react';
 
-import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
+import { useLockBodyScroll } from '@/shared/hooks';
 
 interface BottomSheetProps {
   isOpen: boolean;

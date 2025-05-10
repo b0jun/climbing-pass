@@ -3,7 +3,7 @@
 import cn from 'classnames';
 import React, { useEffect, useRef } from 'react';
 
-import { useLockBodyScroll } from '@/hooks/useLockBodyScroll';
+import { useLockBodyScroll } from '@/shared/hooks';
 
 type ModalType = 'default' | 'warn';
 
