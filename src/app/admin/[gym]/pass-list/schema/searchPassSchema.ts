@@ -2,10 +2,14 @@ import { z } from 'zod';
 
 export const searchPassSchema = z
   .object({
-    name: z.string().optional(),
+    name: z
+      .string()
+      .optional()
+      .transform((val) => (val ? val.trim() : val)),
     phoneNumber: z
       .string()
       .optional()
+      .transform((val) => (val ? val.trim() : val))
       .refine((val) => !val || /^\d+$/.test(val), {
         message: '휴대폰번호는 숫자만 입력 가능합니다.',
       }),
