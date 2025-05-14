@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@/auth';
+import { checkAuth } from '@/shared/lib';
 import { dayjsKST } from '@/shared/lib/dayjs-config';
 import { db } from '@/shared/lib/prisma';
 
@@ -17,14 +17,7 @@ type UpdatePassResponse =
     };
 
 export async function searchPass(data: SearchPassRequest): Promise<UpdatePassResponse> {
-  const session = await auth();
-
-  if (!session || !session.user) {
-    return {
-      success: false,
-      message: '권한이 없습니다.',
-    };
-  }
+  await checkAuth();
 
   const { name, phoneNumber, gymDomain } = data;
   const whereClause: any = {

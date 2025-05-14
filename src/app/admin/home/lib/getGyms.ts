@@ -1,14 +1,12 @@
 import { unstable_cache } from 'next/cache';
 
-import { auth } from '@/auth';
+import { checkAuth } from '@/shared/lib';
 import { db } from '@/shared/lib/prisma';
 
 import { GymType } from '../types/gym.type';
 
 export async function getGyms(): Promise<GymType[]> {
-  const session = await auth();
-  const userId = session?.user?.id as string; // * HomePage에서 Check
-
+  const { userId } = await checkAuth();
   const cachedGetGyms = unstable_cache(
     async (uid: string) => {
       const data = await db.gym.findMany({

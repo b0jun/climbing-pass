@@ -43,7 +43,7 @@ export function Sidebar() {
           <p className="text-sm text-gray-600">{location}</p>
         </div>
       </div>
-      <ul className="flex flex-col text-[14px]">
+      <ul className="space-y-1 text-[14px]">
         {navItems.map((item) => (
           <li key={item.key}>
             <Link

@@ -45,7 +45,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data, error, isLoading } = usePassList(queryParams);
+  const { data, error, isPending } = usePassList(queryParams);
 
   const { mutate: updatePassMutate } = useUpdatePass();
   const { open: openStatusToWaitModal } = useStatusToWaitModal();
@@ -76,7 +76,7 @@ export function PassListClient({ queryParams }: PassListClientProps) {
     );
   }
 
-  if (isLoading) return <PassListSkeleton />;
+  if (isPending) return <PassListSkeleton />;
 
   return (
     <div className="inline-block w-full overflow-hidden rounded-[10px] bg-[#fff] align-middle shadow-lg">
