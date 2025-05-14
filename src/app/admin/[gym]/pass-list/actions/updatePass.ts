@@ -1,6 +1,6 @@
 'use server';
 
-import { auth } from '@/auth';
+import { checkAuth } from '@/shared/lib';
 import { db } from '@/shared/lib/prisma';
 
 import { PassUpdateRequest } from '../types/pass-list.type';
@@ -15,14 +15,7 @@ type UpdatePassResponse =
     };
 
 export async function updatePass({ id, status, type, shoesRental }: PassUpdateRequest): Promise<UpdatePassResponse> {
-  const session = await auth();
-
-  if (!session || !session.user) {
-    return {
-      success: false,
-      message: '권한이 없습니다.',
-    };
-  }
+  await checkAuth();
 
   const updateData: Omit<PassUpdateRequest, 'id'> = {};
 
