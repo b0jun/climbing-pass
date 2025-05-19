@@ -1,4 +1,4 @@
-import { dehydrate, HydrationBoundary, QueryKey, FetchQueryOptions, QueryClient } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary, QueryKey, FetchQueryOptions } from '@tanstack/react-query';
 
 import { getQueryClient } from '../lib/react-query/get-query-client';
 
