@@ -15,4 +15,9 @@ export const getNavItems = (gymDomain: string): NavItem[] => [
     href: `/admin/${gymDomain}/pass-analytics`,
     key: 'pass-analytics',
   },
+  {
+    label: '설정',
+    href: `/admin/${gymDomain}/settings`,
+    key: 'settings',
+  },
 ];
