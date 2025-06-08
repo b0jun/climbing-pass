@@ -28,20 +28,34 @@ model Pass {
   @@index([gymId, status, name, phoneNumber])
 }
 
+model Agreement {
+  id        String   @id @default(cuid())
+  gymId     String
+  gym       Gym      @relation(fields: [gymId], references: [id])
+  version   Int
+  title     String
+  content   String
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@unique([gymId, version])
+}
+
 model Gym {
-  id          String   @id @default(cuid())
+  id          String      @id @default(cuid())
   name        String
-  name_en     String   @default("")
-  location    String   @default("")
-  location_en String   @default("")
-  domain      String   @unique
-  disabled    Boolean  @default(false)
+  name_en     String      @default("")
+  location    String      @default("")
+  location_en String      @default("")
+  domain      String      @unique
+  disabled    Boolean     @default(false)
   logo        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   userId      String?
-  user        User?    @relation(fields: [userId], references: [id])
+  user        User?       @relation(fields: [userId], references: [id])
   passes      Pass[]
+  Agreement   Agreement[]
 }
 
 model User {
