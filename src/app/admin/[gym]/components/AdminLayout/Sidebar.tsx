@@ -46,15 +46,38 @@ export function Sidebar() {
       <ul className="space-y-1 text-[14px]">
         {navItems.map((item) => (
           <li key={item.key}>
-            <Link
-              href={item.href}
-              className={`block rounded-md p-2 transition-all duration-200 ${pathname.includes(item.key) ? 'bg-gray-200 font-bold' : 'hover:bg-gray-100'}`}
-            >
-              {item.label}
-            </Link>
+            {item.href ? (
+              <Link
+                href={item.href}
+                className={`block rounded-md p-2 transition-all duration-200 ${
+                  pathname.includes(item.key) ? 'bg-gray-200 font-bold' : 'hover:bg-gray-100'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <div className="px-2 py-2 text-xs font-semibold text-gray-500">{item.label}</div>
+            )}
+            {item.children && (
+              <ul className="mt-1 ml-4 space-y-1">
+                {item.children.map((child) => (
+                  <li key={child.key}>
+                    <Link
+                      href={child.href!}
+                      className={`block rounded-md p-2 transition-all duration-200 ${
+                        pathname.includes(child.key) ? 'bg-gray-100 font-semibold' : 'hover:bg-gray-50'
+                      }`}
+                    >
+                      {child.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
+
       {!isDesktop && isSidebarOpen && (
         <button onClick={() => setIsSidebarOpen(false)} className="absolute top-4 right-4">
           <X size={24} />
