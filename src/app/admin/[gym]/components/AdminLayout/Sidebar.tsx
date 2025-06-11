@@ -5,10 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 
-import { getNavItems } from '@/app/admin/config/navigation';
-
 import { useGymData } from '../../hooks';
 import { useAdminLayoutState } from '../../hooks/useAdminLayoutState';
+
+import { getNavItems } from './constants/navigation';
 
 export function Sidebar() {
   const { gym: gymDomain } = useParams();

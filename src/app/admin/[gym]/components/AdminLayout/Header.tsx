@@ -5,22 +5,11 @@ import Image from 'next/image';
 import { useParams, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-import { getNavItems, NavItem } from '@/app/admin/config/navigation';
-
 import { useGymData } from '../../hooks';
 import { useAdminLayoutState } from '../../hooks/useAdminLayoutState';
 
-function findCurrentNavLabel(navItems: NavItem[], pathname: string): string {
-  for (const item of navItems) {
-    if (item.children?.length) {
-      const child = item.children.find((c) => c.href && pathname.startsWith(c.href));
-      if (child) return child.label;
-    } else if (item.href && pathname.startsWith(item.href)) {
-      return item.label;
-    }
-  }
-  return '';
-}
+import { getNavItems } from './constants/navigation';
+import { findCurrentNavLabel } from './utils/findCurrentNavLabel';
 
 export function Header() {
   const { gym: gymDomain } = useParams();
