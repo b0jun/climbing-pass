@@ -55,6 +55,7 @@ export function FilterControlsClient() {
       <div className="flex h-full items-center gap-3">
         <button
           type="button"
+          disabled={isFetching}
           className="relative flex h-full w-[50px] items-center justify-center rounded-lg bg-white text-center shadow-lg transition-all hover:bg-[#eeeeee] focus:ring-2 focus:ring-[#e0e0e0] focus:outline-hidden"
           onClick={refreshPassList}
         >
